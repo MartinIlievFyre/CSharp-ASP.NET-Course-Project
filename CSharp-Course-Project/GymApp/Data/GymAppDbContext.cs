@@ -189,5 +189,6 @@ namespace GymApp.Data
         public DbSet<Exercise> Exercises { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<IdentityUserExercise> IdentityUsersExercises { get; set; } = null!;
+        public DbSet<TrainingPlan> TrainingPlans { get; set; } = null!;
     }
 }
