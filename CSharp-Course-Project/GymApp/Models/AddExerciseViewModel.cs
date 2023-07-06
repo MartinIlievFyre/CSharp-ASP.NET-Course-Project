@@ -7,13 +7,13 @@ namespace GymApp.Models
     public class AddExerciseViewModel
     {
         [Required]
-        [MaxLength(NameMaxLength)]
+        [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; } = null!;
         [Required]
-        [MaxLength(ExecutionMaxLength)]
+        [StringLength(ExecutionMaxLength, MinimumLength = ExecutionMinLength)]
         public string Execution { get; set; } = null!;
         [Required]
-        [MaxLength(BenefitMaxLength)]
+        [StringLength(BenefitMaxLength, MinimumLength = BenefitMinLength)]
         public string Benefit { get; set; } = null!;
         [Required]
         [MaxLength(ImageUrlMaxLength)]

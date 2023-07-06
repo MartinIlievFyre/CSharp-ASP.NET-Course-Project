@@ -17,8 +17,11 @@
                 <div class="card-body">
 
                     <h5 class="card-title mt-1">@exercise.Name</h5>
+                    <hr>
                     <p class="mb-0">Execution: @exercise.Execution</p>
+                    <hr>
                     <p class="mb-0">Benefits: @exercise.Benefit</p>
+                    <hr>
                     <p>Category: @exercise.Category</p>
                 </div>
                 @if (this.User.Identity!.IsAuthenticated)

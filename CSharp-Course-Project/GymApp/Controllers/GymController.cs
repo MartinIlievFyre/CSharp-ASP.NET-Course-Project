@@ -19,7 +19,7 @@
             this.dbContext = dbContext;
         }
         [AllowAnonymous]
-        public IActionResult AllExercises()
+        public IActionResult Exercises()
         {
             return View();
         }
