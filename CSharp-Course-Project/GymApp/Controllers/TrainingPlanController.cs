@@ -4,6 +4,7 @@ using GymApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace GymApp.Controllers
 {
@@ -174,6 +175,33 @@ namespace GymApp.Controllers
 
             return RedirectToAction("TrainingPlans", "TrainingPlan");
         }
+        //[HttpPost]
+        //public async Task<IActionResult> RemoveTrainingPlan(int id)
+        //{
+        //    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //
+        //    var user = await dbContext.
+        //        TrainingPlans.
+        //        FirstAsync(u => u.TrainingGuyId == userId);
+        //
+        //    var trainingPlan = await dbContext
+        //        .TrainingPlans
+        //        .FirstOrDefaultAsync(ue => ue.ExerciseId == id && ue.TrainingGuyId == userId);
+        //
+        //    try
+        //    {
+        //        if (user != null)
+        //            dbContext.IdentityUsersExercises.Remove(trainingPlan!);
+        //
+        //
+        //        await dbContext.SaveChangesAsync();
+        //    }
+        //    catch
+        //    {
+        //        BadRequest();
+        //    }
+        //    return RedirectToAction("MyFavoriteExercises", "MyFavoriteExercises");
+        //}
 
     }
 }
