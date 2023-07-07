@@ -181,9 +181,7 @@ namespace GymApp.Data
                Name = "Shoulders"
            });
 
-            builder.Entity<IdentityUserExercise>().HasKey(x => new { x.TrainingGuyId, x.ExerciseId });
-            builder.Entity<IdentityUserTrainingPlan>().HasKey(x => new { x.TrainingGuyId, x.TrainingPlanId });
-
+            builder.Entity<IdentityUserExercise>().HasKey(x => new { x.TrainingGuyId, x.ExerciseId});
             base.OnModelCreating(builder);
         }
 
@@ -191,7 +189,5 @@ namespace GymApp.Data
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<IdentityUserExercise> IdentityUsersExercises { get; set; } = null!;
         public DbSet<TrainingPlan> TrainingPlans { get; set; } = null!;
-        public DbSet<IdentityUserTrainingPlan> IdentityUsersTrainingPlans { get; set; } = null!;
-
     }
 }

@@ -14,7 +14,7 @@ namespace GymApp.Controllers
         private readonly GymAppDbContext dbContext;
         public TrainingPlanController(GymAppDbContext dbContext)
         {
-                this.dbContext = dbContext;
+            this.dbContext = dbContext;
         }
 
         public IActionResult TrainingPlans()
@@ -29,11 +29,11 @@ namespace GymApp.Controllers
                 {
                     Id = tp.Id,
                     Name = tp.Name,
-                     Description = tp.Description,
+                    Description = tp.Description,
                     Category = tp.Category.Name,
                 })
                 .ToListAsync();
-        
+
             return View(trainingPlans);
         }
         public async Task<IActionResult> TrainingPlansBack()
@@ -165,7 +165,7 @@ namespace GymApp.Controllers
             }
 
             TrainingPlan trainingPlan = new TrainingPlan()
-            { 
+            {
                 Name = model.Name,
                 Description = model.Description,
                 CategoryId = model.CategoryId
@@ -175,33 +175,6 @@ namespace GymApp.Controllers
 
             return RedirectToAction("TrainingPlans", "TrainingPlan");
         }
-        //[HttpPost]
-        //public async Task<IActionResult> RemoveTrainingPlan(int id)
-        //{
-        //    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //
-        //    var user = await dbContext.
-        //        TrainingPlans.
-        //        FirstAsync(u => u.TrainingGuyId == userId);
-        //
-        //    var trainingPlan = await dbContext
-        //        .TrainingPlans
-        //        .FirstOrDefaultAsync(ue => ue.ExerciseId == id && ue.TrainingGuyId == userId);
-        //
-        //    try
-        //    {
-        //        if (user != null)
-        //            dbContext.IdentityUsersExercises.Remove(trainingPlan!);
-        //
-        //
-        //        await dbContext.SaveChangesAsync();
-        //    }
-        //    catch
-        //    {
-        //        BadRequest();
-        //    }
-        //    return RedirectToAction("MyFavoriteExercises", "MyFavoriteExercises");
-        //}
 
     }
 }
