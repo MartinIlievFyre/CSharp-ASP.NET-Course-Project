@@ -27,7 +27,11 @@
 
             public const int DescriptionMinLength = 0;
             public const int DescriptionMaxLength = 5000;
-
+        }
+        public static class Food
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 50;
         }
     }
 }

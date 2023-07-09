@@ -1,10 +1,6 @@
 ﻿namespace GymApp.Models
 {
-    using System.ComponentModel.DataAnnotations;
-
     using GymApp.Data.Models;
-
-    using static GymApp.Data.ValidationConstants.Note;
 
     public class TrainingPlanViewModel
     {

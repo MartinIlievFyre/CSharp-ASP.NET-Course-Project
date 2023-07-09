@@ -1,8 +1,8 @@
-﻿using GymApp.Data.Models;
-using System.ComponentModel.DataAnnotations;
-
-namespace GymApp.Models
+﻿namespace GymApp.Models
 {
+
+    using GymApp.Data.Models;
+
     public class ExerciseViewModel
     {
         public int Id { get; set; }

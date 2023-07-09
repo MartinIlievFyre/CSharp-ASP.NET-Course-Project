@@ -4,6 +4,7 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApp.Data.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230709145426_SetDefaultValueToCaloriesCarbsProteinAndFat")]
+    partial class SetDefaultValueToCaloriesCarbsProteinAndFat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,7 +258,7 @@ namespace GymApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Foods");
+                    b.ToTable("Food");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.IdentityUserExercise", b =>
@@ -286,7 +288,7 @@ namespace GymApp.Data.Migrations
 
                     b.HasIndex("FoodId");
 
-                    b.ToTable("IdentityUsersFoods");
+                    b.ToTable("IdentityUserFood");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.IdentityUserTrainingPlan", b =>

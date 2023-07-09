@@ -182,6 +182,15 @@ namespace GymApp.Data
            });
 
             builder.Entity<IdentityUserExercise>().HasKey(x => new { x.TrainingGuyId, x.ExerciseId});
+
+            builder.Entity<IdentityUserTrainingPlan>().HasKey(x => new { x.TrainingGuyId, x.TrainingPlanId});
+
+            builder.Entity<IdentityUserFood>().HasKey(x => new { x.TrainingGuyId, x.FoodId});
+            builder.Entity<Food>().Property("Calories").HasDefaultValue(0);
+            builder.Entity<Food>().Property("Carbs").HasDefaultValue(0);
+            builder.Entity<Food>().Property("Fat").HasDefaultValue(0);
+            builder.Entity<Food>().Property("Protein").HasDefaultValue(0);
+
             base.OnModelCreating(builder);
         }
 
@@ -189,5 +198,8 @@ namespace GymApp.Data
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<IdentityUserExercise> IdentityUsersExercises { get; set; } = null!;
         public DbSet<TrainingPlan> TrainingPlans { get; set; } = null!;
+        public DbSet<Food> Foods { get; set; } = null!;
+
+        public DbSet<IdentityUserFood> IdentityUsersFoods { get; set; } = null!;
     }
 }

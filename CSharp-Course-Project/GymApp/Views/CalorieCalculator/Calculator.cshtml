@@ -1,0 +1,32 @@
+﻿@model IEnumerable<FoodViewModel>
+@{
+    ViewBag.Title = "Calories";
+    int calories = 0;
+    int carbs = 0;
+    int fat = 0;
+    int protein = 0;
+}
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="text-center row">
+    @foreach (var food in Model)
+    {
+        calories += food.Calories;
+        carbs += food.Carbs;
+        fat += food.Fat;
+        protein += food.Protein;
+        <div class="card col-4" style="width: 20rem; ">
+            <div class="card-body">
+
+                <h5 class="card-title mt-1">Calories: @calories</h5>
+                <hr>
+                <p class="mb-0">Carbs: @carbs</p>
+                <hr>
+                <p class="mb-0">Fat: @fat</p>
+                <hr>
+                <p>Protein: @protein</p>
+            </div>
+        </div>
+    }
+</div>
