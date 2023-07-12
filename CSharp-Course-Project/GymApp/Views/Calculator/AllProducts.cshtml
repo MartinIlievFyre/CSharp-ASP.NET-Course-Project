@@ -1,0 +1,61 @@
+﻿<style>
+    .styled-table {
+        border-collapse: collapse;
+        margin: 1px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .styled-table tbody tr:nth-of-type(1) {
+                background-color: #b5f59a;
+            }
+
+            .styled-table tbody tr:last-of-type {
+                border-bottom: 2px solid #009879;
+            }
+
+            .styled-table tbody tr.active-row {
+                font-weight: bold;
+                color: #009879;
+            }
+</style>
+@model IEnumerable<FoodViewModel>
+@{
+    ViewBag.Title = "Products";
+}
+<div class="text-center row">
+    <table class="styled-table" style="width:100%">
+        <tr>
+            <th><h1>Product:</h1></th>
+            <th></th>
+        </tr>
+        @foreach (var food in Model)
+        {
+            <tr>
+                <td><h3 class="text-lg-start">@food.Name - Cal: @food.Calories Carbs: @food.Carbs Fat: @food.Fat Protein: @food.Protein</h3></td>
+                <td>
+                    <form class="input-group-sm" asp-controller="Calculator" asp-action="AddProductToList">
+                        <input type="submit" value="Add product" class="fs-6 btn btn-success mb-3 p-2 btn-danger" style="border-color:black" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

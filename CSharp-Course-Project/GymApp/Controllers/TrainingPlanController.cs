@@ -175,6 +175,5 @@ namespace GymApp.Controllers
 
             return RedirectToAction("TrainingPlans", "TrainingPlan");
         }
-
     }
 }

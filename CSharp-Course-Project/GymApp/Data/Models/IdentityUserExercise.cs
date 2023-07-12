@@ -15,6 +15,5 @@
         public int ExerciseId { get; set; }
         [ForeignKey(nameof(ExerciseId))]
         public Exercise Exercise { get; set; } = null!;
-        
     }
 }

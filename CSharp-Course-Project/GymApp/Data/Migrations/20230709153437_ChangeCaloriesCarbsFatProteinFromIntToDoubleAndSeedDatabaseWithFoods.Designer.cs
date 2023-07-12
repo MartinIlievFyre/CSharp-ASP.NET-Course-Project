@@ -4,6 +4,7 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApp.Data.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230709153437_ChangeCaloriesCarbsFatProteinFromIntToDoubleAndSeedDatabaseWithFoods")]
+    partial class ChangeCaloriesCarbsFatProteinFromIntToDoubleAndSeedDatabaseWithFoods
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,10 +231,10 @@ namespace GymApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Calories")
+                    b.Property<double>("Calories")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
 
                     b.Property<double>("Carbs")
                         .ValueGeneratedOnAdd()
@@ -262,7 +264,7 @@ namespace GymApp.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Calories = 52,
+                            Calories = 52.0,
                             Carbs = 13.800000000000001,
                             Fat = 0.20000000000000001,
                             Name = "Apple",
@@ -271,7 +273,7 @@ namespace GymApp.Data.Migrations
                         new
                         {
                             Id = 2,
-                            Calories = 153,
+                            Calories = 153.0,
                             Carbs = 0.0,
                             Fat = 3.6000000000000001,
                             Name = "Chicken Fillet",
@@ -321,7 +323,7 @@ namespace GymApp.Data.Migrations
 
                     b.HasIndex("TrainingPlanId");
 
-                    b.ToTable("IdentityUsersTrainingPlans");
+                    b.ToTable("IdentityUserTrainingPlan");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.TrainingPlan", b =>

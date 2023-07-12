@@ -19,15 +19,31 @@
             this.dbContext = dbContext;
         }
         [AllowAnonymous]
-        public IActionResult Exercises()
+        [HttpGet]
+        [HttpGet]
+        public async Task<IActionResult> Exercises()
         {
-            return View();
+            var models = new CategoryListViewModel();
+            var categories = await dbContext.Categories
+                .Select(c => new CategoryViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
+            models = new CategoryListViewModel()
+            {
+                Categories = categories
+            };
+            return View(models);
         }
         [AllowAnonymous]
-        public async Task<IActionResult> Legs()
+        public async Task<IActionResult> GetExercise(string id)
         {
+
             var exercises = await dbContext
                 .Exercises
+                .Where(e => e.CategoryId == int.Parse(id))
                 .Select(e => new ExerciseViewModel()
                 {
                     Id = e.Id,
@@ -41,151 +57,6 @@
 
             return View(exercises);
         }
-        [AllowAnonymous]
-        public async Task<IActionResult> Back()
-        {
-            var exercises = await dbContext
-                .Exercises
-                .Select(e => new ExerciseViewModel()
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Execution = e.Execution,
-                    Benefit = e.Benefit,
-                    Category = e.Category.Name,
-                    ImageUrl = e.ImageUrl
-                })
-                .ToListAsync();
-
-            return View(exercises);
-        }
-        [AllowAnonymous]
-        public async Task<IActionResult> Chest()
-        {
-            var exercises = await dbContext
-                .Exercises
-                .Select(e => new ExerciseViewModel()
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Execution = e.Execution,
-                    Benefit = e.Benefit,
-                    Category = e.Category.Name,
-                    ImageUrl = e.ImageUrl
-                })
-                .ToListAsync();
-
-            return View(exercises);
-        }
-        [AllowAnonymous]
-        public async Task<IActionResult> Triceps()
-        {
-            var exercises = await dbContext
-                .Exercises
-                .Select(e => new ExerciseViewModel()
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Execution = e.Execution,
-                    Benefit = e.Benefit,
-                    Category = e.Category.Name,
-                    ImageUrl = e.ImageUrl
-                })
-                .ToListAsync();
-
-            return View(exercises);
-        }
-        [AllowAnonymous]
-        public async Task<IActionResult> Biceps()
-        {
-            var exercises = await dbContext
-                .Exercises
-                .Select(e => new ExerciseViewModel()
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Execution = e.Execution,
-                    Benefit = e.Benefit,
-                    Category = e.Category.Name,
-                    ImageUrl = e.ImageUrl
-                })
-                .ToListAsync();
-
-            return View(exercises);
-        }
-        [AllowAnonymous]
-        public async Task<IActionResult> Forearms()
-        {
-            var exercises = await dbContext
-                .Exercises
-                .Select(e => new ExerciseViewModel()
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Execution = e.Execution,
-                    Benefit = e.Benefit,
-                    Category = e.Category.Name,
-                    ImageUrl = e.ImageUrl
-                })
-                .ToListAsync();
-
-            return View(exercises);
-        }
-        [AllowAnonymous]
-        public async Task<IActionResult> Shoulders()
-        {
-            var exercises = await dbContext
-                .Exercises
-                .Select(e => new ExerciseViewModel()
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Execution = e.Execution,
-                    Benefit = e.Benefit,
-                    Category = e.Category.Name,
-                    ImageUrl = e.ImageUrl
-                })
-                .ToListAsync();
-
-            return View(exercises);
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> Abs()
-        {
-            var exercises = await dbContext
-                .Exercises
-                .Select(e => new ExerciseViewModel()
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Execution = e.Execution,
-                    Benefit = e.Benefit,
-                    Category = e.Category.Name,
-                    ImageUrl = e.ImageUrl
-                })
-                .ToListAsync();
-
-            return View(exercises);
-        }
-       //public async Task<IActionResult> MyFavoriteExercises()
-       //{
-       //    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-       //    var exercises = await dbContext
-       //        .Exercises
-       //        .Where(e => e.UsersExercises.Any(ue => ue.TrainingGuyId == userId))
-       //        .Select(e => new ExerciseViewModel()
-       //        {
-       //            Id = e.Id,
-       //            Name = e.Name,
-       //            ImageUrl = e.ImageUrl,
-       //            Benefit = e.Benefit,
-       //            Execution = e.Execution,
-       //            Category = e.Category.Name
-       //        })
-       //        .ToListAsync();
-       //    return View(exercises);
-       //}
         [HttpPost]
         public async Task<IActionResult> AddToMyFavorites(int id)
         {

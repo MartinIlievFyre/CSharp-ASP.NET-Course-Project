@@ -4,6 +4,7 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApp.Data.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230709153842_ChangeCaloriesToInt")]
+    partial class ChangeCaloriesToInt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -321,7 +323,7 @@ namespace GymApp.Data.Migrations
 
                     b.HasIndex("TrainingPlanId");
 
-                    b.ToTable("IdentityUsersTrainingPlans");
+                    b.ToTable("IdentityUserTrainingPlan");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.TrainingPlan", b =>

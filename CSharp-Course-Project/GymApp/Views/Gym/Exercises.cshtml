@@ -1,59 +1,21 @@
-﻿@{
+﻿@model CategoryListViewModel
+@{
     ViewData["Title"] = "All Exercises";
 }
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - GymApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/GymApp.styles.css" asp-append-version="true" />
-</head>
 
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item" style="margin-right: 4rem;">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gym" asp-action="Legs"><h3>Legs</h3></a>
-                        </li>
-                        <li class="nav-item" style="margin-right: 4rem;">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gym" asp-action="Back"><h3>Back</h3></a>
-                        </li>
-                        <li class="nav-item" style="margin-right: 4rem;">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gym" asp-action="Chest"><h3>Chest</h3></a>
-                        </li>
-                        <li class="nav-item" style="margin-right: 4rem;">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gym" asp-action="Triceps"><h3>Triceps</h3></a>
-                        </li>
-                        <li class="nav-item" style="margin-right: 4rem;">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gym" asp-action="Biceps"><h3>Biceps</h3></a>
-                        </li>
-                        <li class="nav-item" style="margin-right: 4rem;">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gym" asp-action="Forearms"><h3>Forearms</h3></a>
-                        </li>
-                        <li class="nav-item" style="margin-right: 4rem;">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gym" asp-action="Shoulders"><h3>Shoulders</h3></a>
-                        </li>
-                        <li class="nav-item" style="margin-right: 4rem;">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gym" asp-action="Abs"><h3>Abs</h3></a>
-                        </li>
-                    </ul>
+<div class="list-group">
+    @foreach (var item in Model.Categories)
+    {
+        <a href="@Url.Action("GetExercise", "Gym", new { id = item.Id })" class="list-group-item list-group-item-action">
+            <div class="bg-image text-md-center">
+                <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+                    <div class="d-flex justify-content-center align-items-center h-10">
+                        <p class="text-white mb-0"><h1>Legs</h1></p>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-</body>
-</html>
-
-
+        </a>
+    }
+</div>

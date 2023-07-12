@@ -181,7 +181,28 @@ namespace GymApp.Data
                Name = "Shoulders"
            });
 
-            builder.Entity<IdentityUserExercise>().HasKey(x => new { x.TrainingGuyId, x.ExerciseId});
+            builder
+           .Entity<Food>()
+           .HasData(new Food()
+           {
+               Id = 1,
+               Name = "Apple",
+               Calories = 52,
+               Carbs = 13.8,
+               Fat = 0.2,
+               Protein = 0.3
+           },
+          new Food()
+          {
+              Id = 2,
+              Name = "Chicken Fillet",
+              Calories = 153,
+              Carbs = 0,
+              Fat = 3.6,
+              Protein = 30.2
+          });
+
+           builder.Entity<IdentityUserExercise>().HasKey(x => new { x.TrainingGuyId, x.ExerciseId});
 
             builder.Entity<IdentityUserTrainingPlan>().HasKey(x => new { x.TrainingGuyId, x.TrainingPlanId});
 
@@ -199,7 +220,7 @@ namespace GymApp.Data
         public DbSet<IdentityUserExercise> IdentityUsersExercises { get; set; } = null!;
         public DbSet<TrainingPlan> TrainingPlans { get; set; } = null!;
         public DbSet<Food> Foods { get; set; } = null!;
-
         public DbSet<IdentityUserFood> IdentityUsersFoods { get; set; } = null!;
+        public DbSet<IdentityUserTrainingPlan> IdentityUsersTrainingPlans { get; set; } = null!;
     }
 }

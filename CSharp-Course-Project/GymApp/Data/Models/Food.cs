@@ -17,13 +17,13 @@
         public int Calories { get; set; }
 
         [Required]
-        public int Carbs { get; set; }
+        public double Carbs { get; set; }
 
         [Required]
-        public int Fat { get; set; }
+        public double Fat { get; set; }
 
         [Required]
-        public int Protein { get; set; }
+        public double Protein { get; set; }
 
         public ICollection<IdentityUserFood> UsersFood { get; set; } = new List<IdentityUserFood>();
     }
