@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using static GymApp.Data.ValidationConstants.Food;
+    using static GymApp.Common.EntityValidationConstants.Food;
 
     public class Food
     {

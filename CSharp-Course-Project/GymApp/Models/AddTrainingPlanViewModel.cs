@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using static GymApp.Data.EntityValidationConstants.Note;
+    using static GymApp.Common.EntityValidationConstants.Note;
 
     public class AddTrainingPlanViewModel
     {

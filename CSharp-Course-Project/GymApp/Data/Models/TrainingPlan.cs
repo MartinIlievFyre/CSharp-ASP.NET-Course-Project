@@ -4,7 +4,7 @@
 
     using System.ComponentModel.DataAnnotations.Schema;
 
-    using static EntityValidationConstants.Note;
+    using static GymApp.Common.EntityValidationConstants.Note;
 
     public class TrainingPlan
     {

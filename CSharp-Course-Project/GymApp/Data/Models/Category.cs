@@ -2,7 +2,7 @@
 {
 using System.ComponentModel.DataAnnotations;
 
-using static GymApp.Data.ValidationConstants.Category;
+    using static GymApp.Common.EntityValidationConstants.Category;
     public class Category
     {
         [Key]

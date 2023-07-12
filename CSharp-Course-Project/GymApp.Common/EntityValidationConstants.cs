@@ -1,6 +1,6 @@
-﻿namespace GymApp.Data
+﻿namespace GymApp.Common
 {
-    public class ValidationConstants
+    public class EntityValidationConstants
     {
         public static class Exercise
         {
