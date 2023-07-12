@@ -1,7 +1,7 @@
 ﻿using GymApp.Data.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using static GymApp.Data.ValidationConstants.Exercise;
+using static GymApp.Data.EntityValidationConstants.Exercise;
 namespace GymApp.Models
 {
     public class AddExerciseViewModel

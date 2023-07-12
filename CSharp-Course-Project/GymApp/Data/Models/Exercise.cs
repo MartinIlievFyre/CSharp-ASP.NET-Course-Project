@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using static GymApp.Data.ValidationConstants.Exercise;
+    using static GymApp.Data.EntityValidationConstants.Exercise;
 
     public class Exercise
     {

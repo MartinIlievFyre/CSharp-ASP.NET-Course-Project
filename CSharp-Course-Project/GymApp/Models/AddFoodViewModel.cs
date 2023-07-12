@@ -4,7 +4,7 @@
 
     using GymApp.Data.Models;
 
-    using static GymApp.Data.ValidationConstants.Food;
+    using static GymApp.Data.EntityValidationConstants.Food;
 
     public class AddFoodViewModel
     {
