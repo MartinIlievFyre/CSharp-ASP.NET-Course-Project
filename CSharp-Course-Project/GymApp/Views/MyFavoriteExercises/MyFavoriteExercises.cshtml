@@ -1,51 +1,91 @@
 ﻿@model IEnumerable<ExerciseViewModel>
-@{
-    ViewBag.Title = "My favorite exercises";
-}
 
-<h2 class="text-center">@ViewBag.Title</h2>
+@{
+    ViewData["Title"] = "My Favorite Exercises";
+}
+<h1 class="text-center" style="padding-top: 30px;">@ViewBag.Title</h1>
 <hr />
 
+<div class="list-group" style="margin-bottom: 50px;">
+    @foreach (var exercise in Model)
+    {
+        <div class="bg-image text-md-center">
+            <div class="mask" style="padding-bottom: 40px;">
+                <div class="d-flex justify-content-center align-items-center h-10">
+                    @switch (exercise.Category)
+                    {
+                        case "Legs":
+                            <h1 style="color: black; display: inline-block; margin-left:100px;padding-right: 100px;">LEG EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
+                            <div class="container-fluid">
+                                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <img src="~/images/LegsExercisesPicture.jpg" alt="Leg Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                </a>
+                                <form class="input-group-sm" asp-controller="MyFavoriteExercises" asp-action="RemoveFromMyFavorites" asp-route-id="@exercise.Id">
+                                    <input type="submit" value="Remove from my favorites" class="fs-6 btn btn-success mb-3 p-2 btn-danger" style="border-color:black" />
+                                </form>
+                            </div>
+                            break;
+                        case "Back":
+                            <h1 style="color: black; display: inline-block; margin-left:100px;padding-right: 100px;">BACK EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
+                            <div class="container-fluid">
+                                <a class="navbar-brand" asp-area="" asp-controller="Gym" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <img src="~/images/BackExercisesPicture.jpg" alt="Back Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                </a>
+                            </div>
+                            break;
+                        case "Chest":
+                            <div class="container-fluid">
+                                <a class="navbar-brand" asp-area="" asp-controller="Gym" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <img src="~/images/ChestExercisesPicture.jpg" alt="Chest Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                </a>
+                            </div>
+                            <h1 style="color: black; display: inline-block; margin-right:100px;padding-left: 100px;">CHEST EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
+                            break;
+                        case "Biceps":
+                            <div class="container-fluid">
+                                <a class="navbar-brand" asp-area="" asp-controller="Gym" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <img src="~/images/BicepsExercisesPicture.jpg" alt="Biceps Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                </a>
+                            </div>
+                            <h1 style="color: black; display: inline-block; margin-right:100px;padding-left: 100px;">BICEPS EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
+                            break;
+                        case "Triceps":
+                            <h1 style="color: black; display: inline-block; margin-left:100px;padding-right: 100px;">TRICEPS EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
+                            <div class="container-fluid">
+                                <a class="navbar-brand" asp-area="" asp-controller="Gym" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <img src="~/images/TricepsExercisesPicture.jpg" alt="Triceps Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                </a>
+                            </div>
+                            break;
+                        case "Shoulders":
+                            <div class="container-fluid">
+                                <a class="navbar-brand" asp-area="" asp-controller="Gym" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <img src="~/images/ShouldersExercisesPicture.jpg" alt="Biceps Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                </a>
+                            </div>
+                            <h1 style="color: black; display: inline-block; margin-right:100px;padding-left: 100px;">SHOULDERS EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
 
-<body>
-    <div class="text-center row">
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item" style="margin-right: 4rem;">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="MyFavoriteExercises" asp-action="LegsExercises"><h3>Legs</h3></a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 4rem;">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="MyFavoriteExercises" asp-action="BackExercises"><h3>Back</h3></a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 4rem;">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="MyFavoriteExercises" asp-action="ChestExercises"><h3>Chest</h3></a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 4rem;">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="MyFavoriteExercises" asp-action="TricepsExercises"><h3>Triceps</h3></a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 4rem;">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="MyFavoriteExercises" asp-action="BicepsExercises"><h3>Biceps</h3></a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 4rem;">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="MyFavoriteExercises" asp-action="ForearmsExercises"><h3>Forearms</h3></a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 4rem;">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="MyFavoriteExercises" asp-action="ShouldersExercises"><h3>Shoulders</h3></a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 4rem;">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="MyFavoriteExercises" asp-action="AbsExercises"><h3>Abs</h3></a>
-                            </li>
-                        </ul>
-                    </div>
+                            break;
+                        case "Forearms":
+                            <div class="container-fluid">
+                                <a class="navbar-brand" asp-area="" asp-controller="Gym" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <img src="~/images/ForearmsExercisesPicturejpg.jpg" alt="Forearm Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                </a>
+                            </div>
+                            <h1 style="color: black; display: inline-block; margin-right:100px;padding-left: 100px;">FOREARM EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
+
+                            break;
+                        case "Abs":
+                            <h1 style="color: black; display: inline-block; margin-left:100px;padding-right: 100px;">ABS EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
+                            <div class="container-fluid">
+                                <a class="navbar-brand" asp-area="" asp-controller="Gym" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <img src="~/images/AbsExercisesPicture.jpg" alt="Abs Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                </a>
+                            </div>
+                            break;
+                    }
                 </div>
-            </nav>
-        </header>
-    </div>
-</body>
+            </div>
+        </div>
+    }
+</div>

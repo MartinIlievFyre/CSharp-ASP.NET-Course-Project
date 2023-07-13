@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GymApp.Data.Models
 {
-    public class IdentityUserFood
+    public class ApplicationUserFood
     {
         [Required]
-        public string TrainingGuyId { get; set; } = null!;
+        public Guid TrainingGuyId { get; set; }
         [ForeignKey(nameof(TrainingGuyId))]
-        public IdentityUser TrainingGuy { get; set; } = null!;
+        public ApplicationUser TrainingGuy { get; set; } = null!;
         [Required]
         public int FoodId { get; set; }
         [ForeignKey(nameof(FoodId))]

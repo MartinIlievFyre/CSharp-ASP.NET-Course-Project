@@ -24,7 +24,7 @@
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
 
-        public ICollection<IdentityUserTrainingPlan> UsersTrainingPlan { get; set; } = new List<IdentityUserTrainingPlan>();
+        public ICollection<ApplicationUserTrainingPlan> UsersTrainingPlan { get; set; } = new List<ApplicationUserTrainingPlan>();
 
     }
 }

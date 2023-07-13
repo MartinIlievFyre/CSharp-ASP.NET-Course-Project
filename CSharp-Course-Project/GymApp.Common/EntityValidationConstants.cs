@@ -20,7 +20,7 @@
             public const int NameMinLength = 2;
             public const int NameMaxLength = 50;
         }
-        public static class Note 
+        public static class Note
         {
             public const int NameMinLength = 2;
             public const int NameMaxLength = 50;
@@ -32,6 +32,17 @@
         {
             public const int NameMinLength = 2;
             public const int NameMaxLength = 50;
+        }
+        public static class ApplicationUser
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 50;
+
+            public const int BioMinLength = 2;
+            public const int BioMaxLength = 300;
+
+            public const int CityNameMinLength = 2;
+            public const int CityNameMaxLength = 85;
         }
     }
 }

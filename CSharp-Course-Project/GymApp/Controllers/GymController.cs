@@ -20,7 +20,6 @@
         }
         [AllowAnonymous]
         [HttpGet]
-        [HttpGet]
         public async Task<IActionResult> Exercises()
         {
             var models = new CategoryListViewModel();
@@ -38,6 +37,7 @@
             return View(models);
         }
         [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> GetExercise(string id)
         {
 
@@ -61,16 +61,18 @@
         public async Task<IActionResult> AddToMyFavorites(int id)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Guid userGuidId;
+            Guid.TryParse(userId, out userGuidId);
 
             var exercise = await dbContext.Exercises.FirstOrDefaultAsync(e => e.Id == id);
             try
             {
-                if (!exercise.UsersExercises.Any(ue => ue.TrainingGuyId == userId))
+                if (!exercise.UsersExercises.Any(ue => ue.TrainingGuyId.ToString() == userId))
                 {
-                    exercise.UsersExercises.Add(new IdentityUserExercise()
+                    exercise.UsersExercises.Add(new ApplicationUserExercise()
                     {
                         ExerciseId = id,
-                        TrainingGuyId = userId
+                        TrainingGuyId = userGuidId
                     });
                 }
 
@@ -81,44 +83,6 @@
                 BadRequest();
             }
             return RedirectToAction($"Exercises", "Gym");
-        }
-        
-
-        [HttpGet]
-        public async Task<IActionResult> AddExercise()
-        {
-            var categories = await dbContext.Categories.Select(e => new CategoryViewModel()
-            {
-                Id = e.Id,
-                Name = e.Name
-            })
-                .ToListAsync();
-            AddExerciseViewModel model = new AddExerciseViewModel()
-            {
-                Categories = categories
-            };
-            return View(model);
-        }
-        [HttpPost]
-        public async Task<IActionResult> AddExercise(AddExerciseViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            Exercise exercise = new Exercise()
-            {
-                Name = model.Name,
-                Execution = model.Execution,
-                Benefit = model.Benefit,
-                ImageUrl = model.ImageUrl,
-                CategoryId = model.CategoryId
-            };
-            await dbContext.AddAsync(exercise);
-            await dbContext.SaveChangesAsync();
-
-            return RedirectToAction("Exercises", "Gym");
         }
     }
 }

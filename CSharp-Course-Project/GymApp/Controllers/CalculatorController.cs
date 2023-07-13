@@ -53,16 +53,18 @@
         public async Task<IActionResult> AddProductToList(int id)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Guid userGuidId;
+            Guid.TryParse(userId, out userGuidId);
 
             var food = await dbContext.Foods.FirstOrDefaultAsync(e => e.Id == id);
             try
             {
-                if (!food.UsersFood.Any(ue => ue.TrainingGuyId == userId))
+                if (!food.UsersFood.Any(ue => ue.TrainingGuyId.ToString() == userId))
                 {
-                    food.UsersFood.Add(new IdentityUserFood()
+                    food.UsersFood.Add(new ApplicationUserFood()
                     {
                         FoodId = id,
-                        TrainingGuyId = userId
+                        TrainingGuyId = userGuidId
                     });
                 }
 
@@ -81,11 +83,11 @@
 
             var user = await dbContext.
                 IdentityUsersFoods.
-                FirstAsync(u => u.TrainingGuyId == userId);
+                FirstAsync(u => u.TrainingGuyId.ToString() == userId);
 
             var food = await dbContext
                 .IdentityUsersFoods
-                .FirstOrDefaultAsync(uf => uf.FoodId == id && uf.TrainingGuyId == userId);
+                .FirstOrDefaultAsync(uf => uf.FoodId == id && uf.TrainingGuyId.ToString() == userId);
 
             try
             {

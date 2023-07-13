@@ -12,6 +12,6 @@
 
         public string Category { get; set; } = null!;
 
-        public IdentityUserExercise User { get; set; } = null!;
+        public ApplicationUserExercise User { get; set; } = null!;
     }
 }

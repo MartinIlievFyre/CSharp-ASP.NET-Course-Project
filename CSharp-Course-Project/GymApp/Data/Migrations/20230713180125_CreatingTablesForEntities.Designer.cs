@@ -4,6 +4,7 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApp.Data.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230713180125_CreatingTablesForEntities")]
+    partial class CreatingTablesForEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,6 +133,21 @@ namespace GymApp.Data.Migrations
                     b.HasIndex("FoodId");
 
                     b.ToTable("IdentityUsersFoods");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserTrainingPlan", b =>
+                {
+                    b.Property<Guid>("TrainingGuyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TrainingPlanId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TrainingGuyId", "TrainingPlanId");
+
+                    b.HasIndex("TrainingPlanId");
+
+                    b.ToTable("IdentityUsersTrainingPlans");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.Category", b =>
@@ -390,6 +407,34 @@ namespace GymApp.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("GymApp.Data.Models.TrainingPlan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(5000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("TrainingPlans");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("Id")
@@ -563,10 +608,40 @@ namespace GymApp.Data.Migrations
                     b.Navigation("TrainingGuy");
                 });
 
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserTrainingPlan", b =>
+                {
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", "TrainingGuy")
+                        .WithMany("UsersTrainingPlans")
+                        .HasForeignKey("TrainingGuyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GymApp.Data.Models.TrainingPlan", "TrainingPlan")
+                        .WithMany("UsersTrainingPlan")
+                        .HasForeignKey("TrainingPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TrainingGuy");
+
+                    b.Navigation("TrainingPlan");
+                });
+
             modelBuilder.Entity("GymApp.Data.Models.Exercise", b =>
                 {
                     b.HasOne("GymApp.Data.Models.Category", "Category")
                         .WithMany("Exercises")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.TrainingPlan", b =>
+                {
+                    b.HasOne("GymApp.Data.Models.Category", "Category")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -630,6 +705,8 @@ namespace GymApp.Data.Migrations
                     b.Navigation("UsersExercises");
 
                     b.Navigation("UsersFoods");
+
+                    b.Navigation("UsersTrainingPlans");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.Category", b =>
@@ -645,6 +722,11 @@ namespace GymApp.Data.Migrations
             modelBuilder.Entity("GymApp.Data.Models.Food", b =>
                 {
                     b.Navigation("UsersFood");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.TrainingPlan", b =>
+                {
+                    b.Navigation("UsersTrainingPlan");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,10 +1,13 @@
 ﻿using GymApp.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Security.Cryptography.X509Certificates;
 
 namespace GymApp.Data
 {
-    public class GymAppDbContext : IdentityDbContext
+    public class GymAppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public GymAppDbContext(DbContextOptions<GymAppDbContext> options)
             : base(options)
@@ -21,9 +24,9 @@ namespace GymApp.Data
                    Name = "Leg Press",
 
                    Execution = "Sit in the leg press seat, and place your feet in the middle of the sled, about shoulder-width apart. Press the sled out of the rack, lower the safety bars, and then slowly lower the sled towards your chest until your thighs break 90 degrees. Press the sled back up but do not lock out your knees. If your lower back or hips lift off the seat as you drive the weight back up, you’re going too far down.",
-                   
+
                    Benefit = "The leg press enables you to exert more force using only your legs, providing a squat-like motion without placing weight on your spine or torso, making it ideal for high-rep sets and drop sets.",
-                   
+
                    ImageUrl = "https://weighttraining.guide/wp-content/uploads/2016/05/Sled-45-degree-Leg-Press-resized.png",
                    CategoryId = 1
                },
@@ -32,7 +35,7 @@ namespace GymApp.Data
                    Id = 2,
                    Name = "Hack Squat",
                    Execution = "Your stance on the foot platform will closely mimic that of your back squat stance. You want your feet slightly outside shoulder width with feet angled slightly outward — they should be in line with the knee as it tracks forward during the descent. \r\n\r\nYour torso should be stable with your abdominals engaged and your lower back flat on the back pad. Maintain a neutral head position as you lower your body until the bottoms of your thighs are parallel to the foot platform and drive through your feet to the top.",
-                  
+
                    Benefit = "The hack squat, being a machine, offers enhanced stability compared to free-weight squat variations, its predefined path reducing the risk of injury and accommodating pre-existing injuries.",
 
                    ImageUrl = "https://www.bodybuildingmealplan.com/wp-content/uploads/Hack-Squat-Muscles-Worked.jpg",
@@ -137,7 +140,7 @@ namespace GymApp.Data
                    ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/05/Dumbbell-Shoulder-Press-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
                    CategoryId = 8
                });
-           
+
             builder
            .Entity<Category>()
            .HasData(new Category()
@@ -201,12 +204,13 @@ namespace GymApp.Data
               Fat = 3.6,
               Protein = 30.2
           });
+            
 
-           builder.Entity<IdentityUserExercise>().HasKey(x => new { x.TrainingGuyId, x.ExerciseId});
+            builder.Entity<ApplicationUserExercise>().HasKey(aue => new { aue.TrainingGuyId, aue.ExerciseId });
+            builder.Entity<ApplicationUserTrainingPlan>().HasKey(autp => new { autp.TrainingGuyId, autp.TrainingPlanId });
 
-            builder.Entity<IdentityUserTrainingPlan>().HasKey(x => new { x.TrainingGuyId, x.TrainingPlanId});
+            builder.Entity<ApplicationUserFood>().HasKey(f => new { f.TrainingGuyId, f.FoodId });
 
-            builder.Entity<IdentityUserFood>().HasKey(x => new { x.TrainingGuyId, x.FoodId});
             builder.Entity<Food>().Property("Calories").HasDefaultValue(0);
             builder.Entity<Food>().Property("Carbs").HasDefaultValue(0);
             builder.Entity<Food>().Property("Fat").HasDefaultValue(0);
@@ -214,13 +218,16 @@ namespace GymApp.Data
 
             base.OnModelCreating(builder);
         }
-
+        
         public DbSet<Exercise> Exercises { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
-        public DbSet<IdentityUserExercise> IdentityUsersExercises { get; set; } = null!;
-        public DbSet<TrainingPlan> TrainingPlans { get; set; } = null!;
         public DbSet<Food> Foods { get; set; } = null!;
-        public DbSet<IdentityUserFood> IdentityUsersFoods { get; set; } = null!;
-        public DbSet<IdentityUserTrainingPlan> IdentityUsersTrainingPlans { get; set; } = null!;
+        public DbSet<ApplicationUserExercise> IdentityUsersExercises { get; set; } = null!;
+        public DbSet<ApplicationUserFood> IdentityUsersFoods { get; set; } = null!;
+        public DbSet<TrainingPlan> TrainingPlans { get; set; } = null!; 
+
+
+
+        public DbSet<ApplicationUserTrainingPlan> IdentityUsersTrainingPlans { get; set; } = null!;
     }
 }

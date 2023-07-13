@@ -25,6 +25,6 @@
         [Required]
         public double Protein { get; set; }
 
-        public ICollection<IdentityUserFood> UsersFood { get; set; } = new List<IdentityUserFood>();
+        public ICollection<ApplicationUserFood> UsersFood { get; set; } = new List<ApplicationUserFood>();
     }
 }
