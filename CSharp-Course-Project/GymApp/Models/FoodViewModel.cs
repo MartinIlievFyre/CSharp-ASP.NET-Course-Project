@@ -15,6 +15,7 @@
         public double Fat { get; set; }
 
         public double Protein { get; set; }
+        public int Grams { get; set; }
 
         public ICollection<ApplicationUserFood> UsersFood { get; set; } = new List<ApplicationUserFood>();
 

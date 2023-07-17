@@ -4,18 +4,16 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GymApp.Data.Migrations
+namespace GymApp.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    [Migration("20230709151201_AddTablesFoodAndIdentityUserFood")]
-    partial class AddTablesFoodAndIdentityUserFood
+    partial class GymAppDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,6 +21,132 @@ namespace GymApp.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Bio")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("CityName")
+                        .HasMaxLength(85)
+                        .HasColumnType("nvarchar(85)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserExercise", b =>
+                {
+                    b.Property<Guid>("TrainingGuyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TrainingGuyId", "ExerciseId");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("ApplicationUsersExercises");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserFood", b =>
+                {
+                    b.Property<Guid>("TrainingGuyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TrainingGuyId", "FoodId");
+
+                    b.HasIndex("FoodId");
+
+                    b.ToTable("ApplicationUsersFoods");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserTrainingPlan", b =>
+                {
+                    b.Property<Guid>("TrainingGuyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TrainingPlanId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TrainingGuyId", "TrainingPlanId");
+
+                    b.HasIndex("TrainingPlanId");
+
+                    b.ToTable("ApplicationUsersTrainingPlans");
+                });
 
             modelBuilder.Entity("GymApp.Data.Models.Category", b =>
                 {
@@ -164,7 +288,7 @@ namespace GymApp.Data.Migrations
                             Benefit = "This exercise offers versatility with options such as barbells, kettlebells, or dumbbells, making it a versatile triceps exercise that capitalizes on your strength in this position, leading to significant triceps strength gains.",
                             CategoryId = 3,
                             Execution = "Begin by lying on a bench with the hands supporting a weight (barbell, dumbbells, or cable attachments) at the top of the bench pressing position, aligning the back and hips as in a bench press; slightly pull the elbows back, pointing them behind you, as you lower the bar handle or loads towards your head, almost touching the forehead, experiencing a stretch on the triceps and partial engagement of the lats, and finally, push the bar back up.",
-                            ImageUrl = "https://www.fitliferegime.com/wp-content/uploads/2022/03/Barbell-Skull-Crushers.jpg?ezimgfmt=rs:382x215/rscb1/ngcb1/notWebP",
+                            ImageUrl = "https://adventurefitness.club/wp-content/uploads/2022/11/lying-triceps-extension-vs-skullcrusher.jpeg",
                             Name = "Skullcrusher"
                         },
                         new
@@ -236,74 +360,54 @@ namespace GymApp.Data.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.Property<int>("Carbs")
+                    b.Property<double>("Carbs")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
 
-                    b.Property<int>("Fat")
+                    b.Property<double>("Fat")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
+
+                    b.Property<int>("Grams")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Protein")
+                    b.Property<double>("Protein")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
 
                     b.HasKey("Id");
 
                     b.ToTable("Foods");
-                });
 
-            modelBuilder.Entity("GymApp.Data.Models.IdentityUserExercise", b =>
-                {
-                    b.Property<string>("TrainingGuyId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TrainingGuyId", "ExerciseId");
-
-                    b.HasIndex("ExerciseId");
-
-                    b.ToTable("IdentityUsersExercises");
-                });
-
-            modelBuilder.Entity("GymApp.Data.Models.IdentityUserFood", b =>
-                {
-                    b.Property<string>("TrainingGuyId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("FoodId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TrainingGuyId", "FoodId");
-
-                    b.HasIndex("FoodId");
-
-                    b.ToTable("IdentityUsersFoods");
-                });
-
-            modelBuilder.Entity("GymApp.Data.Models.IdentityUserTrainingPlan", b =>
-                {
-                    b.Property<string>("TrainingGuyId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("TrainingPlanId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TrainingGuyId", "TrainingPlanId");
-
-                    b.HasIndex("TrainingPlanId");
-
-                    b.ToTable("IdentityUserTrainingPlan");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Calories = 52,
+                            Carbs = 13.800000000000001,
+                            Fat = 0.20000000000000001,
+                            Grams = 0,
+                            Name = "Apple",
+                            Protein = 0.29999999999999999
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Calories = 153,
+                            Carbs = 0.0,
+                            Fat = 3.6000000000000001,
+                            Grams = 0,
+                            Name = "Chicken Fillet",
+                            Protein = 30.199999999999999
+                        });
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.TrainingPlan", b =>
@@ -334,10 +438,11 @@ namespace GymApp.Data.Migrations
                     b.ToTable("TrainingPlans");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -361,7 +466,7 @@ namespace GymApp.Data.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -375,9 +480,8 @@ namespace GymApp.Data.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -386,72 +490,7 @@ namespace GymApp.Data.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -465,9 +504,8 @@ namespace GymApp.Data.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -476,7 +514,7 @@ namespace GymApp.Data.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -489,9 +527,8 @@ namespace GymApp.Data.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -500,13 +537,13 @@ namespace GymApp.Data.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -515,10 +552,10 @@ namespace GymApp.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -536,18 +573,7 @@ namespace GymApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("GymApp.Data.Models.Exercise", b =>
-                {
-                    b.HasOne("GymApp.Data.Models.Category", "Category")
-                        .WithMany("Exercises")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("GymApp.Data.Models.IdentityUserExercise", b =>
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserExercise", b =>
                 {
                     b.HasOne("GymApp.Data.Models.Exercise", "Exercise")
                         .WithMany("UsersExercises")
@@ -555,8 +581,8 @@ namespace GymApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "TrainingGuy")
-                        .WithMany()
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", "TrainingGuy")
+                        .WithMany("UsersExercises")
                         .HasForeignKey("TrainingGuyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -566,7 +592,7 @@ namespace GymApp.Data.Migrations
                     b.Navigation("TrainingGuy");
                 });
 
-            modelBuilder.Entity("GymApp.Data.Models.IdentityUserFood", b =>
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserFood", b =>
                 {
                     b.HasOne("GymApp.Data.Models.Food", "Food")
                         .WithMany("UsersFood")
@@ -574,8 +600,8 @@ namespace GymApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "TrainingGuy")
-                        .WithMany()
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", "TrainingGuy")
+                        .WithMany("UsersFoods")
                         .HasForeignKey("TrainingGuyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -585,10 +611,10 @@ namespace GymApp.Data.Migrations
                     b.Navigation("TrainingGuy");
                 });
 
-            modelBuilder.Entity("GymApp.Data.Models.IdentityUserTrainingPlan", b =>
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserTrainingPlan", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "TrainingGuy")
-                        .WithMany()
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", "TrainingGuy")
+                        .WithMany("UsersTrainingPlans")
                         .HasForeignKey("TrainingGuyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -604,6 +630,17 @@ namespace GymApp.Data.Migrations
                     b.Navigation("TrainingPlan");
                 });
 
+            modelBuilder.Entity("GymApp.Data.Models.Exercise", b =>
+                {
+                    b.HasOne("GymApp.Data.Models.Category", "Category")
+                        .WithMany("Exercises")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("GymApp.Data.Models.TrainingPlan", b =>
                 {
                     b.HasOne("GymApp.Data.Models.Category", "Category")
@@ -615,55 +652,64 @@ namespace GymApp.Data.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("UsersExercises");
+
+                    b.Navigation("UsersFoods");
+
+                    b.Navigation("UsersTrainingPlans");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.Category", b =>

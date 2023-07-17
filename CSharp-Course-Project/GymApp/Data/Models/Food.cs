@@ -24,6 +24,8 @@
 
         [Required]
         public double Protein { get; set; }
+        [Required]
+        public int Grams { get; set; }
 
         public ICollection<ApplicationUserFood> UsersFood { get; set; } = new List<ApplicationUserFood>();
     }

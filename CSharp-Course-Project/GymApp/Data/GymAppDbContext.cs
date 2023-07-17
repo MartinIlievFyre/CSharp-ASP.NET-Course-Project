@@ -14,6 +14,22 @@ namespace GymApp.Data
         {
 
         }
+
+        public DbSet<Exercise> Exercises { get; set; } = null!;
+
+        public DbSet<Category> Categories { get; set; } = null!;
+
+        public DbSet<Food> Foods { get; set; } = null!;
+
+        public DbSet<TrainingPlan> TrainingPlans { get; set; } = null!;
+
+        public DbSet<ApplicationUserExercise> ApplicationUsersExercises { get; set; } = null!;
+
+        public DbSet<ApplicationUserFood> ApplicationUsersFoods { get; set; } = null!;
+
+        public DbSet<ApplicationUserTrainingPlan> ApplicationUsersTrainingPlans { get; set; } = null!;
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder
@@ -71,7 +87,7 @@ namespace GymApp.Data
 
                    Benefit = "This exercise offers versatility with options such as barbells, kettlebells, or dumbbells, making it a versatile triceps exercise that capitalizes on your strength in this position, leading to significant triceps strength gains.",
 
-                   ImageUrl = "https://www.fitliferegime.com/wp-content/uploads/2022/03/Barbell-Skull-Crushers.jpg?ezimgfmt=rs:382x215/rscb1/ngcb1/notWebP",
+                   ImageUrl = "https://adventurefitness.club/wp-content/uploads/2022/11/lying-triceps-extension-vs-skullcrusher.jpeg",
                    CategoryId = 3
                },
                new Exercise()
@@ -204,12 +220,11 @@ namespace GymApp.Data
               Fat = 3.6,
               Protein = 30.2
           });
-            
+
 
             builder.Entity<ApplicationUserExercise>().HasKey(aue => new { aue.TrainingGuyId, aue.ExerciseId });
-            builder.Entity<ApplicationUserTrainingPlan>().HasKey(autp => new { autp.TrainingGuyId, autp.TrainingPlanId });
-
             builder.Entity<ApplicationUserFood>().HasKey(f => new { f.TrainingGuyId, f.FoodId });
+            builder.Entity<ApplicationUserTrainingPlan>().HasKey(autp => new { autp.TrainingGuyId, autp.TrainingPlanId });
 
             builder.Entity<Food>().Property("Calories").HasDefaultValue(0);
             builder.Entity<Food>().Property("Carbs").HasDefaultValue(0);
@@ -217,17 +232,7 @@ namespace GymApp.Data
             builder.Entity<Food>().Property("Protein").HasDefaultValue(0);
 
             base.OnModelCreating(builder);
+
         }
-        
-        public DbSet<Exercise> Exercises { get; set; } = null!;
-        public DbSet<Category> Categories { get; set; } = null!;
-        public DbSet<Food> Foods { get; set; } = null!;
-        public DbSet<ApplicationUserExercise> IdentityUsersExercises { get; set; } = null!;
-        public DbSet<ApplicationUserFood> IdentityUsersFoods { get; set; } = null!;
-        public DbSet<TrainingPlan> TrainingPlans { get; set; } = null!; 
-
-
-
-        public DbSet<ApplicationUserTrainingPlan> IdentityUsersTrainingPlans { get; set; } = null!;
     }
 }

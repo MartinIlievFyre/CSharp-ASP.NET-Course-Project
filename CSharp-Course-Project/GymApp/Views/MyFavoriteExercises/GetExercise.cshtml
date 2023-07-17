@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ExerciseViewModel>
 @{
-    ViewBag.Title = Model!.FirstOrDefault()!.Category + " Exercises";
+        ViewBag.Title = Model!.FirstOrDefault()!.Category + " Exercises";
 }
 
 <h2 class="text-center" style="padding-top: 30px;">@ViewBag.Title</h2>
@@ -30,8 +30,9 @@
             <font style="font-family:Monospace; font-size:17px;">(Click here to add)</font>
             @if (this.User.Identity!.IsAuthenticated)
             {
-                <form class="input-group-sm" asp-controller="Gym" asp-action="AddToMyFavorites" asp-route-id="@exercise.Id">
-                    <input type="submit" value="Add to my favorites" class="fs-6 btn btn-success mb-5 p-4" style="border-color:black; font-size : 25px; width: 25%; height: 100px; font-family:Sans-serif; margin-top: 5px;" />
+
+                <form class="input-group-sm" asp-controller="MyFavoriteExercises" asp-action="RemoveFromMyFavorites" asp-route-id="@exercise.Id">
+                    <input type="submit" value="Remove from my favorites" class="fs-6 btn btn-success mb-5 p-4 btn-danger" style="border-color:black; font-size : 25px; width: 25%; height: 100px; font-family:Sans-serif; margin-top: 5px;" />
                 </form>
             }
         </div>

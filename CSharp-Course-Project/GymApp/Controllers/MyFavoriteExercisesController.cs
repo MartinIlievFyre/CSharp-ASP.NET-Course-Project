@@ -50,22 +50,33 @@ namespace GymApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetExercise(string id)
         {
+            try
+            {
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var exercises = await dbContext
+                    .Exercises
+                    .Where(e => e.CategoryId == int.Parse(id) && e.UsersExercises.Any(u => u.TrainingGuyId.ToString() == userId))
+                    .Select(e => new ExerciseViewModel()
+                    {
+                        Id = e.Id,
+                        Name = e.Name,
+                        Execution = e.Execution,
+                        Benefit = e.Benefit,
+                        Category = e.Category.Name,
+                        ImageUrl = e.ImageUrl
+                    })
+                    .ToListAsync();
 
-            var exercises = await dbContext
-                .Exercises
-                .Where(e => e.CategoryId == int.Parse(id))
-                .Select(e => new ExerciseViewModel()
+                if (exercises.Count > 0)
                 {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Execution = e.Execution,
-                    Benefit = e.Benefit,
-                    Category = e.Category.Name,
-                    ImageUrl = e.ImageUrl
-                })
-                .ToListAsync();
+                    return View(exercises);
+                }
+            }
+            catch (Exception)
+            {
+            }
 
-            return View(exercises);
+            return RedirectToAction("MyFavoriteExercises", "MyFavoriteExercises");
         }
         public async Task<IActionResult> LegsExercises()
         {
@@ -92,17 +103,17 @@ namespace GymApp.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var user = await dbContext.
-                IdentityUsersExercises.
+                ApplicationUsersExercises.
                 FirstAsync(u => u.TrainingGuyId.ToString() == userId);
 
             var exercise = await dbContext
-                .IdentityUsersExercises
+                .ApplicationUsersExercises
                 .FirstOrDefaultAsync(ue => ue.ExerciseId == id && ue.TrainingGuyId.ToString() == userId);
 
             try
             {
                 if (user != null)
-                    dbContext.IdentityUsersExercises.Remove(exercise!);
+                    dbContext.ApplicationUsersExercises.Remove(exercise!);
 
 
                 await dbContext.SaveChangesAsync();

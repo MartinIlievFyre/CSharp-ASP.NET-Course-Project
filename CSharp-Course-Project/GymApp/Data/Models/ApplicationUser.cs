@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using static GymApp.Common.EntityValidationConstants.ApplicationUser;
+using Microsoft.AspNetCore.Identity;
 
 namespace GymApp.Data.Models
 {

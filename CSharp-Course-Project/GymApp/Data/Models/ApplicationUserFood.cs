@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace GymApp.Data.Models
+﻿namespace GymApp.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public class ApplicationUserFood
     {
         [Required]

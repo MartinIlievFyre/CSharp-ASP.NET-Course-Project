@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Authorization;
     using System.Security.Claims;
     using GymApp.Data.Models;
+    using static GymApp.Common.EntityValidationConstants;
 
     [Authorize]
     public class GymController : Controller
@@ -54,35 +55,39 @@
                     ImageUrl = e.ImageUrl
                 })
                 .ToListAsync();
-
             return View(exercises);
         }
         [HttpPost]
         public async Task<IActionResult> AddToMyFavorites(int id)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Guid userGuidId;
-            Guid.TryParse(userId, out userGuidId);
-
-            var exercise = await dbContext.Exercises.FirstOrDefaultAsync(e => e.Id == id);
             try
             {
-                if (!exercise.UsersExercises.Any(ue => ue.TrainingGuyId.ToString() == userId))
-                {
-                    exercise.UsersExercises.Add(new ApplicationUserExercise()
-                    {
-                        ExerciseId = id,
-                        TrainingGuyId = userGuidId
-                    });
-                }
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                Guid userGuidId;
+                Guid.TryParse(userId, out userGuidId);
 
-                await dbContext.SaveChangesAsync();
+                var exercise = await dbContext.Exercises.FirstOrDefaultAsync(e => e.Id == id);
+
+                if (!await dbContext.ApplicationUsersExercises.AnyAsync(ue => ue.ExerciseId == id))
+                {
+                    if (!exercise.UsersExercises.Any(ue => ue.TrainingGuyId.ToString() == userId))
+                    {
+                        exercise.UsersExercises.Add(new ApplicationUserExercise()
+                        {
+                            ExerciseId = id,
+                            TrainingGuyId = userGuidId
+                        });
+                    }
+                    await dbContext.SaveChangesAsync();
+                    Task.Delay(3000).Wait();
+                }
+                Task.Delay(3000).Wait();
             }
             catch
             {
                 BadRequest();
-            }
-            return RedirectToAction($"Exercises", "Gym");
+            };
+            return RedirectToAction("GetExercise", "Gym", new { id = id });
         }
     }
 }

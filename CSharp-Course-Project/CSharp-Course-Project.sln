@@ -5,7 +5,13 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymApp", "GymApp\GymApp.csproj", "{A0562231-A48E-4774-BB4A-302923383151}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymApp.Common", "GymApp.Common\GymApp.Common.csproj", "{E7CFD570-E33B-4E8C-B82A-41441CE10780}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymApp.Common", "GymApp.Common\GymApp.Common.csproj", "{E7CFD570-E33B-4E8C-B82A-41441CE10780}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{FFB0372D-9DA7-47C3-972B-CB2D84F3A179}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymApp.Services.Data", "GymApp.Services.Data\GymApp.Services.Data.csproj", "{534CD05D-9C69-4324-8ABC-F3CA108D7F7A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{28B0AAE9-6860-4EF6-AED1-CAE3509F2405}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +27,17 @@ Global
 		{E7CFD570-E33B-4E8C-B82A-41441CE10780}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7CFD570-E33B-4E8C-B82A-41441CE10780}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7CFD570-E33B-4E8C-B82A-41441CE10780}.Release|Any CPU.Build.0 = Release|Any CPU
+		{534CD05D-9C69-4324-8ABC-F3CA108D7F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{534CD05D-9C69-4324-8ABC-F3CA108D7F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{534CD05D-9C69-4324-8ABC-F3CA108D7F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{534CD05D-9C69-4324-8ABC-F3CA108D7F7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FFB0372D-9DA7-47C3-972B-CB2D84F3A179} = {28B0AAE9-6860-4EF6-AED1-CAE3509F2405}
+		{534CD05D-9C69-4324-8ABC-F3CA108D7F7A} = {FFB0372D-9DA7-47C3-972B-CB2D84F3A179}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CBFB009-1FFC-48C7-B688-E6150539E67E}

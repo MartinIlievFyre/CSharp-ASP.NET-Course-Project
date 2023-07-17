@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GymApp.Common\GymApp.Common.csproj" />
+    <ProjectReference Include="..\GymApp.Services.Data\GymApp.Services.Data.csproj" />
   </ItemGroup>
 
 </Project>

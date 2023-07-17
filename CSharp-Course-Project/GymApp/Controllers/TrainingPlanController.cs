@@ -17,9 +17,21 @@ namespace GymApp.Controllers
             this.dbContext = dbContext;
         }
 
-        public IActionResult TrainingPlans()
+        public async Task<IActionResult> TrainingPlans()
         {
-            return View();
+            var models = new CategoryListViewModel();
+            var categories = await dbContext.Categories
+                .Select(c => new CategoryViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
+            models = new CategoryListViewModel()
+            {
+                Categories = categories
+            };
+            return View(models);
         }
        //public async Task<IActionResult> TrainingPlansLegs()
        //{
@@ -141,39 +153,39 @@ namespace GymApp.Controllers
        //
        //    return View(trainingPlans);
        //}
-       //[HttpGet]
-       //public async Task<IActionResult> AddTrainingPlan()
-       //{
-       //    var categories = await dbContext.Categories.Select(e => new CategoryViewModel()
-       //    {
-       //        Id = e.Id,
-       //        Name = e.Name
-       //    })
-       //        .ToListAsync();
-       //    AddTrainingPlanViewModel model = new AddTrainingPlanViewModel()
-       //    {
-       //        Categories = categories
-       //    };
-       //    return View(model);
-       //}
-       //[HttpPost]
-       //public async Task<IActionResult> AddTrainingPlan(AddTrainingPlanViewModel model)
-       //{
-       //    if (!ModelState.IsValid)
-       //    {
-       //        return View(model);
-       //    }
-       //
-       //    TrainingPlan trainingPlan = new TrainingPlan()
-       //    {
-       //        Name = model.Name,
-       //        Description = model.Description,
-       //        CategoryId = model.CategoryId
-       //    };
-       //    await dbContext.AddAsync(trainingPlan);
-       //    await dbContext.SaveChangesAsync();
-       //
-       //    return RedirectToAction("TrainingPlans", "TrainingPlan");
-       //}
+       [HttpGet]
+       public async Task<IActionResult> AddTrainingPlan()
+       {
+           var categories = await dbContext.Categories.Select(e => new CategoryViewModel()
+           {
+               Id = e.Id,
+               Name = e.Name
+           })
+               .ToListAsync();
+           AddTrainingPlanViewModel model = new AddTrainingPlanViewModel()
+           {
+               Categories = categories
+           };
+           return View(model);
+       }
+       [HttpPost]
+       public async Task<IActionResult> AddTrainingPlan(AddTrainingPlanViewModel model)
+       {
+           if (!ModelState.IsValid)
+           {
+               return View(model);
+           }
+       
+           TrainingPlan trainingPlan = new TrainingPlan()
+           {
+               Name = model.Name,
+               Description = model.Description,
+               CategoryId = model.CategoryId
+           };
+           await dbContext.AddAsync(trainingPlan);
+           await dbContext.SaveChangesAsync();
+       
+           return RedirectToAction("TrainingPlans", "TrainingPlan");
+       }
     }
 }
