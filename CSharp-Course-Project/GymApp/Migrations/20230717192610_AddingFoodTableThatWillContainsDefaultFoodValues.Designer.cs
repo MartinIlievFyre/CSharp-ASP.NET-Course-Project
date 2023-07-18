@@ -4,6 +4,7 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApp.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    partial class GymAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230717192610_AddingFoodTableThatWillContainsDefaultFoodValues")]
+    partial class AddingFoodTableThatWillContainsDefaultFoodValues
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -363,6 +365,9 @@ namespace GymApp.Migrations
 
                     b.Property<double>("Fat")
                         .HasColumnType("float");
+
+                    b.Property<int>("Grams")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()

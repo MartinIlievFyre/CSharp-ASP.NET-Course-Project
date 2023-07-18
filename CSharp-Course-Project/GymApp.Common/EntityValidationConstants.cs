@@ -1,4 +1,6 @@
-﻿namespace GymApp.Common
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GymApp.Common
 {
     public class EntityValidationConstants
     {
@@ -15,12 +17,8 @@
 
             public const int ImageUrlMaxLength = 2048;
         }
-        public static class Category
-        {
-            public const int NameMinLength = 2;
-            public const int NameMaxLength = 50;
-        }
-        public static class Note
+
+        public static class TrainingPlan
         {
             public const int NameMinLength = 2;
             public const int NameMaxLength = 50;
@@ -28,11 +26,50 @@
             public const int DescriptionMinLength = 0;
             public const int DescriptionMaxLength = 5000;
         }
+
         public static class Food
         {
             public const int NameMinLength = 2;
             public const int NameMaxLength = 50;
+
+            public const int DefaultGrams = 100;
         }
+
+        public static class Wear
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 50;
+
+            public const string PriceMin = "1";
+            public const string PriceMax = "10000";
+
+            public const int ImageUrMaxlLength = 2048;
+
+            public const int DescriptionMinLength = 0;
+            public const int DescriptionMaxLength = 5000;
+
+            public const int ColorMinLength = 0; 
+            public const int ColorMaxLength = 30; 
+        }
+
+        public static class Category
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 50;
+        }
+
+        public static class WearSizeCategory 
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 50;
+        }
+
+        public static class WearCategory
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 50;
+        }
+
         public static class ApplicationUser
         {
             public const int NameMinLength = 2;

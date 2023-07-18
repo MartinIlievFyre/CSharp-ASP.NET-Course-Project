@@ -4,7 +4,7 @@
 
     using static GymApp.Common.EntityValidationConstants.Food;
 
-    public class Food
+    public class UserFood
     {
         [Key]
         public int Id { get; set; }
@@ -25,7 +25,8 @@
         [Required]
         public double Protein { get; set; }
         [Required]
-        public int Grams = DefaultGrams;
+        public int Grams { get; set; }
 
+        public ICollection<ApplicationUserFood> UsersFood { get; set; } = new List<ApplicationUserFood>();
     }
 }

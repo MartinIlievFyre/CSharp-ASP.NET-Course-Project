@@ -9,7 +9,6 @@
     using Microsoft.AspNetCore.Authorization;
     using System.Security.Claims;
     using GymApp.Data.Models;
-    using static GymApp.Common.EntityValidationConstants;
 
     [Authorize]
     public class GymController : Controller

@@ -23,7 +23,7 @@
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var foods = await this.dbContext
-                .Foods
+                .UsersFoods
                 .Where(auf => auf.UsersFood.Any(uf => uf.TrainingGuyId.ToString() == userId))
                 .Select(auf => new FoodViewModel()
                 {
@@ -59,64 +59,32 @@
         {
             try
             {
-                // if (weight.HasValue && weight > 0)
-                // {
-                //     string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //     Guid userGuidId;
-                //     Guid.TryParse(userId, out userGuidId);
-                //
-                //     var food = await dbContext.Foods.FirstOrDefaultAsync(e => e.Id == id);
-                //     var userFood = food.UsersFood.FirstOrDefault(ue => ue.TrainingGuyId == userGuidId);
-                //
-                //     if (food != null && userFood == null)
-                //     {
-                //         int weightGrams = weight.Value;
-                //         double weightMultiplier = weightGrams / 100.0;
-                //
-                //         food.Calories *= (int)weightMultiplier;
-                //         food.Carbs *= weightMultiplier;
-                //         food.Fat *= weightMultiplier;
-                //         food.Protein *= weightMultiplier;
-                //         food.Grams = weightGrams;
-                //
-                //         food.UsersFood.Add(new ApplicationUserFood()
-                //         {
-                //             FoodId = id,
-                //             TrainingGuyId = userGuidId
-                //         });
-                //
-                //         await dbContext.SaveChangesAsync();
-                //     }
-                // }
                 if (weight.HasValue && weight > 0)
                 {
                     string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     Guid userGuidId;
                     Guid.TryParse(userId, out userGuidId);
 
-                    var food = await dbContext.Foods.FirstOrDefaultAsync(e => e.Id == id);
+                    var foodWithDefaultValues = await dbContext.Foods.FirstOrDefaultAsync(e => e.Id == id);
+                    var food = await dbContext.UsersFoods.FirstOrDefaultAsync(e => e.Id == id);
+                    //var food = await dbContext
+                    //   .UsersFoods
+                    //   .FirstOrDefaultAsync(e =>
+                    //   e.Name == foodWithDefaultValues!.Name
+                    //&& e.Calories == foodWithDefaultValues!.Calories
+                    //&& e.Carbs == foodWithDefaultValues!.Carbs
+                    //&& e.Fat == foodWithDefaultValues!.Fat
+                    //&& e.Protein == foodWithDefaultValues!.Protein);
                     var userFood = food.UsersFood.FirstOrDefault(ue => ue.TrainingGuyId == userGuidId);
-
-                    if (food != null && userFood == null)
+                    if (foodWithDefaultValues != null && food != null && userFood == null)
                     {
                         int weightGrams = weight.Value;
                         double weightMultiplier = weightGrams / 100.0;
 
-                        var originalFood = new FoodViewModel
-                        {
-                            Id = food.Id,
-                            Name = food.Name,
-                            Calories = food.Calories,
-                            Carbs = food.Carbs,
-                            Fat = food.Fat,
-                            Protein = food.Protein,
-                            Grams = food.Grams
-                        };
-
-                        food.Calories *= (int)weightMultiplier;
-                        food.Carbs *= weightMultiplier;
-                        food.Fat *= weightMultiplier;
-                        food.Protein *= weightMultiplier;
+                        food.Calories = (int)(foodWithDefaultValues.Calories * weightMultiplier);
+                        food.Carbs = foodWithDefaultValues.Carbs * weightMultiplier;
+                        food.Fat = foodWithDefaultValues.Fat * weightMultiplier;
+                        food.Protein = foodWithDefaultValues.Protein * weightMultiplier;
                         food.Grams = weightGrams;
 
                         food.UsersFood.Add(new ApplicationUserFood()
@@ -126,17 +94,11 @@
                         });
 
                         await dbContext.SaveChangesAsync();
-
-                        // Send the modified food values to the view
-                        ViewData["ModifiedFood"] = food;
-
-                        // Restore the original food values after sending them
-                        food.Calories = originalFood.Calories;
-                        food.Carbs = originalFood.Carbs;
-                        food.Fat = originalFood.Fat;
-                        food.Protein = originalFood.Protein;
-                        food.Grams = originalFood.Grams;
                     }
+                }
+                else 
+                { 
+                    return RedirectToAction("AllProducts", "Calculator");
                 }
             }
             catch
@@ -189,7 +151,7 @@
                 return View(model);
             }
 
-            FoodViewModel food = new FoodViewModel()
+            Food food = new Food()
             {
                 Name = model.Name,
                 Calories = model.Calories,
@@ -197,9 +159,18 @@
                 Fat = model.Fat,
                 Protein = model.Protein
             };
-            await dbContext.AddAsync(food);
+            UserFood userFood = new UserFood()
+            {
+                Name = model.Name,
+                Calories = model.Calories,
+                Carbs = model.Carbs,
+                Fat = model.Fat,
+                Protein = model.Protein
+            };
+            await dbContext.Foods.AddAsync(food);
+            await dbContext.UsersFoods.AddAsync(userFood);
             await dbContext.SaveChangesAsync();
-            //To do                  Foods
+
             return RedirectToAction("CalMacro", "Calculator");
         }
     }

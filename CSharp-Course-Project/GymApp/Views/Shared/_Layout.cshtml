@@ -26,6 +26,9 @@
                         <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Gym" asp-action="Exercises">ALL EXERCISES</a>
                         </li>
+                        <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Clothes" asp-action="AllClothes">Clothes</a>
+                        </li>
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
@@ -42,9 +45,6 @@
                             </li>
                             <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Calculator" asp-action="CalMacro">CALORIE MACRO</a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Calculator" asp-action="AddFood">ADD FOOD</a>
                             </li>
                         }
                     </ul>

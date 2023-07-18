@@ -13,6 +13,6 @@
         [Required]
         public int FoodId { get; set; }
         [ForeignKey(nameof(FoodId))]
-        public Food Food { get; set; } = null!;
+        public UserFood Food { get; set; } = null!;
     }
 }

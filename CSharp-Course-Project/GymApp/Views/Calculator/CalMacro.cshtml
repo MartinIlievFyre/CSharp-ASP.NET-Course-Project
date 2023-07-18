@@ -10,10 +10,10 @@
 <div class="text-center row">
     @foreach (var food in Model)
     {
-        calories += food.Calories * (food.Grams / 100);
-        carbs += food.Carbs * (food.Grams / 100);
-        fat += food.Fat * (food.Grams / 100);
-        protein += food.Protein * (food.Grams / 100);
+        calories += food.Calories;
+        carbs += food.Carbs;
+        fat += food.Fat;
+        protein += food.Protein;
     }
     <table class="styled-table" style="width:100%; margin-top: 20px; margin-bottom: 20px;">
         <tr>
