@@ -4,6 +4,7 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApp.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    partial class GymAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230719143542_SeedingDataInWearAndWearCategory")]
+    partial class SeedingDataInWearAndWearCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -491,11 +493,6 @@ namespace GymApp.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Fabric")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasMaxLength(2048)
@@ -529,8 +526,7 @@ namespace GymApp.Migrations
                             Id = 1,
                             Color = "Black",
                             Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
-                            ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-black.jpg",
+                            ImageUrl = "https://100procenthardcore.ams3.digitaloceanspaces.com/wp-content/ uploads/2023/2023/05/29213518/305-B01-050-voor.jpeg",
                             Name = "Hardcore T-shirt Black",
                             Price = 29.99m,
                             Size = "S",
@@ -541,8 +537,7 @@ namespace GymApp.Migrations
                             Id = 2,
                             Color = "Black",
                             Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
-                            ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-black.jpg",
+                            ImageUrl = "https://100procenthardcore.ams3.digitaloceanspaces.com/wp-content/ uploads/2023/2023/05/29213518/305-B01-050-voor.jpeg",
                             Name = "Hardcore T-shirt Black",
                             Price = 29.99m,
                             Size = "M",
@@ -553,8 +548,7 @@ namespace GymApp.Migrations
                             Id = 3,
                             Color = "Black",
                             Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
-                            ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-black.jpg",
+                            ImageUrl = "https://100procenthardcore.ams3.digitaloceanspaces.com/wp-content/ uploads/2023/2023/05/29213518/305-B01-050-voor.jpeg",
                             Name = "Hardcore T-shirt Black",
                             Price = 29.99m,
                             Size = "L",
@@ -565,8 +559,7 @@ namespace GymApp.Migrations
                             Id = 4,
                             Color = "White",
                             Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
-                            ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-white-510x510.jpg",
+                            ImageUrl = "https://100procenthardcore.com/wp-content/uploads/2023/05/305-B01-100-100-Hardcore-T-Shirt-Wear- It-With-Pride-Wit-1.jpg",
                             Name = "Hardcore T-shirt White",
                             Price = 29.99m,
                             Size = "S",
@@ -577,8 +570,7 @@ namespace GymApp.Migrations
                             Id = 5,
                             Color = "White",
                             Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
-                            ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-white-510x510.jpg",
+                            ImageUrl = "https://100procenthardcore.com/wp-content/uploads/2023/05/305-B01-100-100-Hardcore-T-Shirt-Wear- It-With-Pride-Wit-1.jpg",
                             Name = "Hardcore T-shirt White",
                             Price = 29.99m,
                             Size = "M",
@@ -589,8 +581,7 @@ namespace GymApp.Migrations
                             Id = 6,
                             Color = "White",
                             Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
-                            ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-white-510x510.jpg",
+                            ImageUrl = "https://100procenthardcore.com/wp-content/uploads/2023/05/305-B01-100-100-Hardcore-T-Shirt-Wear- It-With-Pride-Wit-1.jpg",
                             Name = "Hardcore T-shirt White",
                             Price = 29.99m,
                             Size = "L",
@@ -601,7 +592,6 @@ namespace GymApp.Migrations
                             Id = 7,
                             Color = "Black",
                             Description = "The Gym Warrior T-Shirt delivers a soft feel, sweat-wicking performance and a great range /o  motion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
                             ImageUrl = "https://ae01.alicdn.com/kf/S9bbb3f96fb6f4a8e95055daca201ef81K.jpg? width=800&height=800&hash=1600",
                             Name = "Gym Warrior T-shirt Black",
                             Price = 29.99m,
@@ -613,7 +603,6 @@ namespace GymApp.Migrations
                             Id = 8,
                             Color = "Black",
                             Description = "The Gym Warrior T-Shirt delivers a soft feel, sweat-wicking performance and a great range /o  motion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
                             ImageUrl = "https://ae01.alicdn.com/kf/S9bbb3f96fb6f4a8e95055daca201ef81K.jpg? width=800&height=800&hash=1600",
                             Name = "Gym Warrior T-shirt Black",
                             Price = 29.99m,
@@ -625,7 +614,6 @@ namespace GymApp.Migrations
                             Id = 9,
                             Color = "Black",
                             Description = "The Gym Warrior T-Shirt delivers a soft feel, sweat-wicking performance and a great range /o  motion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
                             ImageUrl = "https://ae01.alicdn.com/kf/S9bbb3f96fb6f4a8e95055daca201ef81K.jpg? width=800&height=800&hash=1600",
                             Name = "Gym Warrior T-shirt Black",
                             Price = 29.99m,
@@ -637,7 +625,6 @@ namespace GymApp.Migrations
                             Id = 10,
                             Color = "Black",
                             Description = "The Cicle T-Shirt delivers a soft feel, sweat-wicking performance and a great range of motion  to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
                             ImageUrl = "https://media.boohoo.com/i/boohoo/bmm18988_black_xl/male-black-man-active-oversized-repeat-t- shirt/?w=900&qlt=default&fmt.jp2.qlt=70&fmt=auto&sm=fit",
                             Name = "The Cicle T-shirt Black",
                             Price = 29.99m,
@@ -649,7 +636,6 @@ namespace GymApp.Migrations
                             Id = 11,
                             Color = "Black",
                             Description = "The Cicle T-Shirt delivers a soft feel, sweat-wicking performance and a great range of motion  to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
                             ImageUrl = "https://media.boohoo.com/i/boohoo/bmm18988_black_xl/male-black-man-active-oversized-repeat-t- shirt/?w=900&qlt=default&fmt.jp2.qlt=70&fmt=auto&sm=fit",
                             Name = "The Cicle T-shirt Black",
                             Price = 29.99m,
@@ -661,7 +647,6 @@ namespace GymApp.Migrations
                             Id = 12,
                             Color = "Black",
                             Description = "The Cicle T-Shirt delivers a soft feel, sweat-wicking performance and a great range of motion  to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
                             ImageUrl = "https://media.boohoo.com/i/boohoo/bmm18988_black_xl/male-black-man-active-oversized-repeat-t- shirt/?w=900&qlt=default&fmt.jp2.qlt=70&fmt=auto&sm=fit",
                             Name = "The Cicle T-shirt Black",
                             Price = 29.99m,
@@ -673,7 +658,6 @@ namespace GymApp.Migrations
                             Id = 13,
                             Color = "Black",
                             Description = "The Hardcore Hoodie delivers a soft feel, sweat-wicking performance and a great range / ofmotion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
                             ImageUrl = "https://100procenthardcore.com/wp-content/uploads/2023/05/100-Hardcore-Hooded-Logo-/Gabber-4Life- Black-301-S14-050-1.jpg",
                             Name = "Hardcore Hoodie Black",
                             Price = 29.99m,
@@ -685,7 +669,6 @@ namespace GymApp.Migrations
                             Id = 14,
                             Color = "Black",
                             Description = "The Hardcore Hoodie delivers a soft feel, sweat-wicking performance and a great range / ofmotion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
                             ImageUrl = "https://100procenthardcore.com/wp-content/uploads/2023/05/100-Hardcore-Hooded-Logo-/Gabber-4Life- Black-301-S14-050-1.jpg",
                             Name = "Hardcore Hoodie Black",
                             Price = 29.99m,
@@ -697,7 +680,6 @@ namespace GymApp.Migrations
                             Id = 15,
                             Color = "Black",
                             Description = "The Hardcore Hoodie delivers a soft feel, sweat-wicking performance and a great range / ofmotion to get you through your workout in total comfort.",
-                            Fabric = "Cutton",
                             ImageUrl = "https://100procenthardcore.com/wp-content/uploads/2023/05/100-Hardcore-Hooded-Logo-/Gabber-4Life- Black-301-S14-050-1.jpg",
                             Name = "Hardcore Hoodie Black",
                             Price = 29.99m,

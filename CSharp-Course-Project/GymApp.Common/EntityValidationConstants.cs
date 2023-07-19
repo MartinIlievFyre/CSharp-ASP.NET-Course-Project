@@ -45,6 +45,12 @@ namespace GymApp.Common
 
             public const int ImageUrMaxlLength = 2048;
 
+            public const int SizeMinLength = 1;
+            public const int SizeMaxLength = 3;
+
+            public const int FabricMinLength = 2;
+            public const int FabricMaxLength = 50;
+
             public const int DescriptionMinLength = 0;
             public const int DescriptionMaxLength = 5000;
 
@@ -53,12 +59,6 @@ namespace GymApp.Common
         }
 
         public static class Category
-        {
-            public const int NameMinLength = 2;
-            public const int NameMaxLength = 50;
-        }
-
-        public static class WearSizeCategory 
         {
             public const int NameMinLength = 2;
             public const int NameMaxLength = 50;

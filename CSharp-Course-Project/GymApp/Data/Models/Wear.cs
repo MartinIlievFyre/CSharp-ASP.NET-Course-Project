@@ -31,8 +31,13 @@ namespace GymApp.Data.Models
         [Required]
         [MaxLength(ColorMaxLength)]
         public string Color { get; set; } = null!;
+        [Required]
+        [MaxLength(SizeMaxLength)]
+        public string Size { get; set; } = null!;
 
-        public List<WearSizeCategory> Sizes { get; set; } = null!;
+        [Required]
+        [MaxLength(FabricMaxLength)]
+        public string Fabric { get; set; } = null!;
 
         public int WearCategoryId { get; set; }
         [Required]

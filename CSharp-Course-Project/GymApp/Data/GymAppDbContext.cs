@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
@@ -29,8 +30,6 @@ namespace GymApp.Data
         public DbSet<Wear> Clothes { get; set; } = null!;
 
         public DbSet<WearCategory> WearCategories { get; set; } = null!;
-
-        public DbSet<WearSizeCategory> WearSizesCategories { get; set; } = null!;
 
         public DbSet<Category> Categories { get; set; } = null!;
 
@@ -250,111 +249,179 @@ namespace GymApp.Data
                 Id = 1,
                 Name = "Hardcore T-shirt Black",
                 Price = 29.99m,
-                ImageUrl = "https://100procenthardcore.ams3.digitaloceanspaces.com/wp-content/ uploads/2023/2023/05/29213518/305-B01-050-voor.jpeg",
+                ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-black.jpg",
                 Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
                 Color = "Black",
-                Sizes =
-                {
-                    new WearSizeCategory { Id = 1, Name = "S"},
-                    new WearSizeCategory { Id = 2, Name = "M"},
-                    new WearSizeCategory { Id = 3, Name = "L"}
-                },
+                Size = "S",
+                Fabric = "Cutton",
                 WearCategoryId = 1
             },
             new Wear()
             {
                 Id = 2,
-                Name = "Hardcore T-shirt White",
+                Name = "Hardcore T-shirt Black",
                 Price = 29.99m,
-                ImageUrl = "https://100procenthardcore.com/wp-content/uploads/2023/05/305-B01-100-100-Hardcore-T-Shirt-Wear- It-With-Pride-Wit-1.jpg",
+                ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-black.jpg",
                 Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
-                Color = "White",
-                Sizes =
-                {
-                    new WearSizeCategory { Id = 1, Name = "S"},
-                    new WearSizeCategory { Id = 2, Name = "M"},
-                    new WearSizeCategory { Id = 3, Name = "L"}
-                },
+                Color = "Black",
+                Size = "M",
+                Fabric = "Cutton",
                 WearCategoryId = 1
             },
             new Wear()
             {
                 Id = 3,
-                Name = "Gym Warrior T-shirt Black",
+                Name = "Hardcore T-shirt Black",
                 Price = 29.99m,
-                ImageUrl = "https://ae01.alicdn.com/kf/S9bbb3f96fb6f4a8e95055daca201ef81K.jpg? width=800&height=800&hash=1600",
-                Description = "The Gym Warrior T-Shirt delivers a soft feel, sweat-wicking performance and a great range /o  motion to get you through your workout in total comfort.",
+                ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-black.jpg",
+                Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
                 Color = "Black",
-                Sizes =
-                {
-                    new WearSizeCategory { Id = 1, Name = "S"},
-                    new WearSizeCategory { Id = 2, Name = "M"},
-                    new WearSizeCategory { Id = 3, Name = "L"}
-                },
+                Size = "L",
+                Fabric = "Cutton",
                 WearCategoryId = 1
             },
             new Wear()
             {
                 Id = 4,
-                Name = "The Cicle T-shirt Black",
+                Name = "Hardcore T-shirt White",
                 Price = 29.99m,
-                ImageUrl = "https://media.boohoo.com/i/boohoo/bmm18988_black_xl/male-black-man-active-oversized-repeat-t- shirt/?w=900&qlt=default&fmt.jp2.qlt=70&fmt=auto&sm=fit",
-                Description = "The Cicle T-Shirt delivers a soft feel, sweat-wicking performance and a great range of motion  to get you through your workout in total comfort.",
-                Color = "Black",
-                Sizes =
-                {
-                    new WearSizeCategory { Id = 1, Name = "S"},
-                    new WearSizeCategory { Id = 2, Name = "M"},
-                    new WearSizeCategory { Id = 3, Name = "L"}
-                },
+                ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-white-510x510.jpg",
+                Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
+                Color = "White",
+                Size = "S",
+                Fabric = "Cutton",
                 WearCategoryId = 1
             },
             new Wear()
             {
                 Id = 5,
+                Name = "Hardcore T-shirt White",
+                Price = 29.99m,
+                ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-white-510x510.jpg",
+                Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
+                Color = "White",
+                Size = "M",
+                Fabric = "Cutton",
+                WearCategoryId = 1
+            },
+            new Wear()
+            {
+                Id = 6,
+                Name = "Hardcore T-shirt White",
+                Price = 29.99m,
+                ImageUrl = "https://gymtier.com/wp-content/uploads/2021/01/menstshirt-empty-motivation-hardcore-white-510x510.jpg",
+                Description = "The Hardcore T-Shirt delivers a soft feel, sweat-wicking performance and a great range of  motion to get you through your workout in total comfort.",
+                Color = "White",
+                Size = "L",
+                Fabric = "Cutton",
+                WearCategoryId = 1
+            },
+            new Wear()
+            {
+                Id = 7,
+                Name = "Gym Warrior T-shirt Black",
+                Price = 29.99m,
+                ImageUrl = "https://ae01.alicdn.com/kf/S9bbb3f96fb6f4a8e95055daca201ef81K.jpg? width=800&height=800&hash=1600",
+                Description = "The Gym Warrior T-Shirt delivers a soft feel, sweat-wicking performance and a great range /o  motion to get you through your workout in total comfort.",
+                Color = "Black",
+                Size = "S",
+                Fabric = "Cutton",
+                WearCategoryId = 1
+            },
+            new Wear()
+            {
+                Id = 8,
+                Name = "Gym Warrior T-shirt Black",
+                Price = 29.99m,
+                ImageUrl = "https://ae01.alicdn.com/kf/S9bbb3f96fb6f4a8e95055daca201ef81K.jpg? width=800&height=800&hash=1600",
+                Description = "The Gym Warrior T-Shirt delivers a soft feel, sweat-wicking performance and a great range /o  motion to get you through your workout in total comfort.",
+                Color = "Black",
+                Size = "M",
+                Fabric = "Cutton",
+                WearCategoryId = 1
+            },
+            new Wear()
+            {
+                Id = 9,
+                Name = "Gym Warrior T-shirt Black",
+                Price = 29.99m,
+                ImageUrl = "https://ae01.alicdn.com/kf/S9bbb3f96fb6f4a8e95055daca201ef81K.jpg? width=800&height=800&hash=1600",
+                Description = "The Gym Warrior T-Shirt delivers a soft feel, sweat-wicking performance and a great range /o  motion to get you through your workout in total comfort.",
+                Color = "Black",
+                Size = "L",
+                Fabric = "Cutton",
+                WearCategoryId = 1
+            },
+            new Wear()
+            {
+                Id = 10,
+                Name = "The Cicle T-shirt Black",
+                Price = 29.99m,
+                ImageUrl = "https://media.boohoo.com/i/boohoo/bmm18988_black_xl/male-black-man-active-oversized-repeat-t- shirt/?w=900&qlt=default&fmt.jp2.qlt=70&fmt=auto&sm=fit",
+                Description = "The Cicle T-Shirt delivers a soft feel, sweat-wicking performance and a great range of motion  to get you through your workout in total comfort.",
+                Color = "Black",
+                Size = "S",
+                Fabric = "Cutton",
+                WearCategoryId = 1
+            },
+            new Wear()
+            {
+                Id = 11,
+                Name = "The Cicle T-shirt Black",
+                Price = 29.99m,
+                ImageUrl = "https://media.boohoo.com/i/boohoo/bmm18988_black_xl/male-black-man-active-oversized-repeat-t- shirt/?w=900&qlt=default&fmt.jp2.qlt=70&fmt=auto&sm=fit",
+                Description = "The Cicle T-Shirt delivers a soft feel, sweat-wicking performance and a great range of motion  to get you through your workout in total comfort.",
+                Color = "Black",
+                Size = "M",
+                Fabric = "Cutton",
+                WearCategoryId = 1
+            },
+            new Wear()
+            {
+                Id = 12,
+                Name = "The Cicle T-shirt Black",
+                Price = 29.99m,
+                ImageUrl = "https://media.boohoo.com/i/boohoo/bmm18988_black_xl/male-black-man-active-oversized-repeat-t- shirt/?w=900&qlt=default&fmt.jp2.qlt=70&fmt=auto&sm=fit",
+                Description = "The Cicle T-Shirt delivers a soft feel, sweat-wicking performance and a great range of motion  to get you through your workout in total comfort.",
+                Color = "Black",
+                Size = "L",
+                Fabric = "Cutton",
+                WearCategoryId = 1
+            },
+            new Wear()
+            {
+                Id = 13,
                 Name = "Hardcore Hoodie Black",
                 Price = 29.99m,
                 ImageUrl = "https://100procenthardcore.com/wp-content/uploads/2023/05/100-Hardcore-Hooded-Logo-/Gabber-4Life- Black-301-S14-050-1.jpg",
                 Description = "The Hardcore Hoodie delivers a soft feel, sweat-wicking performance and a great range / ofmotion to get you through your workout in total comfort.",
                 Color = "Black",
-                Sizes =
-                {
-                    new WearSizeCategory { Id = 1, Name = "S"},
-                    new WearSizeCategory { Id = 2, Name = "M"},
-                    new WearSizeCategory { Id = 3, Name = "L"}
-                },
+                Size = "S",
+                Fabric = "Cutton",
                 WearCategoryId = 2
             },
             new Wear()
             {
-                Id = 6,
-                Name = "Demon Hoodie Black",
+                Id = 14,
+                Name = "Hardcore Hoodie Black",
                 Price = 29.99m,
-                ImageUrl = "https://www.humbleunderdogs.com/wp-content/uploads/2022/11/hardcore_bk_hoodie_front.jpg",
-                Description = "The Demon Hoodie delivers a soft feel, sweat-wicking performance and a great range of /motio  to get you through your workout in total comfort.",
-                Color = "Black",
-                Sizes =
-                {
-                    new WearSizeCategory { Id = 1, Name = "S"},
-                    new WearSizeCategory { Id = 2, Name = "M"},
-                    new WearSizeCategory { Id = 3, Name = "L"}
-                },
-                WearCategoryId = 2
-            },
-            new Wear()
-            {
-                Id = 7,
-                Name = "Hardcore Hoodie White",
-                Price = 29.99m,
-                ImageUrl = "https://image.spreadshirtmedia.com/image-server/v1/products/ T111A1PA4392PT17X3Y20D13054490W34999H18294Cx000000/ views/2,width=550,height=550,appearanceId=1,backgroundColor=F2F2F2,modelId=5983,crop=list/hardcore-/ hollandmens-hoodie.jpg",
+                ImageUrl = "https://100procenthardcore.com/wp-content/uploads/2023/05/100-Hardcore-Hooded-Logo-/Gabber-4Life- Black-301-S14-050-1.jpg",
                 Description = "The Hardcore Hoodie delivers a soft feel, sweat-wicking performance and a great range / ofmotion to get you through your workout in total comfort.",
-                Color = "White",
-                Sizes =
-                {
-                    new WearSizeCategory { Id = 1, Name = "S"},
-                    new WearSizeCategory { Id = 2, Name = "M"},
-                    new WearSizeCategory { Id = 3, Name = "L"}
-                },
+                Color = "Black",
+                Size = "M",
+                Fabric = "Cutton",
+                WearCategoryId = 2
+            },
+            new Wear()
+            {
+                Id = 15,
+                Name = "Hardcore Hoodie Black",
+                Price = 29.99m,
+                ImageUrl = "https://100procenthardcore.com/wp-content/uploads/2023/05/100-Hardcore-Hooded-Logo-/Gabber-4Life- Black-301-S14-050-1.jpg",
+                Description = "The Hardcore Hoodie delivers a soft feel, sweat-wicking performance and a great range / ofmotion to get you through your workout in total comfort.",
+                Color = "Black",
+                Size = "L",
+                Fabric = "Cutton",
                 WearCategoryId = 2
             });
             
