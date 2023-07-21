@@ -301,7 +301,7 @@ namespace GymApp.Data
                      Benefits = "100% Creatine monohydrate, a highly researched nutritional supplement, enhances physical performance during short bursts of intense exercises, making it suitable for strength athletes and team sport enthusiasts; it comes in a soluble powder form that can be easily mixed with water, juice, or post-workout protein shakes.",
                      ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/c/r/creatinemonohydrate_500_1.jpg",
                      Ingredients = "Unflavored: Creatine monohydrate",
-                     Price = 9.99m
+                     Price = 39.99m
                  });
 
 

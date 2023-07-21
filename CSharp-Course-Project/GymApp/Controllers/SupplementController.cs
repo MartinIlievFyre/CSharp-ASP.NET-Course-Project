@@ -17,19 +17,72 @@ namespace GymApp.Controllers
         {
             var models = await dbContext
                 .Supplements
-                .Select(a => new SupplementViewModel()
+                .Select(s => new SupplementViewModel()
                 {
-                    Id = a.Id,
-                    Name = a.Name,
-                    Manufacturer = a.Manufacturer,
-                    Description = a.Description,
-                    Benefits = a.Benefits,
-                    Ingredients = a.Ingredients,
-                    Price = a.Price,
-                    ImageUrl = a.ImageUrl
+                    Id = s.Id,
+                    Name = s.Name,
+                    Manufacturer = s.Manufacturer,
+                    Description = s.Description,
+                    Benefits = s.Benefits,
+                    Ingredients = s.Ingredients,
+                    Price = s.Price,
+                    ImageUrl = s.ImageUrl
                 })
                 .ToListAsync();
             return View(models);
+        }
+        [HttpGet]
+        public async Task<IActionResult> SupplementDetails(string id)
+        {
+            var currentProduct = await dbContext
+         .Supplements
+         .Where(s => s.Id == int.Parse(id))
+         .Select(s => new SupplementViewModel()
+         {
+             Id = s.Id,
+             Name = s.Name,
+             Manufacturer = s.Manufacturer,
+             Price = s.Price,
+             Description = s.Description,
+             Benefits = s.Benefits,
+             Ingredients = s.Ingredients,
+             ImageUrl = s.ImageUrl
+         })
+         .FirstOrDefaultAsync();
+
+            if (currentProduct == null)
+            {
+                return NotFound();
+            }
+
+            // Get three random accessory IDs (excluding the current product ID)
+            var randomSupplementsIds = await dbContext.Supplements
+                .Where(s => s.Id != int.Parse(id))
+                .Select(a => a.Id)
+                .OrderBy(x => Guid.NewGuid())
+                .Take(3)
+                .ToListAsync();
+
+            // Get the details of three random products
+            var randomProducts = await dbContext.Supplements
+                .Where(s => randomSupplementsIds.Contains(s.Id))
+                .Select(s => new SupplementViewModel()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Manufacturer = s.Manufacturer,
+                    Price = s.Price,
+                    ImageUrl = s.ImageUrl
+                })
+                .ToListAsync();
+
+            var viewModel = new SupplementDetailsViewModel()
+            {
+                CurrentSupplement = currentProduct,
+                RandomSupplements = randomProducts
+            };
+
+            return View(viewModel);
         }
     }
 }

@@ -33,21 +33,6 @@ namespace GymApp.Controllers
         [HttpGet]
         public async Task<IActionResult> AccessoryDetails(string id)
         {
-            //var accessory = await dbContext
-            //    .Accessories
-            //    .Where(a => a.Id == int.Parse(id))
-            //    .Select(a => new AccessoryViewModel()
-            //    {
-            //        Id = a.Id,
-            //        Name = a.Name,
-            //        Manufacturer = a.Manufacturer,
-            //        Price = a.Price,
-            //        Description = a.Description,
-            //        Benefits= a.Benefits,
-            //        ImageUrl = a.ImageUrl,
-            //    })
-            //    .FirstOrDefaultAsync();
-            //return View(accessory);
             var currentProduct = await dbContext
          .Accessories
          .Where(a => a.Id == int.Parse(id))

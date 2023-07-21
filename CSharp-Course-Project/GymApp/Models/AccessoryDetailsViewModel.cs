@@ -2,7 +2,7 @@
 {
     public class AccessoryDetailsViewModel
     {
-        public AccessoryViewModel CurrentAccessory { get; set; }
-        public List<AccessoryViewModel> RandomAccessories { get; set; }
+        public AccessoryViewModel CurrentAccessory { get; set; } = null!;
+        public List<AccessoryViewModel> RandomAccessories { get; set; } = null!;
     }
 }

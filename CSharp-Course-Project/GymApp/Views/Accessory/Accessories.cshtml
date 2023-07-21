@@ -14,9 +14,10 @@
                     <h5 style="color:black">@accessory.Price<font>BGN</font></h5>
                 </a>
                 <form class="input-group-sm text-lg-end" asp-controller="Accessory" asp-action="AddProductToCart" asp-route-id="@accessory.Id">
-                    <input type="submit" value="Buy" class="fs-6 btn btn-success mb-2 p-3 btn-success" style="border-color:black" />
+                    <button type="submit" class="fs-6 btn btn-success mb-2 p-3 btn-success buy-button" style="border-color:black">Buy Now</button>
                 </form>
             </div>
         }
     </div>
 </div>
+

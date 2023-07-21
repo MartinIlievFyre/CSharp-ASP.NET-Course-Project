@@ -56,6 +56,56 @@
                 .ToListAsync();
             return View(exercises);
         }
+        [HttpGet]
+        public async Task<IActionResult> ExerciseDetails(string id)
+        {
+            var currentExercise = await dbContext
+         .Exercises
+         .Where(e => e.Id == int.Parse(id))
+         .Select(e => new ExerciseViewModel()
+         {
+             Id = e.Id,
+             Name = e.Name,
+             Execution = e.Execution,
+             Benefit = e.Benefit,
+             Category = e.Category.Name,
+             ImageUrl = e.ImageUrl,
+         })
+         .FirstOrDefaultAsync();
+
+            if (currentExercise == null)
+            {
+                return NotFound();
+            }
+
+            // Get three random accessory IDs (excluding the current product ID)
+            var randomExercisesIds = await dbContext.Exercises
+                .Where(e => e.Id != int.Parse(id))
+                .Select(e =>e.Id)
+                .OrderBy(x => Guid.NewGuid())
+                .Take(3)
+                .ToListAsync();
+
+            // Get the details of three random products
+            var randomExercises = await dbContext.Exercises
+                .Where(e => randomExercisesIds.Contains(e.Id))
+                .Select(e => new ExerciseViewModel()
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    Category = e.Category.Name,
+                    ImageUrl = e.ImageUrl
+                })
+                .ToListAsync();
+
+            var viewModel = new ExerciseDetailsViewModel()
+            {
+                CurrentExercise = currentExercise,
+                RandomExercises = randomExercises
+            };
+
+            return View(viewModel);
+        }
         [HttpPost]
         public async Task<IActionResult> AddToMyFavorites(int id)
         {
