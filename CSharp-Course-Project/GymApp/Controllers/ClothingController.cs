@@ -45,6 +45,7 @@ namespace GymApp.Controllers
                     Color = c.Color,
                     ImageUrl = c.ImageUrl,
                     Size = c.Size,
+                    Fabric = c.Fabric,
                     WearCategory = c.WearCategory.Name
                 })
                 .ToListAsync();

@@ -57,7 +57,49 @@ namespace GymApp.Common
             public const int ColorMinLength = 0; 
             public const int ColorMaxLength = 30; 
         }
+        public static class Supplement
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 50;
+           
+            public const int ManufacturerNameMinLength = 2;
+            public const int ManufacturerNameMaxLength = 50;
 
+            public const int DescriptionMinLength = 0;
+            public const int DescriptionMaxLength = 5000;
+
+
+            public const int ImageUrMaxlLength = 2048;
+
+            public const int BenefitsMinLength = 20;
+            public const int BenefitsMaxLength = 1000;
+
+            
+            public const int IngredientsMinLength = 20;
+            public const int IngredientsMaxLength = 1000;
+
+            public const string PriceMin = "1";
+            public const string PriceMax = "10000";
+        }
+        public static class Accessory
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 50;
+
+            public const int ManufacturerNameMinLength = 2;
+            public const int ManufacturerNameMaxLength = 50;
+
+            public const int DescriptionMinLength = 0;
+            public const int DescriptionMaxLength = 5000;
+
+            public const int BenefitsMinLength = 20;
+            public const int BenefitsMaxLength = 1000;
+
+            public const int ImageUrMaxlLength = 2048;
+
+            public const string PriceMin = "1";
+            public const string PriceMax = "10000";
+        }
         public static class Category
         {
             public const int NameMinLength = 2;

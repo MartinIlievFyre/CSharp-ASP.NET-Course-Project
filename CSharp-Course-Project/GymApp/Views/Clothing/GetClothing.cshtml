@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = Model!.FirstOrDefault()!.WearCategory;
+    int counter = 0;
 }
 
 <h2 class="text-center" style="padding-top: 30px;">@ViewBag.Title</h2>
@@ -14,8 +15,42 @@
 
     @foreach (var clothing in Model)
     {
+        //counter++;
+        //if (counter % 2 != 0)
+        //{
+        //    <div class="text-lg-center">
+        //        <img src="@clothing.ImageUrl" alt="@clothing.Name" style="width:40%;">
+        //        <br>
+        //        <h1 style="color: black; margin-top: 20px;">
+        //            @clothing.Name.ToUpper()
+        //        </h1>
+        //    </div>
+        //
+        //    <br>
+        //    <div class="text-lg-start">
+        //        <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 20px;"><font size="+2" style="font-family: Verdana;">Price: </font>BGN @clothing.Price</font>
+        //        <br>
+        //        <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 20px;"><font size="+2" style="font-family: Verdana;">Description:</font> @clothing.Description</font>
+        //        <br>
+        //        <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Color:</font> @clothing.Color</font>
+        //        <br>
+        //        <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Fabric:</font> @clothing.Fabric</font>
+        //        <br>
+        //        <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Size:</font> @clothing.Size</font>
+        //    </div>
+        //
+        //    <div class="text-lg-end">
+        //        @if (this.User.Identity!.IsAuthenticated)
+        //        {
+        //            <font style="font-family:Monospace; font-size:17px;">(Click here to add)</font>
+        //            <form class="input-group-sm" asp-controller="Clothing" asp-action="AddToCart" asp-route-id="@clothing.Id">
+        //                <input type="submit" value="Add to cart" class="fs-6 btn btn-success mb-5 p-4 btn-success" style="border-color:black; font-size : 25px; width: 25%; height: 100px; font-family:Sans-serif; margin-top: 5px;" />
+        //            </form>
+        //        }
+        //    </div>
+        //}
         <div class="text-lg-center">
-            <img src="@clothing.ImageUrl" alt="@clothing.Name" style="width:50%;">
+            <img src="@clothing.ImageUrl" alt="@clothing.Name" style="width:40%;">
             <br>
             <h1 style="color: black; margin-top: 20px;">
                 @clothing.Name.ToUpper()
@@ -24,13 +59,15 @@
 
         <br>
         <div class="text-lg-start">
-            <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 20px;"><font size="+2" style="font-family: Verdana;">Price:</font> @clothing.Price<p>BGN</p></font>
+            <h5 style="color: black; display: inline-block; font-size:20px; margin-bottom: 20px;"><font size="+2" style="font-family: Verdana;">Price: </font>@clothing.Price<font>BGN</font></h5>
             <br>
-            <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 20px;"><font size="+2" style="font-family: Verdana;">Description:</font> @clothing.Description</font>
+            <h5 style="color: black; display: inline-block; font-size:20px; margin-bottom: 20px;"><font size="+2" style="font-family: Verdana;">Description:</font> @clothing.Description</h5>
             <br>
-            <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Color:</font> @clothing.Color</font>
+            <h5 style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Color:</font> @clothing.Color</h5>
             <br>
-            <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Size:</font> @clothing.Size</font>
+            <h5 style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Fabric:</font> @clothing.Fabric</h5>
+            <br>
+            <h5 style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Size:</font> @clothing.Size</h5>
         </div>
 
         <div class="text-lg-end">

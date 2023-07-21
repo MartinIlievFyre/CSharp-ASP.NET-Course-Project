@@ -1,0 +1,22 @@
+﻿@model IEnumerable<AccessoryViewModel>
+@{
+    ViewBag.Title = "Accessories";
+}
+
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        @foreach (var accessory in Model)
+        {
+            <div class="col-lg-4">
+                <a class="navbar-brand" asp-area="" asp-controller="Accessory" asp-action="AccessoryDetails" asp-route-id="@accessory.Id">
+                    <img src="@accessory.ImageUrl" alt="@accessory.Name" style="width:100%;">
+                    <h5 style="color:black">@accessory.Name - @accessory.Manufacturer</h5>
+                    <h5 style="color:black">@accessory.Price<font>BGN</font></h5>
+                </a>
+                <form class="input-group-sm text-lg-end" asp-controller="Accessory" asp-action="AddProductToCart" asp-route-id="@accessory.Id">
+                    <input type="submit" value="Buy" class="fs-6 btn btn-success mb-2 p-3 btn-success" style="border-color:black" />
+                </form>
+            </div>
+        }
+    </div>
+</div>

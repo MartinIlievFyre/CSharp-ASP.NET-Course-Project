@@ -22,6 +22,8 @@ namespace GymApp.Models
 
         public string WearCategory { get; set; } = null!;
 
+        public string Fabric { get; set; } = null!;
+
         public ApplicationUserWear Wear { get; set; } = null!;
     }
 }

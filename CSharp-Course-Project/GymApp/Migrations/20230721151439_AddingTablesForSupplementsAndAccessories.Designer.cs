@@ -4,6 +4,7 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApp.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    partial class GymAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230721151439_AddingTablesForSupplementsAndAccessories")]
+    partial class AddingTablesForSupplementsAndAccessories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -574,7 +576,7 @@ namespace GymApp.Migrations
                             Ingredients = "Whey protein concentrate powder, whey protein isolate powder, protein hydrolysate, minerals (magnesium citrate, zinc oxide), vitamins (vitamin E - tocopheryl acetate, vitamin B6 - pyridoxine hydrochloride), DigeZyme® - a complex of digestive enzymes, bromelain.",
                             Manufacturer = "GymBeam",
                             Name = "Just Whey 1kg",
-                            Price = 99.99m
+                            Price = 9.99m
                         },
                         new
                         {

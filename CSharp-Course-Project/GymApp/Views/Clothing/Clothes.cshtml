@@ -2,10 +2,7 @@
 @{
     ViewData["Title"] = "Clothes";
 }
-<h1 class="text-center" style="padding-top: 30px;">@ViewBag.Title</h1>
-<hr />
-
-<div class="list-group" style="margin-bottom: 50px;">
+<div class="list-group" style="margin-bottom: 50px; margin-top: 50px;">
     @foreach (var category in Model.Categories)
     {
         <div class="bg-image text-md-center">
