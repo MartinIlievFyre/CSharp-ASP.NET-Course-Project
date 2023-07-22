@@ -1,0 +1,21 @@
+﻿@model IEnumerable<TrainingPlanViewModel>
+@{
+    ViewBag.Title = Model!.FirstOrDefault()!.Category + " Plans";
+}
+
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        @foreach (var trainingPlan in Model)
+        {
+            <div class="col-lg-6 mb-4">
+                <div class="training-plan-card">
+                    <h3>@trainingPlan.Name</h3>
+                    <p class="font-weight-bold">Category: @trainingPlan.Category</p>
+                    <hr />
+                    <h4 class="mt-4">Exercises:</h4>
+                    <p class="exercise-description">@trainingPlan.Description</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -14,8 +14,8 @@
             <h4 class="mt-4">Benefits:</h4>
             <p>@Model.CurrentExercise.Benefit</p>
 
-            <form asp-controller="Gym" asp-action="AddToMyFavorites" asp-route-id="@Model.CurrentExercise.Id">
-                <button type="submit" class="btn btn-outline-success btn-lg mt-3 py-2 px-4 rounded-pill">Add to favorites</button>
+            <form asp-controller="MyFavoriteExercises" asp-action="RemoveFromMyFavorites" asp-route-id="@Model.CurrentExercise.Id">
+                <button type="submit" class="btn btn-outline-danger btn-lg mt-3 py-2 px-4 rounded-pill">Remove from My Favorites</button>
             </form>
         </div>
     </div>

@@ -164,7 +164,7 @@ namespace GymApp.Data
 
                    Benefit = "This exercise offers versatility with options such as barbells, kettlebells, or dumbbells, making it a versatile triceps exercise that capitalizes on your strength in this position, leading to significant triceps strength gains.",
 
-                   ImageUrl = "https://adventurefitness.club/wp-content/uploads/2022/11/lying-triceps-extension-vs-skullcrusher.jpeg",
+                   ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2018/06/decline-ez-bar-skull-crusher-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
                    CategoryId = 3
                },
                new Exercise()

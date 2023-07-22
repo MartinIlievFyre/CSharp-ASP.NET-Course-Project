@@ -17,31 +17,39 @@
                         case "Legs":
                             <h1 style="color: black; display: inline-block; margin-left:100px;padding-right: 100px;">LEGS EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
                             <div class="container-fluid">
-                                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
-                                    <img src="~/images/LegsExercisesPicture.jpg" alt="Leg Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                <a class="navbar-brand" asp-area="" asp-controller="MyfavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <div class="exercise-card">
+                                        <img src="~/images/LegsExercisesPicture.jpg" alt="Leg Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                    </div>
                                 </a>
                             </div>
                             break;
                         case "Back":
                             <h1 style="color: black; display: inline-block; margin-left:100px;padding-right: 100px;">BACK EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
                             <div class="container-fluid">
-                                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
-                                    <img src="~/images/BackExercisesPicture.jpg" alt="Back Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                <a class="navbar-brand" asp-area="" asp-controller="MyfavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <div class="exercise-card">
+                                        <img src="~/images/BackExercisesPicture.jpg" alt="Back Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                    </div>
                                 </a>
                             </div>
                             break;
                         case "Chest":
                             <div class="container-fluid">
-                                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
-                                    <img src="~/images/ChestExercisesPicture.jpg" alt="Chest Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                <a class="navbar-brand" asp-area="" asp-controller="MyfavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <div class="exercise-card">
+                                        <img src="~/images/ChestExercisesPicture.jpg" alt="Chest Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                    </div>
                                 </a>
                             </div>
                             <h1 style="color: black; display: inline-block; margin-right:100px;padding-left: 100px;">CHEST EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
                             break;
                         case "Biceps":
                             <div class="container-fluid">
-                                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
-                                    <img src="~/images/BicepsExercisesPicture.jpg" alt="Biceps Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                <a class="navbar-brand" asp-area="" asp-controller="MyfavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <div class="exercise-card">
+                                        <img src="~/images/BicepsExercisesPicture.jpg" alt="Biceps Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                    </div>
                                 </a>
                             </div>
                             <h1 style="color: black; display: inline-block; margin-right:100px;padding-left: 100px;">BICEPS EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
@@ -49,15 +57,19 @@
                         case "Triceps":
                             <h1 style="color: black; display: inline-block; margin-left:100px;padding-right: 100px;">TRICEPS EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
                             <div class="container-fluid">
-                                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
-                                    <img src="~/images/TricepsExercisesPicture.jpg" alt="Triceps Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                <a class="navbar-brand" asp-area="" asp-controller="MyfavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <div class="exercise-card">
+                                        <img src="~/images/TricepsExercisesPicture.jpg" alt="Triceps Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                    </div>
                                 </a>
                             </div>
                             break;
                         case "Shoulders":
                             <div class="container-fluid">
-                                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
-                                    <img src="~/images/ShouldersExercisesPicture.jpg" alt="Biceps Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                <a class="navbar-brand" asp-area="" asp-controller="MyfavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <div class="exercise-card">
+                                        <img src="~/images/ShouldersExercisesPicture.jpg" alt="Biceps Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                    </div>
                                 </a>
                             </div>
                             <h1 style="color: black; display: inline-block; margin-right:100px;padding-left: 100px;">SHOULDERS EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
@@ -65,8 +77,10 @@
                             break;
                         case "Forearms":
                             <div class="container-fluid">
-                                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
-                                    <img src="~/images/ForearmsExercisesPicturejpg.jpg" alt="Forearm Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                <a class="navbar-brand" asp-area="" asp-controller="MyfavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <div class="exercise-card">
+                                        <img src="~/images/ForearmsExercisesPicturejpg.jpg" alt="Forearm Exercises" style="width:90%; display: inline-block; margin-right: 90px;">
+                                    </div>
                                 </a>
                             </div>
                             <h1 style="color: black; display: inline-block; margin-right:100px;padding-left: 100px;">FOREARMS EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
@@ -75,8 +89,10 @@
                         case "Abs":
                             <h1 style="color: black; display: inline-block; margin-left:100px;padding-right: 100px;">ABS EXERCISES <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
                             <div class="container-fluid">
-                                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
-                                    <img src="~/images/AbsExercisesPicture.jpg" alt="Abs Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                <a class="navbar-brand" asp-area="" asp-controller="MyfavoriteExercises" asp-action="GetExercise" asp-route-id="@exercise.Id">
+                                    <div class="exercise-card">
+                                        <img src="~/images/AbsExercisesPicture.jpg" alt="Abs Exercises" style="width:90%; display: inline-block; margin-left: 90px;">
+                                    </div>
                                 </a>
                             </div>
                             break;

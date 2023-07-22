@@ -1,40 +1,27 @@
 ﻿@model IEnumerable<ExerciseViewModel>
 @{
-        ViewBag.Title = Model!.FirstOrDefault()!.Category + " Exercises";
+    ViewBag.Title = Model!.FirstOrDefault()!.Category + " Exercises";
 }
 
-<h2 class="text-center" style="padding-top: 30px;">@ViewBag.Title</h2>
-<hr />
-
-<br>
-
-
-<div class="text-center row">
-    @foreach (var exercise in Model)
-    {
-        <div class="text-lg-center">
-            <img src="@exercise.ImageUrl" alt="@exercise.Name" style="width:80%;">
-            <br>
-            <h1 style="color: black; margin-top: 20px;">
-                @exercise.Name.ToUpper()
-            </h1>
-        </div>
-
-        <br>
-        <div class="text-lg-start">
-            <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 20px;"><font size="+2" style="font-family: Verdana;">Execution:</font> @exercise.Execution</font>
-            <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Benefits:</font> @exercise.Benefit</font>
-        </div>
-
-        <div class="text-lg-end">
-            <font style="font-family:Monospace; font-size:17px;">(Click here to add)</font>
-            @if (this.User.Identity!.IsAuthenticated)
-            {
-
-                <form class="input-group-sm" asp-controller="MyFavoriteExercises" asp-action="RemoveFromMyFavorites" asp-route-id="@exercise.Id">
-                    <input type="submit" value="Remove from my favorites" class="fs-6 btn btn-success mb-5 p-4 btn-danger" style="border-color:black; font-size : 25px; width: 25%; height: 100px; font-family:Sans-serif; margin-top: 5px;" />
-                </form>
-            }
-        </div>
-    }
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        @foreach (var exercise in Model)
+        {
+            <div class="col-lg-4">
+                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="ExerciseDetails" asp-route-id="@exercise.Id">
+                    <img src="@exercise.ImageUrl" alt="@exercise.Name" style="width:100%;">
+                    <h3 style="color:black">@exercise.Name</h3>
+                </a>
+                <div class="text-lg-end">
+                    @if (this.User.Identity!.IsAuthenticated)
+                    {
+                        <font style="font-family:Monospace; font-size:13px;">(Click here to add)</font>
+                        <form asp-controller="MyFavoriteExercises" asp-action="RemoveFromMyFavorites" asp-route-id="@exercise.Id">
+                            <button type="submit" class="btn btn-outline-danger btn-lg mt-3 py-2 px-4 rounded-pill">Remove from My Favorites</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
 </div>

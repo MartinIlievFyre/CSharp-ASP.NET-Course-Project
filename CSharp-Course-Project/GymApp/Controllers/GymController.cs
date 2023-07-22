@@ -136,7 +136,7 @@
             {
                 BadRequest();
             };
-            return RedirectToAction("GetExercise", "Gym", new { id = id });
+            return RedirectToAction("Exercises", "Gym");
         }
     }
 }
