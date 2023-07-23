@@ -1,10 +1,12 @@
 ﻿using GymApp.Data;
 using GymApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymApp.Controllers
 {
+    [Authorize]
     public class SupplementController : Controller
     {
         private readonly GymAppDbContext dbContext;
@@ -13,6 +15,7 @@ namespace GymApp.Controllers
                 this.dbContext = dbContext;
         }
         [HttpGet]
+        [AllowAnonymous]
         public async Task< IActionResult> Supplements()
         {
             var models = await dbContext
@@ -31,6 +34,7 @@ namespace GymApp.Controllers
                 .ToListAsync();
             return View(models);
         }
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> SupplementDetails(string id)
         {

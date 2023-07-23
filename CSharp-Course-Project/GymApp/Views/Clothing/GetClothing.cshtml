@@ -1,83 +1,22 @@
 ﻿@model IEnumerable<WearViewModel>
-
 @{
-    ViewBag.Title = Model!.FirstOrDefault()!.WearCategory;
-    int counter = 0;
+    ViewBag.Title = "Clothing";
 }
 
-<h2 class="text-center" style="padding-top: 30px;">@ViewBag.Title</h2>
-<hr />
-
-<br>
-
-
-<div class="text-center row">
-
-    @foreach (var clothing in Model)
-    {
-        //counter++;
-        //if (counter % 2 != 0)
-        //{
-        //    <div class="text-lg-center">
-        //        <img src="@clothing.ImageUrl" alt="@clothing.Name" style="width:40%;">
-        //        <br>
-        //        <h1 style="color: black; margin-top: 20px;">
-        //            @clothing.Name.ToUpper()
-        //        </h1>
-        //    </div>
-        //
-        //    <br>
-        //    <div class="text-lg-start">
-        //        <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 20px;"><font size="+2" style="font-family: Verdana;">Price: </font>BGN @clothing.Price</font>
-        //        <br>
-        //        <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 20px;"><font size="+2" style="font-family: Verdana;">Description:</font> @clothing.Description</font>
-        //        <br>
-        //        <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Color:</font> @clothing.Color</font>
-        //        <br>
-        //        <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Fabric:</font> @clothing.Fabric</font>
-        //        <br>
-        //        <font style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Size:</font> @clothing.Size</font>
-        //    </div>
-        //
-        //    <div class="text-lg-end">
-        //        @if (this.User.Identity!.IsAuthenticated)
-        //        {
-        //            <font style="font-family:Monospace; font-size:17px;">(Click here to add)</font>
-        //            <form class="input-group-sm" asp-controller="Clothing" asp-action="AddToCart" asp-route-id="@clothing.Id">
-        //                <input type="submit" value="Add to cart" class="fs-6 btn btn-success mb-5 p-4 btn-success" style="border-color:black; font-size : 25px; width: 25%; height: 100px; font-family:Sans-serif; margin-top: 5px;" />
-        //            </form>
-        //        }
-        //    </div>
-        //}
-        <div class="text-lg-center">
-            <img src="@clothing.ImageUrl" alt="@clothing.Name" style="width:40%;">
-            <br>
-            <h1 style="color: black; margin-top: 20px;">
-                @clothing.Name.ToUpper()
-            </h1>
-        </div>
-
-        <br>
-        <div class="text-lg-start">
-            <h5 style="color: black; display: inline-block; font-size:20px; margin-bottom: 20px;"><font size="+2" style="font-family: Verdana;">Price: </font>@clothing.Price<font>BGN</font></h5>
-            <br>
-            <h5 style="color: black; display: inline-block; font-size:20px; margin-bottom: 20px;"><font size="+2" style="font-family: Verdana;">Description:</font> @clothing.Description</h5>
-            <br>
-            <h5 style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Color:</font> @clothing.Color</h5>
-            <br>
-            <h5 style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Fabric:</font> @clothing.Fabric</h5>
-            <br>
-            <h5 style="color: black; display: inline-block; font-size:20px; margin-bottom: 30px;"><font size="+2" style="font-family: Verdana;">Size:</font> @clothing.Size</h5>
-        </div>
-
-        <div class="text-lg-end">
-            @if (this.User.Identity!.IsAuthenticated)
-            {
-                <font style="font-family:Monospace; font-size:17px;">(Click here to add)</font>
-                <form class="input-group-sm" asp-controller="Clothing" asp-action="AddToCart" asp-route-id="@clothing.Id">
-                    <input type="submit" value="Add to cart" class="fs-6 btn btn-success mb-5 p-4 btn-success" style="border-color:black; font-size : 25px; width: 25%; height: 100px; font-family:Sans-serif; margin-top: 5px;" />
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        @foreach (var clothing in Model)
+        {
+            <div class="col-lg-4">
+                <a class="navbar-brand" asp-area="" asp-controller="Clothing" asp-action="ClothingDetails" asp-route-id="@clothing.Id">
+                    <img src="@clothing.ImageUrl" alt="@clothing.Name" style="width:100%;">
+                    <h5 style="color:black">@clothing.Name</h5>
+                    <h5 style="color:black">@clothing.Price<font>BGN</font></h5>
+                </a>
+                <form class="input-group-sm text-lg-end" asp-controller="Clothing" asp-action="AddProductToCart" asp-route-id="@clothing.Id">
+                    <button type="submit" class="fs-6 btn btn-success mb-2 p-3 btn-success buy-button" style="border-color:black">Buy Now</button>
                 </form>
-            }
-        </div>
-    }
+            </div>
+        }
+    </div>
 </div>

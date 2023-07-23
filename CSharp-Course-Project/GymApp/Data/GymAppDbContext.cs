@@ -1,4 +1,5 @@
-﻿using GymApp.Data.Models;
+﻿using GymApp.Data.Interfaces;
+using GymApp.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

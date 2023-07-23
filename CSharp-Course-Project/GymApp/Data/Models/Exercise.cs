@@ -8,7 +8,7 @@
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter a value")]
         [MaxLength(NameMaxLength)]
         public string Name { get; set; } = null!;
         [Required]
@@ -24,6 +24,7 @@
         [Required]
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
+
         public ICollection<ApplicationUserExercise> UsersExercises { get; set; } = new List<ApplicationUserExercise>();
     }
 }

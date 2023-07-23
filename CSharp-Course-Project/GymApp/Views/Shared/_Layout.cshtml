@@ -41,7 +41,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="AddTrainingPlan" asp-action="AddTrainingPlan">ADD TRAINING PLAN</a>
                             </li>
                             <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Calculator" asp-action="CalMacro">CALORIE MACRO</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Calculator" asp-action="CalMacro">CALORIE CALCULATOR</a>
                             </li>
                         }
                         <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
@@ -61,7 +61,12 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            <div class="row">
+                <div class="col">
+                    <partial name="_NotificationPartial"/>
+                    @RenderBody()
+                </div>
+            </div>
         </main>
     </div>
 

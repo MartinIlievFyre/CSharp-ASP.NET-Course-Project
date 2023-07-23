@@ -157,3 +157,10 @@ body {
 .exercise-card:hover {
     transform: translateY(-5px);
 }
+.clothing-card{
+    transition: transform 0.2s ease-in-out;
+}
+
+    .clothing-card:hover {
+        transform: translateY(-5px);
+    }

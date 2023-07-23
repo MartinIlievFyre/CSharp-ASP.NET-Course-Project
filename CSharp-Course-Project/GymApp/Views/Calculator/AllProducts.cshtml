@@ -1,14 +1,17 @@
-﻿@model IEnumerable<FoodViewModel>
-@{
-    ViewBag.Title = "Products";
+﻿@{
+    ViewBag.Title = "All foods";
 }
 <div class="text-center row">
-    <table class="styled-table" style="width:100%; margin-top: 20px; margin-bottom: 20px;">
+    <table class="styled-table" style="width: 100%; margin-top: 20px; margin-bottom: 20px;">
         <tr>
-            <th><h1>Product per (100g)</h1></th>
+            <th>
+                <h1>Product per (100g)</h1>
+            </th>
             <th>
                 <form class="input-group-sm text-lg-end" asp-controller="Calculator" asp-action="AddFood">
-                    <input type="submit" value="Create your food" class="fs-6 btn btn-success p-3 btn-warning" style="font-weight: 700; border-color:black" />
+                    <button type="submit" class="btn btn-warning btn-lg mt-3 py-3 px-5 rounded-pill" style="margin-bottom:15px; font-weight: 700; border-color: black; font-size: 20px;">
+                        <span>Create your food</span>
+                    </button>
                 </form>
             </th>
         </tr>
@@ -18,10 +21,12 @@
                 <td>
                     <h3 class="text-lg-start">@food.Name - Cal: @food.Calories Carbs: @string.Format("{0:N1}", food.Carbs) Fat: @string.Format("{0:N1}", food.Fat) Protein: @string.Format("{0:N1}", food.Protein)</h3>
                 </td>
-                <td>
-                    <form class="input-group-sm text-lg-end" asp-controller="Calculator" asp-action="AddProductToList" asp-route-id="@food.Id">
-                        <input type="number" name="weight" placeholder="Enter weight (grams)" style="padding-top: 19px; padding-bottom:12px;" />
-                        <input type="submit" value="Add product" class="fs-6 btn btn-success mb-2 p-3 btn-success" style="border-color:black" />
+                <td class="d-flex justify-content-end align-items-center">
+                    <form class="input-group-sm d-flex" asp-controller="Calculator" asp-action="AddProductToList" asp-route-id="@food.Id">
+                        <input type="number" name="weight" placeholder="Enter weight (grams)" class="form-control py-3 me-2" style="font-size: 18px; flex: 1;" />
+                        <button type="submit" class="btn btn-success btn-lg py-3 px-5 rounded-pill" style="border-color: black; font-size: 18px;">
+                            <span>Add product</span>
+                        </button>
                     </form>
                 </td>
             </tr>

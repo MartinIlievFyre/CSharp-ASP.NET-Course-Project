@@ -56,6 +56,7 @@
                 .ToListAsync();
             return View(exercises);
         }
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> ExerciseDetails(string id)
         {
@@ -137,6 +138,56 @@
                 BadRequest();
             };
             return RedirectToAction("Exercises", "Gym");
+        }
+        // [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> EditExercise(int id)
+        {
+            var categories = await dbContext.Categories.Select(c => new CategoryViewModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+            })
+               .ToListAsync();
+            var exercise = await dbContext.Exercises.FindAsync(id);
+            EditExerciseViewModel model = new EditExerciseViewModel()
+            {
+                Id = exercise.Id,
+                Name = exercise.Name,
+                Benefit = exercise.Benefit,
+                Execution = exercise.Execution,
+                ImageUrl = exercise.ImageUrl,
+                CategoryId = exercise.CategoryId,
+                Categories = categories
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+       // [ValidateAntiForgeryToken]
+       // [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditExercise(EditExerciseViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var categories = await dbContext.Categories.Select(c => new CategoryViewModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+            })
+               .ToListAsync();
+            var exercise = await dbContext.Exercises.FindAsync(model.Id);
+
+            exercise.Name = model.Name;
+            exercise.Benefit = model.Benefit;
+            exercise.Execution = model.Execution;
+            exercise.ImageUrl = model.ImageUrl;
+            exercise.CategoryId = model.CategoryId;
+
+            await dbContext.SaveChangesAsync();
+            return RedirectToAction("ExerciseDetails", new { id = model.Id });
         }
     }
 }

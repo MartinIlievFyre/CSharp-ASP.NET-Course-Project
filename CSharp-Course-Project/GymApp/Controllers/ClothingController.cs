@@ -1,5 +1,6 @@
 ﻿using GymApp.Data;
 using GymApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,7 @@ namespace GymApp.Controllers
             return View(models);
         }
         [HttpGet]
+
         public async Task<IActionResult> GetClothing(string id)
         {
             var clothes = await dbContext
@@ -50,6 +52,58 @@ namespace GymApp.Controllers
                 })
                 .ToListAsync();
             return View(clothes);
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ClothingDetails(string id)
+        {
+            var currentProduct = await dbContext
+         .Clothes
+         .Where(c => c.Id == int.Parse(id))
+         .Select(c => new WearViewModel()
+         {
+             Id = c.Id,
+             Name = c.Name,
+             Price = c.Price,
+             Description = c.Description,
+             Color = c.Color,
+             Size = c.Size,
+             Fabric = c.Fabric,
+             WearCategory = c.WearCategory.Name,
+             ImageUrl = c.ImageUrl,
+         })
+         .FirstOrDefaultAsync();
+
+            if (currentProduct == null)
+            {
+                return NotFound();
+            }
+
+            var randomClothesIds = await dbContext.Clothes
+                .Where(c => c.Id != int.Parse(id))
+                .Select(c => c.Id)
+                .OrderBy(x => Guid.NewGuid())
+                .Take(3)
+                .ToListAsync();
+
+            var randomProducts = await dbContext.Clothes
+                .Where(c => randomClothesIds.Contains(c.Id))
+                .Select(c => new WearViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Price = c.Price,
+                    ImageUrl = c.ImageUrl
+                })
+                .ToListAsync();
+
+            var viewModel = new ClothingDetailsViewModel()
+            {
+                CurrentClothing = currentProduct,
+                RandomClothes = randomProducts
+            };
+
+            return View(viewModel);
         }
     }
 }
