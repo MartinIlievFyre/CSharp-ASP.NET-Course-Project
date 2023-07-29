@@ -25,9 +25,6 @@ namespace GymApp.Controllers
                     Id = s.Id,
                     Name = s.Name,
                     Manufacturer = s.Manufacturer,
-                    Description = s.Description,
-                    Benefits = s.Benefits,
-                    Ingredients = s.Ingredients,
                     Price = s.Price,
                     ImageUrl = s.ImageUrl
                 })

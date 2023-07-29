@@ -164,3 +164,43 @@ body {
     .clothing-card:hover {
         transform: translateY(-5px);
     }
+.training-plan-card {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+    .training-plan-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .training-plan-card h3 {
+        font-size: 24px;
+        color: black;
+    }
+
+    .training-plan-card p.font-weight-bold {
+        font-size: 16px;
+        color: #6c757d;
+    }
+
+    .training-plan-card hr {
+        border-color: #dee2e6;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .training-plan-card h4.mt-4 {
+        font-size: 18px;
+        color: #343a40;
+    }
+
+.exercise-description {
+    font-size: 16px;
+    color: #212529;
+    line-height: 1.6;
+}

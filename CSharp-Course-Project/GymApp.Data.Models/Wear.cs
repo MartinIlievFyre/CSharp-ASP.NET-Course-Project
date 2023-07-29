@@ -44,6 +44,6 @@ namespace GymApp.Data.Models
         [ForeignKey(nameof(WearCategoryId))]
         public WearCategory WearCategory { get; set; } = null!;
 
-        public ICollection<ApplicationUserWear> UsersClothing { get; set; } = new List<ApplicationUserWear>();
+        public ICollection<ApplicationUserWear> UsersClothes { get; set; } = new List<ApplicationUserWear>();
     }
 }

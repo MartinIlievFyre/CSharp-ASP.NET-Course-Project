@@ -1,0 +1,63 @@
+﻿@model ListOfCartItemsViewModel
+@{
+    ViewBag.Title = "Shopping Cart";
+}
+
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        @foreach (var accessory in Model.Accessories)
+        {
+            <div class="col-lg-4">
+                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="ExerciseDetails" asp-route-id="@accessory.Id">
+                    <img src="@accessory.ImageUrl" alt="@accessory.Name" style="width:100%;">
+                    <h3 style="color:black">@accessory.Name</h3>
+                </a>
+                <div class="text-lg-end">
+                    @if (this.User.Identity!.IsAuthenticated)
+                    {
+                        <font style="font-family:Monospace; font-size:13px;">(Click here to remove)</font>
+                        <form asp-controller="MyFavoriteExercises" asp-action="RemoveFromMyFavorites" asp-route-id="@accessory.Id">
+                            <button type="submit" class="btn btn-outline-danger btn-lg mt-3 py-2 px-4 rounded-pill">Remove from cart</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+        @foreach (var supplement in Model.Supplements)
+        {
+            <div class="col-lg-4">
+                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="ExerciseDetails" asp-route-id="@supplement.Id">
+                    <img src="@supplement.ImageUrl" alt="@supplement.Name" style="width:100%;">
+                    <h3 style="color:black">@supplement.Name</h3>
+                </a>
+                <div class="text-lg-end">
+                    @if (this.User.Identity!.IsAuthenticated)
+                    {
+                        <font style="font-family:Monospace; font-size:13px;">(Click here to remove)</font>
+                        <form asp-controller="MyFavoriteExercises" asp-action="RemoveFromMyFavorites" asp-route-id="@supplement.Id">
+                            <button type="submit" class="btn btn-outline-danger btn-lg mt-3 py-2 px-4 rounded-pill">Remove from cart</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+        @foreach (var wear in Model.Clothes)
+        {
+            <div class="col-lg-4">
+                <a class="navbar-brand" asp-area="" asp-controller="MyFavoriteExercises" asp-action="ExerciseDetails" asp-route-id="@wear.Id">
+                    <img src="@wear.ImageUrl" alt="@wear.Name" style="width:100%;">
+                    <h3 style="color:black">@wear.Name</h3>
+                </a>
+                <div class="text-lg-end">
+                    @if (this.User.Identity!.IsAuthenticated)
+                    {
+                        <font style="font-family:Monospace; font-size:13px;">(Click here to remove)</font>
+                        <form asp-controller="MyFavoriteExercises" asp-action="RemoveFromMyFavorites" asp-route-id="@wear.Id">
+                            <button type="submit" class="btn btn-outline-danger btn-lg mt-3 py-2 px-4 rounded-pill">Remove from cart</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

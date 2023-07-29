@@ -12,17 +12,22 @@ namespace GymApp.Data.Models
             UsersExercises = new List<ApplicationUserExercise>();
             UsersFoods = new List<ApplicationUserFood>();
             UsersTrainingPlans = new List<ApplicationUserTrainingPlan>();
+            IsModerator = false;
+            IsDeleted = false;
+            CreatedOn = DateTime.UtcNow;
+            Orders = new List<Order>();
         }
 
         [MaxLength(NameMaxLength)]
         public string? Name { get; set; }
-        public int Age { get; set; }
 
-        [MaxLength(BioMaxLength)]
-        public string? Bio { get; set; }
+        public bool IsModerator { get; set; }
 
-        [MaxLength(CityNameMaxLength)]
-        public string? CityName { get; set; }
+        public bool IsDeleted { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
         public ICollection<ApplicationUserExercise> UsersExercises { get; set; } 
         public ICollection<ApplicationUserFood> UsersFoods { get; set; }
         public ICollection<ApplicationUserTrainingPlan> UsersTrainingPlans { get; set; }

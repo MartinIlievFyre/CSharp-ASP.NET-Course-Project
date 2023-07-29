@@ -9,11 +9,11 @@
         {
             <div class="col-lg-4">
                 <a class="navbar-brand" asp-area="" asp-controller="Clothing" asp-action="ClothingDetails" asp-route-id="@clothing.Id">
-                    <img src="@clothing.ImageUrl" alt="@clothing.Name" style="width:100%;">
-                    <h5 style="color:black">@clothing.Name</h5>
-                    <h5 style="color:black">@clothing.Price<font>BGN</font></h5>
+                    <img src="@clothing.ImageUrl" alt="@clothing.Name" style="width:100%; margin-top:20px;">
+                    <h5 style="color:black;margin-top:4px;">@clothing.Name</h5>
+                    <h5 style="color:black;">@clothing.Price<font>BGN</font></h5>
                 </a>
-                <form class="input-group-sm text-lg-end" asp-controller="Clothing" asp-action="AddProductToCart" asp-route-id="@clothing.Id">
+                <form class="input-group-sm text-lg-end" asp-controller="Clothing" asp-action="AddToCart" asp-route-id="@clothing.Id" asp-route-category="@clothing.WearCategory">
                     <button type="submit" class="fs-6 btn btn-success mb-2 p-3 btn-success buy-button" style="border-color:black">Buy Now</button>
                 </form>
             </div>

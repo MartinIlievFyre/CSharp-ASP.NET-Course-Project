@@ -116,12 +116,56 @@ namespace GymApp.Common
         {
             public const int NameMinLength = 2;
             public const int NameMaxLength = 50;
+        }
 
-            public const int BioMinLength = 2;
-            public const int BioMaxLength = 300;
+        public static class Register
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 50;
+
+            public const int PasswordMinLength = 4;
+            public const int PasswordMaxLength = 20;
+
+        }
+        public static class Order
+        {
+            public const int FirstNameMinLength = 2;
+            public const int FirstNameMaxLength = 50;
+
+            public const int LastNameMinLength = 2;
+            public const int LastNameMaxLength = 50;
 
             public const int CityNameMinLength = 2;
             public const int CityNameMaxLength = 85;
+
+            public const int CountryNameMinLength = 2;
+            public const int CountryNameMaxLength = 56;
+
+            public const int AddressMinLength = 2;
+            public const int AddressMaxLength = 200;
+
+            public const int PostCodeMinLength = 1;
+            public const int PostCodeMaxLength = 15;
+
+            public const int DescriptionMinLength = 0;
+            public const int DescriptionMaxLength = 5000;
+        }
+        public static class CartItemViewModel
+        {
+            public const string QuantityMinValue = "1";
+            public const string QuantityMaxValue = "1000";
+
+            public const string TotalPriceMinValue = "0";
+            public const string TotalPriceMaxValue = "100000";
+
+        }
+        public static class CartFormViewModel
+        {
+            public const string TotalPriceMinValue = "0";
+            public const string TotalPriceMaxValue = "2147483647";
+
+            public const string QuantityMinValue = "0";
+            public const string QuantityMaxValue = "100";
         }
     }
 }

@@ -14,7 +14,7 @@
             <p class="font-weight-bold">Color: @Model.CurrentClothing.Color</p>
             <p class="font-weight-bold">Category: @Model.CurrentClothing.WearCategory</p>
             <h5 style="font-size: 18px;">Price: @Model.CurrentClothing.Price BGN</h5>
-            <form class="input-group-sm text-lg-end" asp-controller="Clothing" asp-action="AddProductToCart" asp-route-id="@Model.CurrentClothing.Id">
+            <form class="input-group-sm text-lg-end" asp-controller="Clothing" asp-action="AddToCart" asp-route-id="@Model.CurrentClothing.Id">
                 <div class="mb-2">
                     <label for="sizeSelect" class="form-label">Select Size:</label>
                     <select id="sizeSelect" name="size" class="form-select form-select-sm">

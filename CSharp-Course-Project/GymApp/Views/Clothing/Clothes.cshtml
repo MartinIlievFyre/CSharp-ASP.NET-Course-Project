@@ -1,4 +1,5 @@
-﻿@model CategoryListViewModel
+﻿@using static GymApp.Common.GeneralApplicationConstants;
+@model CategoryListViewModel
 @{
     ViewData["Title"] = "Clothes";
 }
@@ -10,7 +11,7 @@
                 <div class="d-flex justify-content-center align-items-center h-10">
                     @switch (category.Name)
                     {
-                        case "T-Shirts":
+                        case WearTShirtsCategory:
                             <div class="clothes-container">
                                 <h1 style="color: black; display: inline-block; font-size: 70px; margin-right: 180px; margin-left: 70px;">T-SHIRTS <br /><font style="font-family:Monospace; font-size:17px;">(Click the picture)</font></h1>
                                 <a class="navbar-brand" asp-area="" asp-controller="Clothing" asp-action="GetClothing" asp-route-id="@category.Id">
@@ -19,7 +20,7 @@
                             </div>
                             break;
 
-                        case "Hoodies":
+                        case WearHoodiesCategory:
                             <div class="clothes-container">
                                 <a class="navbar-brand" asp-area="" asp-controller="Clothing" asp-action="GetClothing" asp-route-id="@category.Id">
                                     <img src="~/images/HoodieOne.jpg" alt="Hoodies" class="clothing-card" style="width:50%; display: inline-block; margin-right: 70px;">

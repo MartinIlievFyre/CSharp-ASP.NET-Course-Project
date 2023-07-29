@@ -12,11 +12,12 @@ namespace GymApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services.AddDbContext<GymAppDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -41,9 +42,15 @@ namespace GymApp
             })
                 .AddEntityFrameworkStores<GymAppDbContext>();
 
+            builder.Services.AddMemoryCache();
+            builder.Services.AddSession();
+
+           // builder.Services.AddApplicationServices(typeof(IItemService));
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+           
 
             if (app.Environment.IsDevelopment())
             {
@@ -62,6 +69,7 @@ namespace GymApp
 
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.MapDefaultControllerRoute();
             app.MapRazorPages();
 

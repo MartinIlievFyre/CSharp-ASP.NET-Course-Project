@@ -82,7 +82,7 @@
             // Get three random accessory IDs (excluding the current product ID)
             var randomExercisesIds = await dbContext.Exercises
                 .Where(e => e.Id != int.Parse(id))
-                .Select(e =>e.Id)
+                .Select(e => e.Id)
                 .OrderBy(x => Guid.NewGuid())
                 .Take(3)
                 .ToListAsync();
@@ -164,8 +164,8 @@
         }
 
         [HttpPost]
-       // [ValidateAntiForgeryToken]
-       // [Authorize(Roles = "Admin")]
+        // [ValidateAntiForgeryToken]
+        // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditExercise(EditExerciseViewModel model)
         {
             if (!ModelState.IsValid)

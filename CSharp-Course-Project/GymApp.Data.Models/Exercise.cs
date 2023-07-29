@@ -8,7 +8,6 @@
     {
         [Key]
         public int Id { get; set; }
-        [Required(ErrorMessage = "Please enter a value")]
         [MaxLength(NameMaxLength)]
         public string Name { get; set; } = null!;
         [Required]

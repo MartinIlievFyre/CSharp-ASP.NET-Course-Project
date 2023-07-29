@@ -2,9 +2,13 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using static GymApp.Common.EntityValidationConstants.Accessory;
-    public class Accessory
+    using static GymApp.Common.EntityValidationConstants.Supplement;
+    public class Supplement
     {
+        public Supplement()
+        {
+                UsersSupplements = new List<ApplicationUserSupplement>();
+        }
         [Key]
         public int Id { get; set; }
 
@@ -21,16 +25,22 @@
         public string Description { get; set; } = null!;
 
         [Required]
-        [MaxLength(BenefitsMaxLength)]
-        public string Benefits { get; set; } = null!;
-
-        [Required]
         [MaxLength(ImageUrMaxlLength)]
         public string ImageUrl { get; set; } = null!;
 
         [Required]
+        [MaxLength(BenefitsMaxLength)]
+        public string Benefits { get; set; } = null!;
+
+        [Required]
+        [MaxLength(IngredientsMaxLength)]
+        public string Ingredients { get; set; } = null!;
+
+        [Required]
         [Range(typeof(Decimal), PriceMin, PriceMax)]
         public decimal Price { get; set; }
+        public ICollection<ApplicationUserSupplement> UsersSupplements { get; set; }
+
 
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GymApp.Services.Data.Interfaces
 {
-    public interface IExerciseService
+    public interface ICategoryService
     {
-
+        
     }
 }
