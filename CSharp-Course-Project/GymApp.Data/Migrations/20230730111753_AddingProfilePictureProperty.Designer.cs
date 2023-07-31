@@ -4,6 +4,7 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApp.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    partial class GymAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230730111753_AddingProfilePictureProperty")]
+    partial class AddingProfilePictureProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,6 +60,9 @@ namespace GymApp.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Accessories");
@@ -71,7 +76,8 @@ namespace GymApp.Migrations
                             ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/w/e//weightlifting-belt-lever-gymbeam_5_.jpg",
                             Manufacturer = "GymBeam",
                             Name = "Weight belt LEVER Black",
-                            Price = 99.99m
+                            Price = 99.99m,
+                            Quantity = 1
                         },
                         new
                         {
@@ -81,7 +87,8 @@ namespace GymApp.Migrations
                             ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/r/u//rukavice_2j_1.jpg",
                             Manufacturer = "GymBeam",
                             Name = "Fitness gloves Ronnie",
-                            Price = 19.99m
+                            Price = 19.99m,
+                            Quantity = 1
                         },
                         new
                         {
@@ -91,7 +98,8 @@ namespace GymApp.Migrations
                             ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/s/h//shaker_yellow_green.jpg",
                             Manufacturer = "GymBeam",
                             Name = "Green shaker 700ml",
-                            Price = 7.99m
+                            Price = 7.99m,
+                            Quantity = 1
                         },
                         new
                         {
@@ -101,8 +109,27 @@ namespace GymApp.Migrations
                             ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/g/r//grey_fitness_towel_gymbeam_1_.jpg",
                             Manufacturer = "GymBeam",
                             Name = "Towel for fitness",
-                            Price = 14.99m
+                            Price = 14.99m,
+                            Quantity = 1
                         });
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.AccessoryCartItem", b =>
+                {
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartId", "AccessoryId");
+
+                    b.HasIndex("AccessoryId");
+
+                    b.ToTable("AccessoryCartItems");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.ApplicationUser", b =>
@@ -187,6 +214,36 @@ namespace GymApp.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserAccessory", b =>
+                {
+                    b.Property<Guid>("TrainingGuyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TrainingGuyId", "AccessoryId");
+
+                    b.HasIndex("AccessoryId");
+
+                    b.ToTable("ApplicationUserAccessories");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserCart", b =>
+                {
+                    b.Property<Guid>("TrainingGuyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("TrainingGuyId", "CartId");
+
+                    b.HasIndex("CartId");
+
+                    b.ToTable("ApplicationUserCarts");
+                });
+
             modelBuilder.Entity("GymApp.Data.Models.ApplicationUserExercise", b =>
                 {
                     b.Property<Guid>("TrainingGuyId")
@@ -217,6 +274,21 @@ namespace GymApp.Migrations
                     b.ToTable("ApplicationUsersFoods");
                 });
 
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserSupplement", b =>
+                {
+                    b.Property<Guid>("TrainingGuyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("SupplementId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TrainingGuyId", "SupplementId");
+
+                    b.HasIndex("SupplementId");
+
+                    b.ToTable("ApplicationUserSupplements");
+                });
+
             modelBuilder.Entity("GymApp.Data.Models.ApplicationUserTrainingPlan", b =>
                 {
                     b.Property<Guid>("TrainingGuyId")
@@ -230,6 +302,40 @@ namespace GymApp.Migrations
                     b.HasIndex("TrainingPlanId");
 
                     b.ToTable("ApplicationUsersTrainingPlans");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserWear", b =>
+                {
+                    b.Property<Guid>("TrainingGuyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("WearId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TrainingGuyId", "WearId");
+
+                    b.HasIndex("WearId");
+
+                    b.ToTable("ApplicationUsersClothes");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.Cart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.Category", b =>
@@ -472,44 +578,60 @@ namespace GymApp.Migrations
                     b.ToTable("Foods");
                 });
 
-            modelBuilder.Entity("GymApp.Data.Models.Product", b =>
+            modelBuilder.Entity("GymApp.Data.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("City")
+                        .HasMaxLength(85)
+                        .HasColumnType("nvarchar(85)");
+
+                    b.Property<string>("Country")
+                        .HasMaxLength(56)
+                        .HasColumnType("nvarchar(56)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PostCode")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CartId");
+
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShoppingCart");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.Supplement", b =>
@@ -624,6 +746,24 @@ namespace GymApp.Migrations
                             Name = "Creatine Monohydrate 500g",
                             Price = 39.99m
                         });
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.SupplementCartItem", b =>
+                {
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("SupplementId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartId", "SupplementId");
+
+                    b.HasIndex("SupplementId");
+
+                    b.ToTable("SupplementCartItems");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.TrainingPlan", b =>
@@ -832,6 +972,24 @@ namespace GymApp.Migrations
                         });
                 });
 
+            modelBuilder.Entity("GymApp.Data.Models.WearCartItem", b =>
+                {
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("WearId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartId", "WearId");
+
+                    b.HasIndex("WearId");
+
+                    b.ToTable("WearCartItems");
+                });
+
             modelBuilder.Entity("GymApp.Data.Models.WearCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -997,6 +1155,63 @@ namespace GymApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("GymApp.Data.Models.AccessoryCartItem", b =>
+                {
+                    b.HasOne("GymApp.Data.Models.Accessory", "Accessory")
+                        .WithMany()
+                        .HasForeignKey("AccessoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GymApp.Data.Models.Cart", "Cart")
+                        .WithMany("AccessoryCartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Accessory");
+
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserAccessory", b =>
+                {
+                    b.HasOne("GymApp.Data.Models.Accessory", "Accessory")
+                        .WithMany("UsersAccessories")
+                        .HasForeignKey("AccessoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", "TrainingGuy")
+                        .WithMany()
+                        .HasForeignKey("TrainingGuyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Accessory");
+
+                    b.Navigation("TrainingGuy");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserCart", b =>
+                {
+                    b.HasOne("GymApp.Data.Models.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", "TrainingGuy")
+                        .WithMany()
+                        .HasForeignKey("TrainingGuyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("TrainingGuy");
+                });
+
             modelBuilder.Entity("GymApp.Data.Models.ApplicationUserExercise", b =>
                 {
                     b.HasOne("GymApp.Data.Models.Exercise", "Exercise")
@@ -1035,6 +1250,25 @@ namespace GymApp.Migrations
                     b.Navigation("TrainingGuy");
                 });
 
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserSupplement", b =>
+                {
+                    b.HasOne("GymApp.Data.Models.Supplement", "Supplement")
+                        .WithMany("UsersSupplements")
+                        .HasForeignKey("SupplementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", "TrainingGuy")
+                        .WithMany()
+                        .HasForeignKey("TrainingGuyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Supplement");
+
+                    b.Navigation("TrainingGuy");
+                });
+
             modelBuilder.Entity("GymApp.Data.Models.ApplicationUserTrainingPlan", b =>
                 {
                     b.HasOne("GymApp.Data.Models.ApplicationUser", "TrainingGuy")
@@ -1054,6 +1288,36 @@ namespace GymApp.Migrations
                     b.Navigation("TrainingPlan");
                 });
 
+            modelBuilder.Entity("GymApp.Data.Models.ApplicationUserWear", b =>
+                {
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", "TrainingGuy")
+                        .WithMany()
+                        .HasForeignKey("TrainingGuyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GymApp.Data.Models.Wear", "Wear")
+                        .WithMany("UsersClothes")
+                        .HasForeignKey("WearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TrainingGuy");
+
+                    b.Navigation("Wear");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.Cart", b =>
+                {
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("GymApp.Data.Models.Exercise", b =>
                 {
                     b.HasOne("GymApp.Data.Models.Category", "Category")
@@ -1065,15 +1329,42 @@ namespace GymApp.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("GymApp.Data.Models.Product", b =>
+            modelBuilder.Entity("GymApp.Data.Models.Order", b =>
                 {
-                    b.HasOne("GymApp.Data.Models.ApplicationUser", "User")
-                        .WithMany("Products")
-                        .HasForeignKey("UserId")
+                    b.HasOne("GymApp.Data.Models.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GymApp.Data.Models.ApplicationUser", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.SupplementCartItem", b =>
+                {
+                    b.HasOne("GymApp.Data.Models.Cart", "Cart")
+                        .WithMany("SupplementCartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GymApp.Data.Models.Supplement", "Supplement")
+                        .WithMany()
+                        .HasForeignKey("SupplementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Supplement");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.TrainingPlan", b =>
@@ -1096,6 +1387,25 @@ namespace GymApp.Migrations
                         .IsRequired();
 
                     b.Navigation("WearCategory");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.WearCartItem", b =>
+                {
+                    b.HasOne("GymApp.Data.Models.Cart", "Cart")
+                        .WithMany("WearCartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GymApp.Data.Models.Wear", "Wear")
+                        .WithMany()
+                        .HasForeignKey("WearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Wear");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -1149,15 +1459,29 @@ namespace GymApp.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GymApp.Data.Models.Accessory", b =>
+                {
+                    b.Navigation("UsersAccessories");
+                });
+
             modelBuilder.Entity("GymApp.Data.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Orders");
 
                     b.Navigation("UsersExercises");
 
                     b.Navigation("UsersFoods");
 
                     b.Navigation("UsersTrainingPlans");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.Cart", b =>
+                {
+                    b.Navigation("AccessoryCartItems");
+
+                    b.Navigation("SupplementCartItems");
+
+                    b.Navigation("WearCartItems");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.Category", b =>
@@ -1170,6 +1494,11 @@ namespace GymApp.Migrations
                     b.Navigation("UsersExercises");
                 });
 
+            modelBuilder.Entity("GymApp.Data.Models.Supplement", b =>
+                {
+                    b.Navigation("UsersSupplements");
+                });
+
             modelBuilder.Entity("GymApp.Data.Models.TrainingPlan", b =>
                 {
                     b.Navigation("UsersTrainingPlan");
@@ -1178,6 +1507,11 @@ namespace GymApp.Migrations
             modelBuilder.Entity("GymApp.Data.Models.UserFood", b =>
                 {
                     b.Navigation("UsersFood");
+                });
+
+            modelBuilder.Entity("GymApp.Data.Models.Wear", b =>
+                {
+                    b.Navigation("UsersClothes");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.WearCategory", b =>

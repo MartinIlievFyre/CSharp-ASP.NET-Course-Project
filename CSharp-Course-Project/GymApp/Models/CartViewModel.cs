@@ -1,10 +1,8 @@
-﻿using GymApp.Data.Models;
-
-namespace GymApp.Models
+﻿namespace GymApp.Models
 {
     public class CartViewModel
     {
-        public List<AccessoryCartItem>? CartItems { get; set; }
-        public decimal GrandTotal { get; set; } 
+        public List<ProductViewModel> Products { get; set; } = new List<ProductViewModel>();
+        public decimal FinalPrice { get; set; }
     }
 }

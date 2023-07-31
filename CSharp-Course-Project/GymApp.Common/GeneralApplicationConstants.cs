@@ -9,5 +9,9 @@
 
         public const string WearHoodiesCategory = "Hoodies";
         public const int WearHoodiesCategoryId = 2;
+
+        public const string TypeProductWear = "Wear";
+        public const string TypeProductAccessory = "Accessory";
+        public const string TypeProductSupplement = "Supplement";
     }
 }

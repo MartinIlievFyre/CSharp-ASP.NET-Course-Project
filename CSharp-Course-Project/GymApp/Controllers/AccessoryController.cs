@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging.Signing;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 
 namespace GymApp.Controllers
@@ -87,37 +88,36 @@ namespace GymApp.Controllers
 
             return View(viewModel);
         }
-       [HttpPost]
-       public async Task<IActionResult> AddToCart(int id)
-       {
-           try
-           {
-               string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-               Guid userGuidId;
-               Guid.TryParse(userId, out userGuidId);
-       
-               var accessory = await dbContext.Accessories.FirstOrDefaultAsync(a => a.Id == id);
-       
-              if (!await dbContext.AccessoryCartItems.AnyAsync(aci => aci.AccessoryId == id))
-              {
-                  if (!accessory.UsersAccessories.Any(ue => ue.TrainingGuyId.ToString() == userId))
-                  {
-                      accessory.UsersAccessories.Add(new ApplicationUserAccessory()
-                    {
-                        AccessoryId = id,
-                        TrainingGuyId = userGuidId
-                    });
-                  }
-                  await dbContext.SaveChangesAsync();
-                  Task.Delay(3000).Wait();
-              }
-              Task.Delay(3000).Wait();
-           }
-           catch
-           {
-               BadRequest();
-           };
-           return RedirectToAction("Accessories", "Accessory");
-       }
+       // [HttpPost]
+       // public async Task<IActionResult> AddToCart(int id)
+       // {
+       //     try
+       //     {
+       //         string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+       //         Guid userGuidId;
+       //         Guid.TryParse(userId, out userGuidId);
+       //
+       //         var accessory = await dbContext.Accessories.FirstOrDefaultAsync(e => e.Id == id);
+       //
+       //         if (!await dbContext.AccessoryCartItems.AnyAsync(a => a.AccessoryId == id))
+       //         {
+       //             if (!accessory.UsersAccessories.Any(ua => ua.TrainingGuyId == userGuidId))
+       //             {
+       //                 accessory.UsersAccessories.Add(new ApplicationUserAccessory()
+       //                 { 
+       //                     TrainingGuyId = userGuidId,
+       //                     AccessoryId = id
+       //                 });
+       //             }
+       //             await dbContext.SaveChangesAsync();
+       //             Task.Delay(3000).Wait();
+       //         }
+       //     }
+       //     catch
+       //     {
+       //         BadRequest();
+       //     };
+       //     return RedirectToAction("Accessories", "Accessory");
+       // }
     }
 }

@@ -42,10 +42,7 @@ namespace GymApp
             })
                 .AddEntityFrameworkStores<GymAppDbContext>();
 
-            builder.Services.AddMemoryCache();
-            builder.Services.AddSession();
-
-           // builder.Services.AddApplicationServices(typeof(IItemService));
+          
 
             builder.Services.AddControllersWithViews();
 

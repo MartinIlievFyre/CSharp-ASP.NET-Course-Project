@@ -4,6 +4,7 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApp.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    partial class GymAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230730134749_deleteEverythingForCart")]
+    partial class deleteEverythingForCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -470,46 +472,6 @@ namespace GymApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Foods");
-                });
-
-            modelBuilder.Entity("GymApp.Data.Models.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ShoppingCart");
                 });
 
             modelBuilder.Entity("GymApp.Data.Models.Supplement", b =>
@@ -1065,17 +1027,6 @@ namespace GymApp.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("GymApp.Data.Models.Product", b =>
-                {
-                    b.HasOne("GymApp.Data.Models.ApplicationUser", "User")
-                        .WithMany("Products")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("GymApp.Data.Models.TrainingPlan", b =>
                 {
                     b.HasOne("GymApp.Data.Models.Category", "Category")
@@ -1151,8 +1102,6 @@ namespace GymApp.Migrations
 
             modelBuilder.Entity("GymApp.Data.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Products");
-
                     b.Navigation("UsersExercises");
 
                     b.Navigation("UsersFoods");

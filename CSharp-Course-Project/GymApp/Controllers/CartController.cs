@@ -17,70 +17,35 @@ namespace GymApp.Controllers
         {
             this.dbContext = dbContext;
         }
-       [HttpGet]
-       public async Task<IActionResult> MyCartItems()
-       {
+        [HttpGet]
+        public async Task<IActionResult> MyCartItems()
+        {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var accessories = await dbContext
-               .Accessories
-               .Where(a => a.UsersAccessories.Any(ua => ua.TrainingGuyId.ToString() == userId))
-               .Select(a => new AccessoryViewModel()
-               {
-                   Id = a.Id,
-                   Name = a.Name,
-                   ImageUrl = a.ImageUrl,
-                   Manufacturer = a.Manufacturer,
-                   Price = a.Price
-               })
-               .ToListAsync();
-            var supplements = await dbContext
-               .Supplements
-               .Where(s => s.UsersSupplements.Any(us => us.TrainingGuyId.ToString() == userId))
-               .Select(s => new SupplementViewModel()
-               {
-                   Id = s.Id,
-                   Name = s.Name,
-                   ImageUrl = s.ImageUrl,
-                   Manufacturer = s.Manufacturer,
-                   Price = s.Price
-               })
-               .ToListAsync();
 
-            var clothes = await dbContext
-               .Clothes
-               .Where(c => c.UsersClothes.Any(uc => uc.TrainingGuyId.ToString() == userId))
-               .Select(c => new WearViewModel()
-               {
-                   Id = c.Id,
-                   Name = c.Name,
-                   ImageUrl = c.ImageUrl,
-                   Price = c.Price
-               })
-               .ToListAsync();
+            var products = await dbContext.ShoppingCart.Where(p => p.UserId.ToString() == userId).ToListAsync();
 
-            var models = new ListOfCartItemsViewModel();
-            models = new ListOfCartItemsViewModel()
+            var modelProducts = products.Select(p => new ProductViewModel()
             {
-                Accessories = accessories,
-                Supplements = supplements,
-                Clothes = clothes
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                Quantity = p.Quantity,
+                TotalPrice = p.TotalPrice,
+                Size = p.Size,
+                Image = p.Image,
+                Type = p.Type,
+            })
+                .ToList();
+
+            var sum = modelProducts.Sum(p => p.TotalPrice);
+
+            var model = new CartViewModel()
+            {
+                Products = modelProducts,
+                FinalPrice = sum
             };
-            return View(models);
-           // var accessories = await dbContext
-           //     .Accessories
-           //     .Select(a => new AccessoryViewModel()
-           //     {
-           //         Id = a.Id,
-           //         Name = a.Name,
-           //         ImageUrl = a.ImageUrl,
-           //         Manufacturer = a.Manufacturer,
-           //         Description = a.Description,
-           //         Benefits = a.Benefits,
-           //         Price = a.Price
-           //     })
-           //     .ToListAsync();
-           // var products = new List<AccessoryViewModel>();
-           // return View(exercises);
+
+            return View(model);
         }
     }
 }

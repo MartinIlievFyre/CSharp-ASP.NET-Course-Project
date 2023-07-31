@@ -5,10 +5,6 @@
     using static GymApp.Common.EntityValidationConstants.Supplement;
     public class Supplement
     {
-        public Supplement()
-        {
-                UsersSupplements = new List<ApplicationUserSupplement>();
-        }
         [Key]
         public int Id { get; set; }
 
@@ -39,8 +35,6 @@
         [Required]
         [Range(typeof(Decimal), PriceMin, PriceMax)]
         public decimal Price { get; set; }
-        public ICollection<ApplicationUserSupplement> UsersSupplements { get; set; }
-
 
     }
 }

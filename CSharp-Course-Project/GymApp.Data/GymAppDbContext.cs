@@ -37,21 +37,8 @@ namespace GymApp.Data
         public DbSet<ApplicationUserFood> ApplicationUsersFoods { get; set; } = null!;
 
         public DbSet<ApplicationUserTrainingPlan> ApplicationUsersTrainingPlans { get; set; } = null!;
+        public DbSet<Product> ShoppingCart { get; set; } = null!;
 
-        public DbSet<ApplicationUserWear> ApplicationUsersClothes { get; set; } = null!;
-
-        public DbSet<AccessoryCartItem> AccessoryCartItems { get; set; } = null!;
-
-        public DbSet<WearCartItem> WearCartItems { get; set; } = null!;
-
-        public DbSet<SupplementCartItem> SupplementCartItems { get; set; } = null!;
-
-        public DbSet<Order> Orders { get; set; } = null!;
-        public DbSet<Cart> Carts { get; set; } = null!;
-        public DbSet<ApplicationUserCart> ApplicationUserCarts { get; set; } = null!;
-
-        public DbSet<ApplicationUserAccessory> ApplicationUserAccessories { get; set; } = null!;
-        public DbSet<ApplicationUserSupplement> ApplicationUserSupplements { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -452,41 +439,7 @@ namespace GymApp.Data
              builder.Entity<ApplicationUserExercise>().HasKey(aue => new { aue.TrainingGuyId, aue.ExerciseId });
             builder.Entity<ApplicationUserFood>().HasKey(auf => new { auf.TrainingGuyId, auf.FoodId });
             builder.Entity<ApplicationUserTrainingPlan>().HasKey(autp => new { autp.TrainingGuyId, autp.TrainingPlanId });
-                builder.Entity<ApplicationUserWear>().HasKey(auw => new { auw.TrainingGuyId, auw.WearId });
-                builder.Entity<ApplicationUserCart>().HasKey(auw => new { auw.TrainingGuyId, auw.CartId });
-                builder.Entity<ApplicationUserAccessory>().HasKey(auw => new { auw.TrainingGuyId, auw.AccessoryId });
-                builder.Entity<ApplicationUserSupplement>().HasKey(auw => new { auw.TrainingGuyId, auw.SupplementId });
 
-             builder.Entity<AccessoryCartItem>().HasKey(aci => new { aci.CartId, aci.AccessoryId });
-             builder.Entity<SupplementCartItem>() .HasKey(sci => new { sci.CartId, sci.SupplementId });
-             builder.Entity<WearCartItem>().HasKey(wci => new { wci.CartId, wci.WearId });
-
-               builder.Entity<Cart>()
-                   .HasMany(c => c.AccessoryCartItems)
-                   .WithOne(aci => aci.Cart)
-                   .HasForeignKey(aci => aci.CartId)
-                   .OnDelete(DeleteBehavior.Restrict);
-               builder.Entity<Cart>()
-                   .HasMany(c => c.SupplementCartItems)
-                   .WithOne(aci => aci.Cart)
-                   .HasForeignKey(aci => aci.CartId)
-                   .OnDelete(DeleteBehavior.Restrict);
-               builder.Entity<Cart>()
-                   .HasMany(c => c.WearCartItems)
-                   .WithOne(aci => aci.Cart)
-                   .HasForeignKey(aci => aci.CartId)
-                   .OnDelete(DeleteBehavior.Restrict);
-
-              builder.Entity<Order>()
-                 .HasOne(o => o.User)
-                 .WithMany(u => u.Orders)
-                 .HasForeignKey(o => o.UserId)
-                 .OnDelete(DeleteBehavior.Restrict);
-            
-              builder.Entity<Order>()
-                  .Property(o => o.TotalPrice)
-                  .HasPrecision(18, 2);
-            
               builder.Entity<UserFood>().Property("Calories").HasDefaultValue(0);
               builder.Entity<UserFood>().Property("Carbs").HasDefaultValue(0);
               builder.Entity<UserFood>().Property("Fat").HasDefaultValue(0);

@@ -31,7 +31,5 @@
         [Required]
         [Range(typeof(Decimal), PriceMin, PriceMax)]
         public decimal Price { get; set; }
-        public ICollection<ApplicationUserAccessory> UsersAccessories { get; set; } = new List<ApplicationUserAccessory>();
-
     }
 }

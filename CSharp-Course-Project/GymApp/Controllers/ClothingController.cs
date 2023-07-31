@@ -102,45 +102,45 @@
 
             return View(viewModel);
         }
-        [HttpPost]
-        public async Task<IActionResult> AddToCart(int id, string wearCategory)
-        {
-            try
-            {
-                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                Guid userGuidId;
-                Guid.TryParse(userId, out userGuidId);
-
-                var clothing = await dbContext.Clothes.FirstOrDefaultAsync(c => c.Id == id);
-
-                if (!await dbContext.WearCartItems.AnyAsync(aci => aci.WearId == id))
-                {
-                    if (!clothing.UsersClothes.Any(ue => ue.TrainingGuyId.ToString() == userId))
-                    {
-                        clothing.UsersClothes.Add(new ApplicationUserWear()
-                        {
-                            WearId = id,
-                            TrainingGuyId = userGuidId
-                        });
-                    }
-                    await dbContext.SaveChangesAsync();
-                    Task.Delay(3000).Wait();
-                }
-                Task.Delay(3000).Wait();
-            }
-            catch
-            {
-                BadRequest();
-            };
-            if (wearCategory == WearTShirtsCategory)
-            {
-                return RedirectToAction("GetClothing", "Clothing", new { id = WearTShirtsCategoryId });
-            }
-            else if (wearCategory == WearTShirtsCategory)
-            { 
-                return RedirectToAction("GetClothing", "Clothing", new {id = WearHoodiesCategoryId });
-            }
-            return RedirectToAction("Clothes", "Clothing");
-        }
+       //[HttpPost]
+       //public async Task<IActionResult> AddToCart(int id, string wearCategory)
+       //{
+       //    try
+       //    {
+       //        string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+       //        Guid userGuidId;
+       //        Guid.TryParse(userId, out userGuidId);
+       //
+       //        var clothing = await dbContext.Clothes.FirstOrDefaultAsync(c => c.Id == id);
+       //
+       //        if (!await dbContext.WearCartItems.AnyAsync(aci => aci.WearId == id))
+       //        {
+       //            if (!clothing.UsersClothes.Any(ue => ue.TrainingGuyId.ToString() == userId))
+       //            {
+       //                clothing.UsersClothes.Add(new ApplicationUserWear()
+       //                {
+       //                    WearId = id,
+       //                    TrainingGuyId = userGuidId
+       //                });
+       //            }
+       //            await dbContext.SaveChangesAsync();
+       //            Task.Delay(3000).Wait();
+       //        }
+       //        Task.Delay(3000).Wait();
+       //    }
+       //    catch
+       //    {
+       //        BadRequest();
+       //    };
+       //    if (wearCategory == WearTShirtsCategory)
+       //    {
+       //        return RedirectToAction("GetClothing", "Clothing", new { id = WearTShirtsCategoryId });
+       //    }
+       //    else if (wearCategory == WearTShirtsCategory)
+       //    { 
+       //        return RedirectToAction("GetClothing", "Clothing", new {id = WearHoodiesCategoryId });
+       //    }
+       //    return RedirectToAction("Clothes", "Clothing");
+       //}
     }
 }
