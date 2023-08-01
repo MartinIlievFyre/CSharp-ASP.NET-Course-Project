@@ -1,0 +1,50 @@
+﻿@model OrderViewModel
+@{
+    ViewBag.Title = "Checkout";
+}
+<form class="input-group-sm" asp-action="Checkout" method="post">
+    <div class="form-group col-md-5">
+        <label asp-for="@Model.Email" class="form-label">Email</label>
+        <input asp-for="@Model.Email" class="form-control" aria-required="true" placeholder="email@abv.bg">
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+
+    </div>
+    <div class="form-group col-md-3">
+        <label asp-for="@Model.FirstName" class="form-label">FirstName</label>
+        <input asp-for="@Model.FirstName" class="form-control" aria-required="true" placeholder="Radostin">
+        <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-3">
+        <label asp-for="@Model.LastName" class="form-label">LastName</label>
+        <input asp-for="@Model.LastName" class="form-control" aria-required="true" placeholder="Petrov">
+        <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col-md-3">
+        <label asp-for="@Model.City" class="form-label">City</label>
+        <input asp-for="@Model.City" class="form-control" aria-required="true" placeholder="Sofia">
+        <span asp-validation-for="@Model.City" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-3">
+        <label asp-for="@Model.Country" class="form-label">Country</label>
+        <input asp-for="@Model.Country" class="form-control" aria-required="true" placeholder="Bulgaria">
+        <span asp-validation-for="@Model.Country" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-3">
+        <label asp-for="@Model.PhoneNumber" class="form-label">Phone</label>
+        <input asp-for="@Model.PhoneNumber" class="form-control" aria-required="true" placeholder="012 345 6789">
+        <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Address" class="form-label">Address</label>
+        <input asp-for="@Model.Address" class="form-control" aria-required="true" placeholder="1234 Main St">
+        <span asp-validation-for="@Model.Address" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-lg mt-3 order-button btn-info" style="width:262px; height:90px; font-size:40px;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+        <span>Next</span>
+    </button>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

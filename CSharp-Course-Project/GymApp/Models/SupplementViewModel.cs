@@ -19,5 +19,7 @@ namespace GymApp.Models
         public string Ingredients { get; set; } = null!;
 
         public decimal Price { get; set; }
+        public string Type { get; set; } = null!;
+
     }
 }

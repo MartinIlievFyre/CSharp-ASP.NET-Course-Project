@@ -26,6 +26,7 @@ namespace GymApp.Controllers
                     Name = s.Name,
                     Manufacturer = s.Manufacturer,
                     Price = s.Price,
+                    Type = s.Type,
                     ImageUrl = s.ImageUrl
                 })
                 .ToListAsync();
@@ -47,7 +48,8 @@ namespace GymApp.Controllers
              Description = s.Description,
              Benefits = s.Benefits,
              Ingredients = s.Ingredients,
-             ImageUrl = s.ImageUrl
+             ImageUrl = s.ImageUrl,
+             Type = s.Type,
          })
          .FirstOrDefaultAsync();
 

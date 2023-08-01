@@ -21,7 +21,7 @@ namespace GymApp.Data.Models
         public decimal Price { get; set; }
 
         [Required]
-        [MaxLength(ImageUrMaxlLength)]
+        [MaxLength(ImageUrlMaxlLength)]
         public string ImageUrl { get; set; } = null!;
 
         [Required]
@@ -38,6 +38,10 @@ namespace GymApp.Data.Models
         [Required]
         [MaxLength(FabricMaxLength)]
         public string Fabric { get; set; } = null!;
+
+        [Required]
+        [MaxLength(TypeMaxLength)]
+        public string Type { get; set; } = null!;
 
         public int WearCategoryId { get; set; }
         [Required]

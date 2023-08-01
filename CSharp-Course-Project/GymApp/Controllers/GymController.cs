@@ -120,13 +120,16 @@
 
                 if (!await dbContext.ApplicationUsersExercises.AnyAsync(ue => ue.ExerciseId == id))
                 {
-                    if (!exercise.UsersExercises.Any(ue => ue.TrainingGuyId.ToString() == userId))
+                    if (exercise != null)
                     {
-                        exercise.UsersExercises.Add(new ApplicationUserExercise()
+                        if (!exercise.UsersExercises.Any(ue => ue.TrainingGuyId.ToString() == userId))
                         {
-                            ExerciseId = id,
-                            TrainingGuyId = userGuidId
-                        });
+                            exercise.UsersExercises.Add(new ApplicationUserExercise()
+                            {
+                                ExerciseId = id,
+                                TrainingGuyId = userGuidId
+                            });
+                        }
                     }
                     await dbContext.SaveChangesAsync();
                     Task.Delay(3000).Wait();
@@ -150,17 +153,26 @@
             })
                .ToListAsync();
             var exercise = await dbContext.Exercises.FindAsync(id);
-            EditExerciseViewModel model = new EditExerciseViewModel()
+            try
             {
-                Id = exercise.Id,
-                Name = exercise.Name,
-                Benefit = exercise.Benefit,
-                Execution = exercise.Execution,
-                ImageUrl = exercise.ImageUrl,
-                CategoryId = exercise.CategoryId,
-                Categories = categories
-            };
-            return View(model);
+
+                EditExerciseViewModel model = new EditExerciseViewModel()
+                {
+                    Id = exercise!.Id,
+                    Name = exercise.Name,
+                    Benefit = exercise.Benefit,
+                    Execution = exercise.Execution,
+                    ImageUrl = exercise.ImageUrl,
+                    CategoryId = exercise.CategoryId,
+                    Categories = categories
+                };
+
+                return View(model);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost]
@@ -179,12 +191,14 @@
             })
                .ToListAsync();
             var exercise = await dbContext.Exercises.FindAsync(model.Id);
-
-            exercise.Name = model.Name;
-            exercise.Benefit = model.Benefit;
-            exercise.Execution = model.Execution;
-            exercise.ImageUrl = model.ImageUrl;
-            exercise.CategoryId = model.CategoryId;
+            if (exercise != null)
+            {
+                exercise.Name = model.Name;
+                exercise.Benefit = model.Benefit;
+                exercise.Execution = model.Execution;
+                exercise.ImageUrl = model.ImageUrl;
+                exercise.CategoryId = model.CategoryId;
+            }
 
             await dbContext.SaveChangesAsync();
             return RedirectToAction("ExerciseDetails", new { id = model.Id });

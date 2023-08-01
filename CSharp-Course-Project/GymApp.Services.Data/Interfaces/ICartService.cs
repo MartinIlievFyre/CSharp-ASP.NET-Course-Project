@@ -1,5 +1,4 @@
-﻿using GymApp.ViewModels.Cart;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,6 @@ namespace GymApp.Services.Data.Interfaces
 {
     public interface ICartService
     {
-        Task<CartFormViewModel?> GetCartByUserIdAsync(string userId);
 
         Task CreateCartAsync(string userId);
 

@@ -25,8 +25,11 @@
         public string Benefits { get; set; } = null!;
 
         [Required]
-        [MaxLength(ImageUrMaxlLength)]
+        [MaxLength(ImageUrlMaxlLength)]
         public string ImageUrl { get; set; } = null!;
+        [Required]
+        [MaxLength(TypeMaxLength)]
+        public string Type { get; set; } = null!;
 
         [Required]
         [Range(typeof(Decimal), PriceMin, PriceMax)]

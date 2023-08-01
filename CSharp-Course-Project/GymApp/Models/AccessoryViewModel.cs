@@ -17,5 +17,6 @@ namespace GymApp.Models
         public string ImageUrl { get; set; } = null!;
 
         public decimal Price { get; set; }
+        public string Type { get; set; } = null!;
     }
 }

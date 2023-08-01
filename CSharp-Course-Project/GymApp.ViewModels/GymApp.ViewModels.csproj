@@ -11,4 +11,8 @@
     <ProjectReference Include="..\GymApp.Data.Models\GymApp.Data.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Cart\" />
+  </ItemGroup>
+
 </Project>

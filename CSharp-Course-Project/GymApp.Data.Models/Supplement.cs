@@ -21,7 +21,7 @@
         public string Description { get; set; } = null!;
 
         [Required]
-        [MaxLength(ImageUrMaxlLength)]
+        [MaxLength(ImageUrlMaxlLength)]
         public string ImageUrl { get; set; } = null!;
 
         [Required]
@@ -31,6 +31,9 @@
         [Required]
         [MaxLength(IngredientsMaxLength)]
         public string Ingredients { get; set; } = null!;
+        [Required]
+        [MaxLength(TypeMaxLength)]
+        public string Type { get; set; } = null!;
 
         [Required]
         [Range(typeof(Decimal), PriceMin, PriceMax)]

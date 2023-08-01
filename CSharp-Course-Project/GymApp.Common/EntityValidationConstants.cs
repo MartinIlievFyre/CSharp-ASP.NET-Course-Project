@@ -33,6 +33,18 @@ namespace GymApp.Common
             public const int NameMaxLength = 50;
 
             public const int DefaultGrams = 100;
+
+            public const string CaloriesMin = "0";
+            public const string CaloriesMax = "2147483647";
+
+            public const string ProteinMin = "0";
+            public const string ProteinMax = "2147483647";
+
+            public const string CarbsMin = "0";
+            public const string CarbsMax = "2147483647";
+
+            public const string FatMin = "0";
+            public const string FatMax = "2147483647";
         }
 
         public static class Wear
@@ -43,7 +55,7 @@ namespace GymApp.Common
             public const string PriceMin = "1";
             public const string PriceMax = "10000";
 
-            public const int ImageUrMaxlLength = 2048;
+            public const int ImageUrlMaxlLength = 2048;
 
             public const int SizeMinLength = 1;
             public const int SizeMaxLength = 3;
@@ -53,6 +65,9 @@ namespace GymApp.Common
 
             public const int DescriptionMinLength = 0;
             public const int DescriptionMaxLength = 5000;
+
+            public const int TypeMinLength = 2;
+            public const int TypeMaxLength = 20;
 
             public const int ColorMinLength = 0; 
             public const int ColorMaxLength = 30; 
@@ -69,12 +84,14 @@ namespace GymApp.Common
             public const int DescriptionMaxLength = 5000;
 
 
-            public const int ImageUrMaxlLength = 2048;
+            public const int ImageUrlMaxlLength = 2048;
 
             public const int BenefitsMinLength = 20;
             public const int BenefitsMaxLength = 1000;
 
-            
+            public const int TypeMinLength = 2;
+            public const int TypeMaxLength = 20;
+
             public const int IngredientsMinLength = 20;
             public const int IngredientsMaxLength = 1000;
 
@@ -95,11 +112,40 @@ namespace GymApp.Common
             public const int BenefitsMinLength = 20;
             public const int BenefitsMaxLength = 1000;
 
-            public const int ImageUrMaxlLength = 2048;
+            public const int ImageUrlMaxlLength = 2048;
+
+            public const int TypeMinLength = 2;
+            public const int TypeMaxLength = 20;
 
             public const string PriceMin = "1";
             public const string PriceMax = "10000";
         }
+        public static class Product 
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 50;
+
+            public const int SizeMinLength = 1;
+            public const int SizeMaxLength = 3;
+
+            public const int ImageUrlMaxlLength = 2048;
+
+            public const int TypeMinLength = 2;
+            public const int TypeMaxLength = 20;
+
+            public const string QuantityMinValue = "1";
+            public const string QuantityMaxValue = "1000";
+
+            public const string TotalPriceMinValue = "0";
+            public const string TotalPriceMaxValue = "100000";
+
+            public const string PriceMinValue = "0";
+            public const string PriceMaxValue = "100000";
+
+
+        }
+
+
         public static class Category
         {
             public const int NameMinLength = 2;
@@ -135,6 +181,9 @@ namespace GymApp.Common
             public const int LastNameMinLength = 2;
             public const int LastNameMaxLength = 50;
 
+            public const int EmailMinLength = 2;
+            public const int EmailMaxLength = 320;
+
             public const int CityNameMinLength = 2;
             public const int CityNameMaxLength = 85;
 
@@ -144,28 +193,10 @@ namespace GymApp.Common
             public const int AddressMinLength = 2;
             public const int AddressMaxLength = 200;
 
-            public const int PostCodeMinLength = 1;
-            public const int PostCodeMaxLength = 15;
-
             public const int DescriptionMinLength = 0;
             public const int DescriptionMaxLength = 5000;
-        }
-        public static class CartItemViewModel
-        {
-            public const string QuantityMinValue = "1";
-            public const string QuantityMaxValue = "1000";
 
-            public const string TotalPriceMinValue = "0";
-            public const string TotalPriceMaxValue = "100000";
-
-        }
-        public static class CartFormViewModel
-        {
-            public const string TotalPriceMinValue = "0";
-            public const string TotalPriceMaxValue = "2147483647";
-
-            public const string QuantityMinValue = "0";
-            public const string QuantityMaxValue = "100";
+            public const int PhoneLength = 10;
         }
     }
 }

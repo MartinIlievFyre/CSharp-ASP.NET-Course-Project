@@ -13,9 +13,7 @@
                     <h5 style="color:black;margin-top:4px;">@clothing.Name</h5>
                     <h5 style="color:black;">@clothing.Price<font>BGN</font></h5>
                 </a>
-                <form class="input-group-sm text-lg-end" asp-controller="Clothing" asp-action="AddToCart" asp-route-id="@clothing.Id" asp-route-category="@clothing.WearCategory">
-                    <button type="submit" class="fs-6 btn btn-success mb-2 p-3 btn-success buy-button" style="border-color:black">Buy Now</button>
-                </form>
+                <h1 class="text-center"><font style="font-family:Monospace; font-size:17px;">(You need to choose a size to buy!)</font></h1>
             </div>
         }
     </div>

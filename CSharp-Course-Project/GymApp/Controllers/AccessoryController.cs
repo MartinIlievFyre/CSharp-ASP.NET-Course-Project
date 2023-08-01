@@ -30,7 +30,8 @@ namespace GymApp.Controllers
                     Name = a.Name,
                     Manufacturer = a.Manufacturer,
                     Price = a.Price,
-                    ImageUrl = a.ImageUrl
+                    ImageUrl = a.ImageUrl,
+                    Type = a.Type,
                 })
                 .ToListAsync();
             return View(models);
@@ -51,6 +52,7 @@ namespace GymApp.Controllers
              Description = a.Description,
              Benefits = a.Benefits,
              ImageUrl = a.ImageUrl,
+             Type = a.Type
          })
          .FirstOrDefaultAsync();
 
@@ -87,37 +89,6 @@ namespace GymApp.Controllers
             };
 
             return View(viewModel);
-        }
-       // [HttpPost]
-       // public async Task<IActionResult> AddToCart(int id)
-       // {
-       //     try
-       //     {
-       //         string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-       //         Guid userGuidId;
-       //         Guid.TryParse(userId, out userGuidId);
-       //
-       //         var accessory = await dbContext.Accessories.FirstOrDefaultAsync(e => e.Id == id);
-       //
-       //         if (!await dbContext.AccessoryCartItems.AnyAsync(a => a.AccessoryId == id))
-       //         {
-       //             if (!accessory.UsersAccessories.Any(ua => ua.TrainingGuyId == userGuidId))
-       //             {
-       //                 accessory.UsersAccessories.Add(new ApplicationUserAccessory()
-       //                 { 
-       //                     TrainingGuyId = userGuidId,
-       //                     AccessoryId = id
-       //                 });
-       //             }
-       //             await dbContext.SaveChangesAsync();
-       //             Task.Delay(3000).Wait();
-       //         }
-       //     }
-       //     catch
-       //     {
-       //         BadRequest();
-       //     };
-       //     return RedirectToAction("Accessories", "Accessory");
-       // }
+        }  
     }
 }
