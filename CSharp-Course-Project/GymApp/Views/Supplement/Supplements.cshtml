@@ -11,7 +11,7 @@
                 <a class="navbar-brand" asp-area="" asp-controller="Supplement" asp-action="SupplementDetails" asp-route-id="@supplement.Id">
                     <img src="@supplement.ImageUrl" alt="@supplement.Name" style="width:100%;">
                     <h5 style="color:black">@supplement.Name - @supplement.Manufacturer</h5>
-                    <h5 style="color:black">@supplement.Price<font>BGN</font></h5>
+                    <h5 style="color:black">@supplement.Price&#160BGN</h5>
                 </a>
 
                 <form class="input-group-sm text-lg-end" asp-controller="Cart" asp-action="AddToCart" asp-route-name="@supplement.Name" asp-route-typeOfProduct="@supplement.Type">

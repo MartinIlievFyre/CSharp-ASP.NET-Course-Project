@@ -149,7 +149,7 @@
 
             Food food = new Food()
             {
-                Name = model.Name,
+                Name = model.Name, 
                 Calories = model.Calories,
                 Carbs = model.Carbs,
                 Fat = model.Fat,

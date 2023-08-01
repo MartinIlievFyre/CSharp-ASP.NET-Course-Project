@@ -23,9 +23,8 @@
         [MaxLength(EmailMaxLength)]
         public string Email { get; set; } = null!;
 
-        [Required]
         [MaxLength(DescriptionMaxLength)]
-        public string Description { get; set; } = null!;
+        public string? Description { get; set; }
 
         [Required]
         [MaxLength(AddressMaxLength)]
@@ -41,8 +40,7 @@
 
         [Required]
         [MaxLength(CountryNameMaxLength)]
-        public string Country { get; set; } = null!; 
-
+        public string Country { get; set; } = null!;
 
         [ForeignKey(nameof(User))]
         [Required]

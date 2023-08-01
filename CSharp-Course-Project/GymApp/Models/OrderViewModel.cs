@@ -19,9 +19,8 @@
         [StringLength(EmailMaxLength, MinimumLength = EmailMinLength)]
         public string Email { get; set; } = null!;
 
-        [Required]
         [StringLength(DescriptionMaxLength, MinimumLength =DescriptionMinLength)]
-        public string Description { get; set; } = null!;
+        public string? Description { get; set; }
 
         [Required]
         [StringLength(AddressMaxLength, MinimumLength = AddressMinLength)]
@@ -38,7 +37,6 @@
         [Required]
         [StringLength(CountryNameMaxLength, MinimumLength = CountryNameMinLength)]
         public string Country { get; set; } = null!;
-
 
         public Guid UserId { get; set; }
 

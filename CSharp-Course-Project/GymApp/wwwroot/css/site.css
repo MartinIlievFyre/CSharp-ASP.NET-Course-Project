@@ -204,3 +204,126 @@ body {
     color: #212529;
     line-height: 1.6;
 }
+.product-table {
+    width: 100%;
+}
+
+    .product-table th {
+        text-align: left;
+    }
+
+.product-image {
+    width: 100px;
+    margin-right: 10px;
+}
+
+.remove-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+    .remove-button:hover {
+        background-color: #c82333;
+    }
+
+.order-button {
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+
+    .order-button svg {
+        margin-right: 10px;
+        font-size: 20px;
+        vertical-align: middle;
+    }
+   
+.custom-textarea {
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.finishPurchase-button {
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+
+    .finishPurchase-button svg {
+        margin-right: 10px;
+        font-size: 20px;
+        vertical-align: middle;
+    }
+.addExercise-button {
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+
+    .addExercise-button svg {
+        margin-right: 10px;
+        font-size: 20px;
+        vertical-align: middle;
+    }
+.addTrainingPlan-button {
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+
+    .addTrainingPlan-button svg {
+        margin-right: 10px;
+        font-size: 20px;
+        vertical-align: middle;
+    }
+.createFood-button {
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+
+    .createFood-button svg {
+        margin-right: 10px;
+        font-size: 20px;
+        vertical-align: middle;
+    }

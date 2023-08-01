@@ -4,10 +4,7 @@ using GymApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Runtime.InteropServices;
 using System.Security.Claims;
-using System.Xml.Linq;
 using static GymApp.Common.GeneralApplicationConstants;
 namespace GymApp.Controllers
 {
@@ -193,8 +190,9 @@ namespace GymApp.Controllers
             try
             {
                 if (products != null)
+                {
                     dbContext.ShoppingCart.RemoveRange(products!);
-
+                }
                 await dbContext.SaveChangesAsync();
             }
             catch
@@ -204,11 +202,30 @@ namespace GymApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-
         [HttpGet]
         public async Task<IActionResult> Checkout()
         {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Guid userGuidId;
+            Guid.TryParse(userId, out userGuidId);
+            var products = await dbContext.ShoppingCart.Select(p => new Product()
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Image = p.Image,
+                Size = p.Size,
+                Price = p.Price,
+                Quantity = p.Quantity,
+                Type = p.Type,
+                User = p.User,
+                UserId = userGuidId
+            })
+               .ToListAsync();
+            if (products.Count == 0)
+            { 
+                //To set alert for "Your cart is empty!"
+                return RedirectToAction("Index","Home");
+            }
             OrderViewModel model = new OrderViewModel();
             return View(model);
         }
@@ -240,6 +257,24 @@ namespace GymApp.Controllers
                     UserId = userGuidId
                 };
 
+                var products = await dbContext.ShoppingCart.Select(p => new Product()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Image = p.Image,
+                    Size = p.Size,
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+                    Type = p.Type,
+                    User = p.User,
+                    UserId = userGuidId
+                })
+                .ToListAsync();
+
+                if (products != null)
+                {
+                    dbContext.ShoppingCart.RemoveRange(products!);
+                }
                 await dbContext.Orders.AddAsync(order);
                 await dbContext.SaveChangesAsync();
             }
@@ -247,7 +282,7 @@ namespace GymApp.Controllers
             {
                 BadRequest();
             }
-            return RedirectToAction("Next", "Cart");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

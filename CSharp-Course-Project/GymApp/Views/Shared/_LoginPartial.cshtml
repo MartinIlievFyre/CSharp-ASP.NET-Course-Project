@@ -6,6 +6,9 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    <li class="nav-item" style="margin-right: 1rem;">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="MyCartItems"><img width="34" height="34" src="https://img.icons8.com/pastel-glyph/64/shopping-cart--v1.png" alt="shopping-cart--v1" /></a>
+    </li>
     <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" style=" font-family: Trebuchet MS"><i class="fa fa-user-circle" aria-hidden="true"></i> USER SETTINGS</a>
     </li>

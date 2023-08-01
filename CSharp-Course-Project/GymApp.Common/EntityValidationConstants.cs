@@ -197,6 +197,7 @@ namespace GymApp.Common
             public const int DescriptionMaxLength = 5000;
 
             public const int PhoneLength = 10;
+
         }
     }
 }

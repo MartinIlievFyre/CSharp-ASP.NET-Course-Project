@@ -11,7 +11,9 @@
                 <a class="navbar-brand" asp-area="" asp-controller="Clothing" asp-action="ClothingDetails" asp-route-id="@clothing.Id">
                     <img src="@clothing.ImageUrl" alt="@clothing.Name" style="width:100%; margin-top:20px;">
                     <h5 style="color:black;margin-top:4px;">@clothing.Name</h5>
-                    <h5 style="color:black;">@clothing.Price<font>BGN</font></h5>
+                    <h5 style="color:black;">@clothing.Price&#160BGN
+
+            </h5>
                 </a>
                 <h1 class="text-center"><font style="font-family:Monospace; font-size:17px;">(You need to choose a size to buy!)</font></h1>
             </div>
