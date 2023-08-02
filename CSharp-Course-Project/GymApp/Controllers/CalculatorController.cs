@@ -66,15 +66,22 @@
                     Guid userGuidId;
                     Guid.TryParse(userId, out userGuidId);
 
-                    var foodWithDefaultValues = await dbContext.Foods.FirstOrDefaultAsync(e => e.Id == id);
-                    var food = await dbContext.UsersFoods.FirstOrDefaultAsync(e => e.Id == id);
+                    var foodWithDefaultValues = await dbContext.Foods.FirstOrDefaultAsync(f => f.Id == id);
+                    var food = await dbContext.UsersFoods.FirstOrDefaultAsync(f => f.Id == id);
                     if (food != null)
                     {
-                        var userFood = food.UsersFood.FirstOrDefault(ue => ue.TrainingGuyId == userGuidId);
+                        //var userFood = food
+                        //    .UsersFood
+                        //    .FirstOrDefault(uf => uf.TrainingGuyId == userGuidId && uf.FoodId == id);
+                        var userFood = await dbContext
+                            .ApplicationUsersFoods
+                            .FirstOrDefaultAsync(uf => uf.TrainingGuyId == userGuidId && uf.FoodId == id);
+
+                        int weightGrams = weight.Value;
+                        double weightMultiplier = weightGrams / 100.0;
+
                         if (foodWithDefaultValues != null && food != null && userFood == null)
                         {
-                            int weightGrams = weight.Value;
-                            double weightMultiplier = weightGrams / 100.0;
 
                             food.Calories = (int)(foodWithDefaultValues.Calories * weightMultiplier);
                             food.Carbs = foodWithDefaultValues.Carbs * weightMultiplier;
@@ -82,12 +89,22 @@
                             food.Protein = foodWithDefaultValues.Protein * weightMultiplier;
                             food.Grams = weightGrams;
 
+
                             food.UsersFood.Add(new ApplicationUserFood()
                             {
                                 FoodId = id,
                                 TrainingGuyId = userGuidId
                             });
 
+                            await dbContext.SaveChangesAsync();
+                        }
+                        else if (foodWithDefaultValues != null && food != null && userFood != null)
+                        {
+                            food.Calories += (int)(foodWithDefaultValues.Calories * weightMultiplier);
+                            food.Carbs += foodWithDefaultValues.Carbs * weightMultiplier;
+                            food.Fat += foodWithDefaultValues.Fat * weightMultiplier;
+                            food.Protein += foodWithDefaultValues.Protein * weightMultiplier;
+                            food.Grams += weightGrams;
                             await dbContext.SaveChangesAsync();
                         }
                     }

@@ -366,11 +366,21 @@ namespace GymApp.Data
                        Fat = 0.2,
                        Protein = 0.3
                    });
-
+            builder
+                  .Entity<Food>()
+                  .HasData(new Food()
+                  {
+                      Id = 1,
+                      Name = "Apple",
+                      Calories = 52,
+                      Carbs = 13.8,
+                      Fat = 0.2,
+                      Protein = 0.3
+                  });
 
 
             //Seeding clothes
-              builder
+            builder
               .Entity<Wear>()
               .HasData(new Wear()
               {

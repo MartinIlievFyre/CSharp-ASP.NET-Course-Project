@@ -14,19 +14,19 @@
         public string Name { get; set; } = null!;
 
         [Required]
-        [Range(typeof(int),CaloriesMax, CaloriesMax)]
+        [Range(typeof(int),CaloriesMin, CaloriesMax)]
         public int Calories { get; set; }
 
         [Required]
-        [Range(typeof(int), CarbsMax, CarbsMax)]
+        [Range(typeof(int), CarbsMin, CarbsMax)]
         public double Carbs { get; set; }
 
         [Required]
-        [Range(typeof(int), FatMax, FatMax)]
+        [Range(typeof(int), FatMin, FatMax)]
         public double Fat { get; set; }
 
         [Required]
-        [Range(typeof(int), ProteinMax, ProteinMax)]
+        [Range(typeof(int), ProteinMin, ProteinMax)]
         public double Protein { get; set; }
         [Required]
         public int Grams = DefaultGrams;

@@ -9,11 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymApp.Common", "GymApp.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymApp.Services.Data", "GymApp.Services.Data\GymApp.Services.Data.csproj", "{98C25B00-8229-4E3A-8664-4175A9F2B30C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymApp.ViewModels", "GymApp.ViewModels\GymApp.ViewModels.csproj", "{B092FA5E-F516-4F2E-A0EE-391C3B429298}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymApp.Data.Models", "GymApp.Data.Models\GymApp.Data.Models.csproj", "{F99B5C99-75D0-4A3D-9520-58C9C8D058F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymApp.Data.Models", "GymApp.Data.Models\GymApp.Data.Models.csproj", "{F99B5C99-75D0-4A3D-9520-58C9C8D058F7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymApp.Data", "GymApp.Data\GymApp.Data.csproj", "{0D79711B-1197-4283-8875-51EB88DDB55E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymApp.Data", "GymApp.Data\GymApp.Data.csproj", "{0D79711B-1197-4283-8875-51EB88DDB55E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +31,6 @@ Global
 		{98C25B00-8229-4E3A-8664-4175A9F2B30C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98C25B00-8229-4E3A-8664-4175A9F2B30C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98C25B00-8229-4E3A-8664-4175A9F2B30C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B092FA5E-F516-4F2E-A0EE-391C3B429298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B092FA5E-F516-4F2E-A0EE-391C3B429298}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B092FA5E-F516-4F2E-A0EE-391C3B429298}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B092FA5E-F516-4F2E-A0EE-391C3B429298}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F99B5C99-75D0-4A3D-9520-58C9C8D058F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F99B5C99-75D0-4A3D-9520-58C9C8D058F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F99B5C99-75D0-4A3D-9520-58C9C8D058F7}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -16,6 +16,7 @@
             <p>@Model.CurrentSupplement.Benefits</p>
 
             <form class="input-group-sm text-lg-end" asp-controller="Cart" asp-action="AddToCart" asp-route-name="@Model.CurrentSupplement.Name" asp-route-typeOfProduct="@Model.CurrentSupplement.Type">
+                <input type="number" name="quantity" placeholder="1" class="form-control py-3 me-2" style="width:130px;height:30px; font-size: 18px; flex: 1;" />
                 <button type="submit" class="fs-6 btn btn-success mb-2 p-3 btn-success buy-button">Buy Now</button>
             </form>
         </div>

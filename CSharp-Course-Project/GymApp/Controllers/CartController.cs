@@ -48,94 +48,184 @@ namespace GymApp.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> AddToCart(string name, string typeOfProduct, string size)
+        public async Task<IActionResult> AddToCart(string name, string typeOfProduct, string size, int? quantity)
         {
             try
             {
-                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                Guid userGuidId;
-                Guid.TryParse(userId, out userGuidId);
 
-                Accessory? accessory;
-                Supplement? supplement;
-                Wear? wear;
-
-                if (typeOfProduct == TypeProductSupplement)
+                if (quantity.HasValue && quantity > 0)
                 {
-                    supplement = await dbContext.Supplements.FirstOrDefaultAsync(p => p.Name == name);
-                    if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name))
-                    {
+                    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    Guid userGuidId;
+                    Guid.TryParse(userId, out userGuidId);
 
-                        dbContext.ShoppingCart.Add(new Product()
-                        {
-                            Name = supplement!.Name,
-                            Image = supplement.ImageUrl,
-                            Price = supplement.Price,
-                            UserId = userGuidId,
-                            Quantity = 1,
-                            Size = "",
-                            Type = typeOfProduct
-                        });
-                    }
-                    else
+                    Accessory? accessory;
+                    Supplement? supplement;
+                    Wear? wear;
+
+                    if (typeOfProduct == TypeProductSupplement)
                     {
-                        var product = await dbContext.ShoppingCart.Where(p => p.Name == name).FirstOrDefaultAsync();
-                        product!.Quantity++;
+                        supplement = await dbContext.Supplements.FirstOrDefaultAsync(p => p.Name == name);
+                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name))
+                        {
+
+                            dbContext.ShoppingCart.Add(new Product()
+                            {
+                                Name = supplement!.Name,
+                                Image = supplement.ImageUrl,
+                                Price = supplement.Price,
+                                UserId = userGuidId,
+                                Quantity = (int)quantity,
+                                Size = "",
+                                Type = typeOfProduct
+                            });
+                        }
+                        else
+                        {
+                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name).FirstOrDefaultAsync();
+                            product!.Quantity += (int)quantity;
+                        }
+                        await dbContext.SaveChangesAsync();
+                        Task.Delay(1500).Wait();
                     }
-                    await dbContext.SaveChangesAsync();
-                    Task.Delay(1500).Wait();
+                    else if (typeOfProduct == TypeProductAccessory)
+                    {
+                        accessory = await dbContext.Accessories.FirstOrDefaultAsync(a => a.Name == name);
+                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name))
+                        {
+
+                            dbContext.ShoppingCart.Add(new Product()
+                            {
+                                Name = accessory!.Name,
+                                Image = accessory.ImageUrl,
+                                Price = accessory.Price,
+                                UserId = userGuidId,
+                                Quantity = (int)quantity,
+                                Size = "",
+                                Type = typeOfProduct
+                            });
+                        }
+                        else
+                        {
+                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name).FirstOrDefaultAsync();
+                            product!.Quantity += (int)quantity;
+                        }
+                        await dbContext.SaveChangesAsync();
+                        Task.Delay(1500).Wait();
+                    }
+                    else if (typeOfProduct == TypeProductWear)
+                    {
+                        wear = await dbContext.Clothes.FirstOrDefaultAsync(w => w.Name == name);
+                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name && s.Size == size))
+                        {
+
+                            dbContext.ShoppingCart.Add(new Product()
+                            {
+                                Name = wear!.Name,
+                                Image = wear.ImageUrl,
+                                Price = wear.Price,
+                                UserId = userGuidId,
+                                Quantity = (int)quantity,
+                                Size = size,
+                                Type = typeOfProduct
+                            });
+                        }
+                        else
+                        {
+                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name && p.Size == size).FirstOrDefaultAsync();
+                            product!.Quantity += (int)quantity;
+                        }
+                        await dbContext.SaveChangesAsync();
+                        Task.Delay(1500).Wait();
+                    }
                 }
-                else if (typeOfProduct == TypeProductAccessory)
+                else if(!quantity.HasValue)
                 {
-                    accessory = await dbContext.Accessories.FirstOrDefaultAsync(a => a.Name == name);
-                    if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name))
-                    {
+                    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    Guid userGuidId;
+                    Guid.TryParse(userId, out userGuidId);
 
-                        dbContext.ShoppingCart.Add(new Product()
+                    Accessory? accessory;
+                    Supplement? supplement;
+                    Wear? wear;
+
+                    if (typeOfProduct == TypeProductSupplement)
+                    {
+                        supplement = await dbContext.Supplements.FirstOrDefaultAsync(p => p.Name == name);
+                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name))
                         {
-                            Name = accessory!.Name,
-                            Image = accessory.ImageUrl,
-                            Price = accessory.Price,
-                            UserId = userGuidId,
-                            Quantity = 1,
-                            Size = "",
-                            Type = typeOfProduct
-                        });
-                    }
-                    else
-                    {
-                        var product = await dbContext.ShoppingCart.Where(p => p.Name == name).FirstOrDefaultAsync();
-                        product!.Quantity++;
-                    }
-                    await dbContext.SaveChangesAsync();
-                    Task.Delay(1500).Wait();
-                }
-                else if (typeOfProduct == TypeProductWear)
-                {
-                    wear = await dbContext.Clothes.FirstOrDefaultAsync(w => w.Name == name);
-                    if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name && s.Size == size))
-                    {
 
-                        dbContext.ShoppingCart.Add(new Product()
+                            dbContext.ShoppingCart.Add(new Product()
+                            {
+                                Name = supplement!.Name,
+                                Image = supplement.ImageUrl,
+                                Price = supplement.Price,
+                                UserId = userGuidId,
+                                Quantity = 1,
+                                Size = "",
+                                Type = typeOfProduct
+                            });
+                        }
+                        else
                         {
-                            Name = wear!.Name,
-                            Image = wear.ImageUrl,
-                            Price = wear.Price,
-                            UserId = userGuidId,
-                            Quantity = 1,
-                            Size = size,
-                            Type = typeOfProduct
-                        });
+                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name).FirstOrDefaultAsync();
+                            product!.Quantity++;
+                        }
+                        await dbContext.SaveChangesAsync();
+                        Task.Delay(1500).Wait();
                     }
-                    else
+                    else if (typeOfProduct == TypeProductAccessory)
                     {
-                        var product = await dbContext.ShoppingCart.Where(p => p.Name == name && p.Size == size).FirstOrDefaultAsync();
-                        product!.Quantity++;
-                    }
-                    await dbContext.SaveChangesAsync();
-                    Task.Delay(1500).Wait();
-                }
+                        accessory = await dbContext.Accessories.FirstOrDefaultAsync(a => a.Name == name);
+                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name))
+                        {
 
+                            dbContext.ShoppingCart.Add(new Product()
+                            {
+                                Name = accessory!.Name,
+                                Image = accessory.ImageUrl,
+                                Price = accessory.Price,
+                                UserId = userGuidId,
+                                Quantity = 1,
+                                Size = "",
+                                Type = typeOfProduct
+                            });
+                        }
+                        else
+                        {
+                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name).FirstOrDefaultAsync();
+                            product!.Quantity++;
+                        }
+                        await dbContext.SaveChangesAsync();
+                        Task.Delay(1500).Wait();
+                    }
+                    else if (typeOfProduct == TypeProductWear)
+                    {
+                        wear = await dbContext.Clothes.FirstOrDefaultAsync(w => w.Name == name);
+                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name && s.Size == size))
+                        {
+
+                            dbContext.ShoppingCart.Add(new Product()
+                            {
+                                Name = wear!.Name,
+                                Image = wear.ImageUrl,
+                                Price = wear.Price,
+                                UserId = userGuidId,
+                                Quantity = 1,
+                                Size = size,
+                                Type = typeOfProduct
+                            });
+                        }
+                        else
+                        {
+                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name && p.Size == size).FirstOrDefaultAsync();
+                            product!.Quantity++;
+                        }
+                        await dbContext.SaveChangesAsync();
+                        Task.Delay(1500).Wait();
+                    }
+
+                }
             }
             catch
             {
@@ -199,7 +289,7 @@ namespace GymApp.Controllers
             {
                 BadRequest();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("MyCartItems", "Cart");
         }
 
         [HttpGet]

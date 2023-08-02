@@ -152,27 +152,22 @@
                 Name = c.Name,
             })
                .ToListAsync();
+
             var exercise = await dbContext.Exercises.FindAsync(id);
-            try
-            {
 
-                EditExerciseViewModel model = new EditExerciseViewModel()
-                {
-                    Id = exercise!.Id,
-                    Name = exercise.Name,
-                    Benefit = exercise.Benefit,
-                    Execution = exercise.Execution,
-                    ImageUrl = exercise.ImageUrl,
-                    CategoryId = exercise.CategoryId,
-                    Categories = categories
-                };
 
-                return View(model);
-            }
-            catch
+            EditExerciseViewModel model = new EditExerciseViewModel()
             {
-                return BadRequest();
-            }
+                Id = exercise!.Id,
+                Name = exercise.Name,
+                Benefit = exercise.Benefit,
+                Execution = exercise.Execution,
+                ImageUrl = exercise.ImageUrl,
+                CategoryId = exercise.CategoryId,
+                Categories = categories
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -190,7 +185,9 @@
                 Name = c.Name,
             })
                .ToListAsync();
+
             var exercise = await dbContext.Exercises.FindAsync(model.Id);
+
             if (exercise != null)
             {
                 exercise.Name = model.Name;
