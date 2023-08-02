@@ -171,7 +171,6 @@
         }
 
         [HttpPost]
-        // [ValidateAntiForgeryToken]
         // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditExercise(EditExerciseViewModel model)
         {

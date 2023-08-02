@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using static GymApp.Common.EntityValidationConstants;
 
 namespace GymApp.Controllers
 {
@@ -51,6 +52,62 @@ namespace GymApp.Controllers
                 })
                 .ToListAsync();
             return View(trainingPlans);
+        }
+
+        // [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> EditTrainingPlan(int id)
+        {
+            var categories = await dbContext.Categories.Select(c => new CategoryViewModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+            })
+               .ToListAsync();
+
+            var trainingPlan = await dbContext.TrainingPlans.FindAsync(id);
+
+
+            EditTrainingPlanViewModel model = new EditTrainingPlanViewModel()
+            {
+                Id = trainingPlan!.Id,
+                Name = trainingPlan.Name,
+                Description = trainingPlan.Description,
+                CategoryId = trainingPlan.CategoryId,
+                Categories = categories
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        // [ValidateAntiForgeryToken]
+        // [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditTrainingPlan(EditTrainingPlanViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var categories = await dbContext.Categories.Select(c => new CategoryViewModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+            })
+               .ToListAsync();
+
+            var trainingPlan = await dbContext.TrainingPlans.FindAsync(model.Id);
+
+            if (trainingPlan != null)
+            {
+                trainingPlan.Name = model.Name;
+                trainingPlan.Description = model.Description;
+                trainingPlan.CategoryId = model.CategoryId;
+
+            }
+
+            await dbContext.SaveChangesAsync();
+            return RedirectToAction("GetTrainingPlan", new { id = model.CategoryId });
         }
     }
 }
