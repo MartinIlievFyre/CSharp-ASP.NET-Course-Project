@@ -1,11 +1,11 @@
-using GymApp.Data;
-using GymApp.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-
 namespace GymApp
 {
+    using Microsoft.EntityFrameworkCore;
+
+    using GymApp.Data;
+    using GymApp.Data.Models;
+    using GymApp.Services.Data;
+    using GymApp.Services.Data.Interfaces;
     public class Program
     {
         public static void Main(string[] args)
@@ -17,7 +17,6 @@ namespace GymApp
             builder.Services.AddDbContext<GymAppDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -42,7 +41,10 @@ namespace GymApp
             })
                 .AddEntityFrameworkStores<GymAppDbContext>();
 
-          
+            builder.Services.AddScoped<IAccessoryService, AccessoryService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IFoodService, FoodService>();
+
 
             builder.Services.AddControllersWithViews();
 

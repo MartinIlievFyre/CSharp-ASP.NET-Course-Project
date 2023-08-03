@@ -1,5 +1,5 @@
 ﻿using GymApp.Data;
-using GymApp.Models;
+using GymApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

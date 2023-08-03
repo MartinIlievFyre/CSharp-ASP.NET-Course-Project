@@ -40,7 +40,7 @@
         @foreach (var food in Model)
         {
             <tr>
-                <td><h3 class="text-lg-start" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">@food.Name Cal: @food.Calories Carbs: @string.Format("{0:N1}", food.Carbs) Fat: @string.Format("{0:N1}", food.Fat) Protein: @string.Format("{0:N1}", food.Protein) - (@food.Grams g)</h3></td>
+                <td><h3 class="text-lg-start" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><font style=" font-size: 37px;">@food.Name</font> <br>Cal: @food.Calories Carbs: @string.Format("{0:N1}", food.Carbs) Fat: @string.Format("{0:N1}", food.Fat) Protein: @string.Format("{0:N1}", food.Protein) - (@food.Grams g)</h3></td>
                 <td>
                     @if (this.User.Identity!.IsAuthenticated)
                     {

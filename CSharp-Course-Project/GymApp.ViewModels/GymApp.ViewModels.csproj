@@ -8,8 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GymApp.Common\GymApp.Common.csproj" />
-    <ProjectReference Include="..\GymApp.Data\GymApp.Data.csproj" />
-    <ProjectReference Include="..\GymApp.ViewModels\GymApp.ViewModels.csproj" />
+    <ProjectReference Include="..\GymApp.Data.Models\GymApp.Data.Models.csproj" />
   </ItemGroup>
 
 </Project>

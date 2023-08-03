@@ -4,7 +4,7 @@
 
     using GymApp.Data;
 
-    using GymApp.Models;
+    using GymApp.ViewModels;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Authorization;
     using System.Security.Claims;

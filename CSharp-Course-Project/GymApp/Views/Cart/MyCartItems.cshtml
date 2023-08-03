@@ -25,21 +25,15 @@
                             <div class="product-image">
                                 @if (product.Type == TypeProductAccessory)
                                 {
-                                    <a asp-area="" asp-controller="Accessory" asp-action="AccessoryDetails" asp-route-id="@product.Id">
                                         <img src="@product.Image" alt="@product.Name" style="width:100%;">
-                                    </a>
                                 }
                                 else if (product.Type == TypeProductSupplement)
                                 {
-                                    <a asp-area="" asp-controller="Supplement" asp-action="SupplementDetails" asp-route-id="@product.Id">
                                         <img src="@product.Image" alt="@product.Name" style="width:100%;">
-                                    </a>
                                 }
                                 else if (product.Type == TypeProductWear)
                                 {
-                                    <a asp-area="" asp-controller="Clothing" asp-action="ClothingDetails" asp-route-id="@product.Id">
                                         <img src="@product.Image" alt="@product.Name" style="width:100%;">
-                                    </a>
                                 }
                             </div>
                             <div class="product-info">

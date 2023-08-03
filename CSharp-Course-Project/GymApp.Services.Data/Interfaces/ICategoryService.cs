@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GymApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace GymApp.Services.Data.Interfaces
 {
     public interface ICategoryService
     {
-        
+        Task<IEnumerable<CategoryViewModel>> AllCategoriesAsync();
     }
 }

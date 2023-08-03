@@ -1,6 +1,5 @@
 ﻿using GymApp.Data;
-using GymApp.Data.Models;
-using GymApp.Models;
+using GymApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -81,7 +80,6 @@ namespace GymApp.Controllers
         }
 
         [HttpPost]
-        // [ValidateAntiForgeryToken]
         // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditTrainingPlan(EditTrainingPlanViewModel model)
         {

@@ -4,56 +4,52 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using GymApp.Data;
-    using GymApp.Models;
     using System.Security.Claims;
     using GymApp.Data.Models;
-    using NuGet.Packaging.Core;
+    using GymApp.ViewModels;
+    using GymApp.Infrastructure.Extensions;
+    using GymApp.Services.Data.Interfaces;
 
     [Authorize]
     public class CalculatorController : Controller
     {
         private readonly GymAppDbContext dbContext;
+        private readonly IFoodService foodService;
 
-        public CalculatorController(GymAppDbContext dbContext)
+        public CalculatorController(GymAppDbContext dbContext, IFoodService foodService)
         {
             this.dbContext = dbContext;
+            this.foodService = foodService;
         }
         [HttpGet]
         public async Task<IActionResult> CalMacro()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var foods = await this.dbContext
-                .UsersFoods
-                .Where(auf => auf.UsersFood.Any(uf => uf.TrainingGuyId.ToString() == userId))
-                .Select(auf => new FoodViewModel()
-                {
-                    Id = auf.Id,
-                    Name = auf.Name,
-                    Calories = auf.Calories,
-                    Carbs = auf.Carbs,
-                    Fat = auf.Fat,
-                    Protein = auf.Protein,
-                    Grams = auf.Grams
-                })
-                .ToListAsync();
-            return View(foods);
+            try
+            {
+                string? userId = User.GetId();
+                var foods = await foodService.AllUserFoodsByUserIdAsync(userId);
+                
+                return View(foods);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return NotFound();
+            }
         }
         public async Task<IActionResult> AllProducts()
         {
-            var foods = await this.dbContext
-                .Foods
-                .Select(f => new FoodViewModel()
-                {
-                    Id = f.Id,
-                    Name = f.Name,
-                    Calories = f.Calories,
-                    Carbs = f.Carbs,
-                    Fat = f.Fat,
-                    Protein = f.Protein
-                })
-                .ToListAsync();
-            return View(foods);
+            try
+            {
+                var foods = await foodService.AllFoodsWithDefaultValuesAsync();
+                return View(foods);
+            }
+            catch (ArgumentException ex)
+            {   
+                //To DO
+                TempData["Error"] = ex.Message;
+                return NotFound();
+            }
         }
         [HttpPost]
         public async Task<IActionResult> AddProductToList(int id, int? weight)
@@ -62,17 +58,15 @@
             {
                 if (weight.HasValue && weight > 0)
                 {
-                    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    string? userId = User.GetId();
                     Guid userGuidId;
                     Guid.TryParse(userId, out userGuidId);
 
-                    var foodWithDefaultValues = await dbContext.Foods.FirstOrDefaultAsync(f => f.Id == id);
-                    var food = await dbContext.UsersFoods.FirstOrDefaultAsync(f => f.Id == id);
+                    var foodWithDefaultValues = await foodService.AllFoodsWithDefaultValuesByIdAsync(id);
+                    var food = await foodService.AllUserFoodsByIdAsync(id);
+
                     if (food != null)
                     {
-                        //var userFood = food
-                        //    .UsersFood
-                        //    .FirstOrDefault(uf => uf.TrainingGuyId == userGuidId && uf.FoodId == id);
                         var userFood = await dbContext
                             .ApplicationUsersFoods
                             .FirstOrDefaultAsync(uf => uf.TrainingGuyId == userGuidId && uf.FoodId == id);
@@ -114,8 +108,9 @@
                     return RedirectToAction("AllProducts", "Calculator");
                 }
             }
-            catch
+            catch (ArgumentException ex)
             {
+                TempData["Error"] = ex.Message;
                 return BadRequest();
             }
 
@@ -159,32 +154,41 @@
         [HttpPost]
         public async Task<IActionResult> AddFood(AddFoodViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View(model);
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                Food food = new Food()
+                {
+                    Name = model.Name, 
+                    Calories = model.Calories,
+                    Carbs = model.Carbs,
+                    Fat = model.Fat,
+                    Protein = model.Protein
+                };
+                UserFood userFood = new UserFood()
+                {
+                    Name = model.Name,
+                    Calories = model.Calories,
+                    Carbs = model.Carbs,
+                    Fat = model.Fat,
+                    Protein = model.Protein
+                };
+                await dbContext.Foods.AddAsync(food);
+                await dbContext.UsersFoods.AddAsync(userFood);
+                await dbContext.SaveChangesAsync();
+
+                return RedirectToAction("CalMacro", "Calculator");
+
+            }
+            catch (Exception)
+            {
+
+                return BadRequest();
             }
 
-            Food food = new Food()
-            {
-                Name = model.Name, 
-                Calories = model.Calories,
-                Carbs = model.Carbs,
-                Fat = model.Fat,
-                Protein = model.Protein
-            };
-            UserFood userFood = new UserFood()
-            {
-                Name = model.Name,
-                Calories = model.Calories,
-                Carbs = model.Carbs,
-                Fat = model.Fat,
-                Protein = model.Protein
-            };
-            await dbContext.Foods.AddAsync(food);
-            await dbContext.UsersFoods.AddAsync(userFood);
-            await dbContext.SaveChangesAsync();
-
-            return RedirectToAction("CalMacro", "Calculator");
         }
     }
 }
