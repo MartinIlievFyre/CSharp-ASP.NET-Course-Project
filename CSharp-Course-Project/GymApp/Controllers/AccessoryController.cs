@@ -1,18 +1,11 @@
-﻿using GymApp.Common;
-using GymApp.Data;
-using GymApp.Data.Models;
-using GymApp.Services.Data.Interfaces;
-using GymApp.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging.Signing;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
-using System.Security.Claims;
-
-namespace GymApp.Controllers
+﻿namespace GymApp.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+
+    using GymApp.Services.Data.Interfaces;
+    using GymApp.ViewModels;
+
     [Authorize]
     public class AccessoryController : Controller
     {
@@ -34,8 +27,8 @@ namespace GymApp.Controllers
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
-                //To Do
-                return NotFound();
+
+                return RedirectToAction("Index", "Home");
             }
         }
         [HttpGet]
@@ -58,18 +51,14 @@ namespace GymApp.Controllers
                 // Get the details of three random products
                 var randomProducts = await accessoryService.RandomAccessoriesWithIdsAsync(randomAccessoryIds);
 
-                var viewModel = new AccessoryDetailsViewModel()
-                {
-                    CurrentAccessory = currentProduct,
-                    RandomAccessories = randomProducts
-                };
+                var viewModel = accessoryService.CreateAccessoryDetailsViewModel(currentProduct, randomProducts);
+
                 return View(viewModel);
             }
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
-                //TO DO redirect 
-                return NotFound();
+                return RedirectToAction("Index", "Home");
             }
         }
     }

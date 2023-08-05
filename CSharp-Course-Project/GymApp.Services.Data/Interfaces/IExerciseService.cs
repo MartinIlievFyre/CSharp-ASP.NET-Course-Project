@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace GymApp.Services.Data.Interfaces
 {
-    public interface IOrderService
+    public interface IExerciseService
     {
-        Task<Order> CreateNewOrderAsync(OrderViewModel model, Guid userGuidId);
+        AddExerciseViewModel CreateAddExerciseViewModel(List<CategoryViewModel> categories);
+        Task<Exercise> CreateExerciseAsync(AddExerciseViewModel model);
     }
 }

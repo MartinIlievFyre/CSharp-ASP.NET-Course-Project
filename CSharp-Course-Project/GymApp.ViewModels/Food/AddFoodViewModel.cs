@@ -18,15 +18,15 @@
         public int Calories { get; set; }
 
         [Required]
-        [Range(typeof(int), CarbsMin, CarbsMax)]
+        [Range(typeof(double), CarbsMin, CarbsMax)]
         public double Carbs { get; set; }
 
         [Required]
-        [Range(typeof(int), FatMin, FatMax)]
+        [Range(typeof(double), FatMin, FatMax)]
         public double Fat { get; set; }
 
         [Required]
-        [Range(typeof(int), ProteinMin, ProteinMax)]
+        [Range(typeof(double), ProteinMin, ProteinMax)]
         public double Protein { get; set; }
     }
 }

@@ -1,11 +1,15 @@
 ﻿namespace GymApp.Services.Data
 {
-    using GymApp.Services.Data.Interfaces;
-    using GymApp.ViewModels;
-    using Microsoft.EntityFrameworkCore;
-    using GymApp.Data;
-    using static GymApp.Common.ExeptionMessages;
     using System.Collections.Generic;
+
+    using Microsoft.EntityFrameworkCore;
+
+    using GymApp.Data;
+    using GymApp.ViewModels;
+    using GymApp.Data.Models;
+    using GymApp.Services.Data.Interfaces;
+
+    using static GymApp.Common.ExceptionMessages;
 
     public class AccessoryService : IAccessoryService
     {
@@ -94,6 +98,32 @@
                 throw new ArgumentException(RandomAccessoryWithIdsAreNull);
             }
             return randomProducts;
+        }
+
+        public AccessoryDetailsViewModel CreateAccessoryDetailsViewModel(AccessoryViewModel currentProduct, List<AccessoryViewModel> randomProducts)
+        {
+            var viewModel = new AccessoryDetailsViewModel()
+            {
+                CurrentAccessory = currentProduct,
+                RandomAccessories = randomProducts
+            };
+            if (viewModel == null)
+            {
+                throw new ArgumentException();
+            }
+            return viewModel;
+        }
+
+        public async Task<Accessory?> GetAccessoryByNameAsync(string accessoryName)
+        {
+            Accessory? accessory = await dbContext.Accessories.FirstOrDefaultAsync(a => a.Name == accessoryName);
+
+            if (accessory == null)
+            {
+                throw new ArgumentException(ThereIsNoAccessoryWithThisName);
+            }
+
+            return accessory;
         }
     }
 }

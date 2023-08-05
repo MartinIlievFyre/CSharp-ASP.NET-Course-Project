@@ -1,109 +1,79 @@
 ﻿namespace GymApp.Controllers
 {
-    using GymApp.Data;
-    using GymApp.ViewModels;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using System.Security.Claims;
-    using static GymApp.Common.GeneralApplicationConstants;
+    using Microsoft.AspNetCore.Authorization;
+
+    using GymApp.Data;
+    using GymApp.ViewModels;
+    using GymApp.Services.Data.Interfaces;
+
     public class ClothingController : Controller
     {
         private GymAppDbContext dbContext;
+        private readonly ICategoryService categoryService;
+        private readonly IWearService wearService;
 
-        public ClothingController(GymAppDbContext dbContext)
+        public ClothingController(GymAppDbContext dbContext, ICategoryService categoryService, IWearService wearService)
         {
-                this.dbContext = dbContext;
+            this.dbContext = dbContext;
+            this.categoryService = categoryService;
+            this.wearService = wearService;
         }
         [HttpGet]
         public async Task<IActionResult> Clothes()
         {
-            var models = new CategoryListViewModel();
-            var categories = await dbContext.WearCategories
-                .Select(c => new CategoryViewModel()
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                })
-                .ToListAsync();
-            models = new CategoryListViewModel()
+            try
             {
-                Categories = categories
-            };
-            return View(models);
-        }
-        [HttpGet]
+                ICollection<CategoryViewModel> categories = await categoryService.AllWearCategoriesAsync();
 
+                CategoryListViewModel models = categoryService.CreateCategoryListViewModel(categories);
+                return View(models);
+
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetClothing(string id)
         {
-            var clothes = await dbContext
-                .Clothes
-                .Where(c => c.WearCategoryId == int.Parse(id))
-                .Select(c => new WearViewModel()
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Price = c.Price,
-                    ImageUrl = c.ImageUrl,
-                    Type = c.Type
-
-                })
-                .ToListAsync();
-            return View(clothes);
+            try
+            {
+                List<WearViewModel>? clothes = await wearService.GetWearViewModelsByWearCategoryIdAsync(id);
+                return View(clothes);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
         }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ClothingDetails(string id)
         {
-            var currentProduct = await dbContext
-         .Clothes
-         .Where(c => c.Id == int.Parse(id))
-         .Select(c => new WearViewModel()
-         {
-             Id = c.Id,
-             Name = c.Name,
-             Price = c.Price,
-             Description = c.Description,
-             Color = c.Color,
-             Size = c.Size,
-             Fabric = c.Fabric,
-             WearCategory = c.WearCategory.Name,
-             ImageUrl = c.ImageUrl,
-             Type = c.Type
-
-         })
-         .FirstOrDefaultAsync();
-
-            if (currentProduct == null)
+            try
             {
-                return NotFound();
+                WearViewModel? currentProduct = await wearService.GetWearViewModelByIdAsync(id);
+
+                List<int> randomClothesIds = await wearService.GetThreeRandomProductsIdsAsync(id);
+
+                List<WearViewModel> randomProducts = await wearService.GetThreeRandomProductsByIdsAsync(randomClothesIds);
+
+                ClothingDetailsViewModel viewModel = wearService.CreateNewClothingDetailsViewModelAsync(currentProduct, randomProducts);
+
+                return View(viewModel);
             }
-
-            var randomClothesIds = await dbContext.Clothes
-                .Where(c => c.Id != int.Parse(id))
-                .Select(c => c.Id)
-                .OrderBy(x => Guid.NewGuid())
-                .Take(3)
-                .ToListAsync();
-
-            var randomProducts = await dbContext.Clothes
-                .Where(c => randomClothesIds.Contains(c.Id))
-                .Select(c => new WearViewModel()
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Price = c.Price,
-                    ImageUrl = c.ImageUrl
-                })
-                .ToListAsync();
-
-            var viewModel = new ClothingDetailsViewModel()
+            catch (ArgumentException ex)
             {
-                CurrentClothing = currentProduct,
-                RandomClothes = randomProducts
-            };
-
-            return View(viewModel);
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

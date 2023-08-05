@@ -1,13 +1,8 @@
-﻿using GymApp.Data.Models;
-using GymApp.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GymApp.Services.Data.Interfaces
+﻿namespace GymApp.Services.Data.Interfaces
 {
+    using GymApp.ViewModels;
+
+    using GymApp.Data.Models;
     public interface IFoodService
     {
         Task<IEnumerable<FoodViewModel>> AllFoodsWithDefaultValuesAsync();
@@ -16,5 +11,13 @@ namespace GymApp.Services.Data.Interfaces
 
         Task<Food> AllFoodsWithDefaultValuesByIdAsync(int foodId);
         Task<UserFood> AllUserFoodsByIdAsync(int foodId);
+        Task<ApplicationUserFood?> GetApplicationUserFoodAsync(int foodId, string? userId);
+        Task<ApplicationUserFood?> GetUserFromApplicationUserFoodByUserIdAsync(string? userId);
+
+        Task AddingMacrosToAnExistingFoodAsync(UserFood? food, Food? foodWithDefaultValues, double weightMultiplier, int weightGrams);
+        Task AddingNewFoodToListAsync(UserFood? food, Food? foodWithDefaultValues, double weightMultiplier, int weightGrams, int foodId,Guid userGuidId);
+        Task RemoveFoodFromListAsync(ApplicationUserFood? food);
+        Task<Food> CreateFoodWithDefaultValuesAsync(AddFoodViewModel model);
+        Task<UserFood> CreateFoodThatUserCanModifyAsync(AddFoodViewModel model);
     }
 }

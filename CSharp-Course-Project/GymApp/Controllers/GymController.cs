@@ -132,9 +132,9 @@
                         }
                     }
                     await dbContext.SaveChangesAsync();
-                    Task.Delay(3000).Wait();
+                    Task.Delay(1500).Wait();
                 }
-                Task.Delay(3000).Wait();
+                Task.Delay(1500).Wait();
             }
             catch
             {

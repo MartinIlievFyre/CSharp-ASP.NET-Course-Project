@@ -1,22 +1,23 @@
-﻿using GymApp.Data;
-using GymApp.Data.Models;
-using GymApp.Services.Data.Interfaces;
-using GymApp.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-namespace GymApp.Controllers
+﻿namespace GymApp.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    
+    using GymApp.ViewModels;
+    using GymApp.Data.Models;
+    using GymApp.Services.Data.Interfaces;
+    
+    using static GymApp.Common.NotificationMessagesConstants;
+
     [Authorize]
     public class AddExerciseController : Controller
     {
-        private readonly GymAppDbContext dbContext;
         private readonly ICategoryService categoryService;
-        public AddExerciseController(GymAppDbContext dbContext, ICategoryService categoryService)
+        private readonly IExerciseService exerciseService;
+        public AddExerciseController( ICategoryService categoryService, IExerciseService exerciseService)
         {
-            this.dbContext = dbContext;
             this.categoryService = categoryService;
+            this.exerciseService = exerciseService;
         }
         [HttpGet]
         public async Task<IActionResult> AddExercise()
@@ -25,18 +26,14 @@ namespace GymApp.Controllers
             {
                 List<CategoryViewModel> categories = (List<CategoryViewModel>)await categoryService.AllCategoriesAsync(); 
                     
-                AddExerciseViewModel model = new AddExerciseViewModel()
-                {
-                    Categories = categories
-                };
+                AddExerciseViewModel model = exerciseService.CreateAddExerciseViewModel(categories);
 
                  return View(model);
             }
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
-                //To Do
-                return NotFound();
+                return RedirectToAction("Index", "Home");
             }
         }
         [HttpPost]
@@ -51,24 +48,15 @@ namespace GymApp.Controllers
                 
                 //TO DO IF there is a exercise with same name to send alert for that and do nothing
 
-                Exercise exercise = new Exercise()
-                {
-                    Name = model.Name,
-                    Execution = model.Execution,
-                    Benefit = model.Benefit,
-                    ImageUrl = model.ImageUrl,
-                    CategoryId = model.CategoryId
-                };
-                await dbContext.AddAsync(exercise);
-                await dbContext.SaveChangesAsync();
-
+                Exercise exercise = await exerciseService.CreateExerciseAsync(model);
+                TempData["Success"] = SuccessfullyCreatedExercise;
                 return RedirectToAction("Exercises", "Gym");
 
             }
-            catch (Exception)
+            catch (ArgumentException ex)
             {
-                //TO Do
-                return BadRequest();
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("AddExercise", "AddExercise");
             }
         }
     }

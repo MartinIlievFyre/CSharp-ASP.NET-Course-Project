@@ -44,6 +44,13 @@ namespace GymApp
             builder.Services.AddScoped<IAccessoryService, AccessoryService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IFoodService, FoodService>();
+            builder.Services.AddScoped<IExerciseService, ExerciseService>();
+            builder.Services.AddScoped<ITrainingPlanService, TrainingPlanService>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ISupplementService, SupplementService>();
+            builder.Services.AddScoped<IWearService, WearService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
 
 
             builder.Services.AddControllersWithViews();

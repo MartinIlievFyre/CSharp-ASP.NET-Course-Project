@@ -1,52 +1,59 @@
-﻿using GymApp.Data;
-using GymApp.Data.Models;
-using GymApp.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using static GymApp.Common.GeneralApplicationConstants;
-namespace GymApp.Controllers
+﻿namespace GymApp.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+
+    using GymApp.ViewModels;
+    using GymApp.Data.Models;
+    using GymApp.Services.Data.Interfaces;
+    using GymApp.Infrastructure.Extensions;
+
+    using static GymApp.Common.GeneralApplicationConstants;
+    using static GymApp.Common.NotificationMessagesConstants;
+
     [Authorize]
     public class CartController : Controller
     {
-        //private readonly IShoppingCartService shoppingCartService;
-        private readonly GymAppDbContext dbContext;
-        public CartController(GymAppDbContext dbContext)
+        private readonly ICartService cartService;
+        private readonly ISupplementService supplementService;
+        private readonly IAccessoryService accessoryService;
+        private readonly IWearService wearService;
+        private readonly IProductService productService;
+        private readonly IOrderService orderService;
+        public CartController( ICartService cartService, ISupplementService supplementService, IAccessoryService accessoryService, IWearService wearService, IProductService productService, IOrderService orderService )
         {
-            this.dbContext = dbContext;
+            this.cartService = cartService;
+            this.supplementService = supplementService;
+            this.accessoryService = accessoryService;
+            this.wearService = wearService;
+            this.productService = productService;
+            this.orderService = orderService;
         }
+       
         [HttpGet]
         public async Task<IActionResult> MyCartItems()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var products = await dbContext.ShoppingCart.Where(p => p.UserId.ToString() == userId).ToListAsync();
-
-            var modelProducts = products.Select(p => new ProductViewModel()
+            try
             {
-                Id = p.Id,
-                Name = p.Name,
-                Price = p.Price,
-                Quantity = p.Quantity,
-                TotalPrice = p.TotalPrice,
-                Size = p.Size,
-                Image = p.Image,
-                Type = p.Type,
-            })
-                .ToList();
+                string? userId = User.GetId();
 
-            var sum = modelProducts.Sum(p => p.TotalPrice);
+                List<Product> products = await productService.GetAllProductsInCartByUserIdAsync(userId);
 
-            var model = new CartViewModel()
+                List<ProductViewModel> modelProducts = productService.GetAllProductViewModelsOnProducts(products);
+
+                decimal sum = cartService.GetTotalSumOfAllProducts(modelProducts);
+
+                CartViewModel model = cartService.CreateNewCartViewModel(modelProducts, sum);
+                return View(model);
+            }
+            catch (ArgumentException ex)
             {
-                Products = modelProducts,
-                FinalPrice = sum
-            };
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
 
-            return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> AddToCart(string name, string typeOfProduct, string size, int? quantity)
         {
@@ -55,7 +62,7 @@ namespace GymApp.Controllers
 
                 if (quantity.HasValue && quantity > 0)
                 {
-                    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    string? userId = User.GetId();
                     Guid userGuidId;
                     Guid.TryParse(userId, out userGuidId);
 
@@ -65,83 +72,47 @@ namespace GymApp.Controllers
 
                     if (typeOfProduct == TypeProductSupplement)
                     {
-                        supplement = await dbContext.Supplements.FirstOrDefaultAsync(p => p.Name == name);
-                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name))
+                        supplement = await supplementService.GetSupplemenntByNameAsync(name);
+                        if (!await cartService.IsInCartHasProductByNameAsync(name))
                         {
-
-                            dbContext.ShoppingCart.Add(new Product()
-                            {
-                                Name = supplement!.Name,
-                                Image = supplement.ImageUrl,
-                                Price = supplement.Price,
-                                UserId = userGuidId,
-                                Quantity = (int)quantity,
-                                Size = "",
-                                Type = typeOfProduct
-                            });
+                            await cartService.AddSupplementToCartAsync(supplement, userGuidId, typeOfProduct, quantity);
                         }
                         else
                         {
-                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name).FirstOrDefaultAsync();
-                            product!.Quantity += (int)quantity;
+                            Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
+                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
                         }
-                        await dbContext.SaveChangesAsync();
-                        Task.Delay(1500).Wait();
                     }
                     else if (typeOfProduct == TypeProductAccessory)
                     {
-                        accessory = await dbContext.Accessories.FirstOrDefaultAsync(a => a.Name == name);
-                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name))
+                        accessory = await accessoryService.GetAccessoryByNameAsync(name);
+                        if (!await cartService.IsInCartHasProductByNameAsync(name))
                         {
-
-                            dbContext.ShoppingCart.Add(new Product()
-                            {
-                                Name = accessory!.Name,
-                                Image = accessory.ImageUrl,
-                                Price = accessory.Price,
-                                UserId = userGuidId,
-                                Quantity = (int)quantity,
-                                Size = "",
-                                Type = typeOfProduct
-                            });
+                            await cartService.AddAccessoryToCartAsync(accessory, userGuidId, typeOfProduct, quantity);
                         }
                         else
                         {
-                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name).FirstOrDefaultAsync();
-                            product!.Quantity += (int)quantity;
+                            Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
+                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
                         }
-                        await dbContext.SaveChangesAsync();
-                        Task.Delay(1500).Wait();
                     }
                     else if (typeOfProduct == TypeProductWear)
                     {
-                        wear = await dbContext.Clothes.FirstOrDefaultAsync(w => w.Name == name);
-                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name && s.Size == size))
+                        wear = await wearService.GetWearByNameAsync(name);
+                        if (!await cartService.IsInCartHasProductByNameAndSizeAsync(name, size))
                         {
-
-                            dbContext.ShoppingCart.Add(new Product()
-                            {
-                                Name = wear!.Name,
-                                Image = wear.ImageUrl,
-                                Price = wear.Price,
-                                UserId = userGuidId,
-                                Quantity = (int)quantity,
-                                Size = size,
-                                Type = typeOfProduct
-                            });
+                            await cartService.AddWearToCartAsync(wear, userGuidId, typeOfProduct, size, quantity);
                         }
                         else
                         {
-                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name && p.Size == size).FirstOrDefaultAsync();
-                            product!.Quantity += (int)quantity;
+                            Product? product = await productService.GetProductFromShoppingCartByNameAndSizeAsync(name, size);
+                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
                         }
-                        await dbContext.SaveChangesAsync();
-                        Task.Delay(1500).Wait();
                     }
                 }
-                else if(!quantity.HasValue)
+                else if (!quantity.HasValue)
                 {
-                    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    string? userId = User.GetId();
                     Guid userGuidId;
                     Guid.TryParse(userId, out userGuidId);
 
@@ -149,176 +120,134 @@ namespace GymApp.Controllers
                     Supplement? supplement;
                     Wear? wear;
 
+                    quantity = 1;
+
                     if (typeOfProduct == TypeProductSupplement)
                     {
-                        supplement = await dbContext.Supplements.FirstOrDefaultAsync(p => p.Name == name);
-                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name))
+                        supplement = await supplementService.GetSupplemenntByNameAsync(name);
+                        if (!await cartService.IsInCartHasProductByNameAsync(name))
                         {
-
-                            dbContext.ShoppingCart.Add(new Product()
-                            {
-                                Name = supplement!.Name,
-                                Image = supplement.ImageUrl,
-                                Price = supplement.Price,
-                                UserId = userGuidId,
-                                Quantity = 1,
-                                Size = "",
-                                Type = typeOfProduct
-                            });
+                            await cartService.AddSupplementToCartAsync(supplement, userGuidId, typeOfProduct, quantity);
                         }
                         else
                         {
-                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name).FirstOrDefaultAsync();
-                            product!.Quantity++;
+                            Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
+                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
                         }
-                        await dbContext.SaveChangesAsync();
-                        Task.Delay(1500).Wait();
                     }
                     else if (typeOfProduct == TypeProductAccessory)
                     {
-                        accessory = await dbContext.Accessories.FirstOrDefaultAsync(a => a.Name == name);
-                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name))
+                        accessory = await accessoryService.GetAccessoryByNameAsync(name);
+                        if (!await cartService.IsInCartHasProductByNameAsync(name))
                         {
-
-                            dbContext.ShoppingCart.Add(new Product()
-                            {
-                                Name = accessory!.Name,
-                                Image = accessory.ImageUrl,
-                                Price = accessory.Price,
-                                UserId = userGuidId,
-                                Quantity = 1,
-                                Size = "",
-                                Type = typeOfProduct
-                            });
+                            await cartService.AddAccessoryToCartAsync(accessory, userGuidId, typeOfProduct, quantity);
                         }
                         else
                         {
-                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name).FirstOrDefaultAsync();
-                            product!.Quantity++;
+                            Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
+                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
                         }
-                        await dbContext.SaveChangesAsync();
-                        Task.Delay(1500).Wait();
                     }
                     else if (typeOfProduct == TypeProductWear)
                     {
-                        wear = await dbContext.Clothes.FirstOrDefaultAsync(w => w.Name == name);
-                        if (!await dbContext.ShoppingCart.AnyAsync(s => s.Name == name && s.Size == size))
+                        wear = await wearService.GetWearByNameAsync(name);
+                        if (!await cartService.IsInCartHasProductByNameAndSizeAsync(name, size))
                         {
-
-                            dbContext.ShoppingCart.Add(new Product()
-                            {
-                                Name = wear!.Name,
-                                Image = wear.ImageUrl,
-                                Price = wear.Price,
-                                UserId = userGuidId,
-                                Quantity = 1,
-                                Size = size,
-                                Type = typeOfProduct
-                            });
+                            await cartService.AddWearToCartAsync(wear, userGuidId, typeOfProduct, size, quantity);
                         }
                         else
                         {
-                            var product = await dbContext.ShoppingCart.Where(p => p.Name == name && p.Size == size).FirstOrDefaultAsync();
-                            product!.Quantity++;
+                            Product? product = await productService.GetProductFromShoppingCartByNameAndSizeAsync(name, size);
+                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
                         }
-                        await dbContext.SaveChangesAsync();
-                        Task.Delay(1500).Wait();
                     }
-
                 }
             }
-            catch
+            catch (ArgumentException ex)
             {
-                BadRequest();
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
             };
+
+            TempData["Success"] = SuccessfullyAddedProductToCart;
             return RedirectToAction("MyCartItems", "Cart");
         }
 
         [HttpPost]
         public async Task<IActionResult> RemoveFromCart(int id)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var product = await dbContext
-                .ShoppingCart
-                .FirstOrDefaultAsync(ue => ue.Id == id && ue.UserId.ToString() == userId);
-
             try
             {
+                string? userId = User.GetId();
+
+                var product = await productService.GetProductFromShoppingCartByProductIdAndUserIdAsync(id, userId);
+
                 if (product != null)
-                    dbContext.ShoppingCart.Remove(product!);
-
-
-                await dbContext.SaveChangesAsync();
+                {
+                    await cartService.RemoveProductFromCartAsync(product!);
+                }
             }
-            catch
+            catch (ArgumentException ex)
             {
-                BadRequest();
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
             }
+            TempData["Error"] = SuccessfullyRemovedProductFormCart;
             return RedirectToAction("MyCartItems", "Cart");
         }
+
         [HttpPost]
         public async Task<IActionResult> RemoveAllFromCart()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Guid userGuidId;
-            Guid.TryParse(userId, out userGuidId);
-
-            var products = await dbContext.ShoppingCart.Select(p => new Product()
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Image = p.Image,
-                Size = p.Size,
-                Price = p.Price,
-                Quantity = p.Quantity,
-                Type = p.Type,
-                User = p.User,
-                UserId = userGuidId
-            })
-                .ToListAsync();
             try
             {
+                string? userId = User.GetId();
+                Guid userGuidId;
+                Guid.TryParse(userId, out userGuidId);
+
+                List<Product>? products = await productService.GetAllProductsInCartAsync(userGuidId);
+
                 if (products != null)
                 {
-                    dbContext.ShoppingCart.RemoveRange(products!);
+                    await cartService.RemoveAllProductsFromCartAsync(products);
                 }
-                await dbContext.SaveChangesAsync();
             }
-            catch
+            catch (ArgumentException ex)
             {
-                BadRequest();
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
             }
+
+            TempData["Error"] = SuccessfullyRemovedAllProductsFromCart;
             return RedirectToAction("MyCartItems", "Cart");
         }
 
         [HttpGet]
         public async Task<IActionResult> Checkout()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Guid userGuidId;
-            Guid.TryParse(userId, out userGuidId);
-            var products = await dbContext.ShoppingCart.Select(p => new Product()
+            try
             {
-                Id = p.Id,
-                Name = p.Name,
-                Image = p.Image,
-                Size = p.Size,
-                Price = p.Price,
-                Quantity = p.Quantity,
-                Type = p.Type,
-                User = p.User,
-                UserId = userGuidId
-            })
-               .ToListAsync();
-            if (products.Count == 0)
-            { 
-                //To set alert for "Your cart is empty!"
-                return RedirectToAction("Index","Home");
+                string? userId = User.GetId();
+                Guid userGuidId;
+                Guid.TryParse(userId, out userGuidId);
+
+                List<Product>? products = await productService.GetAllProductsInCartAsync(userGuidId);
+
+                if (products.Count == 0)
+                {
+                    TempData["Error"] = ThereAreNoProductsInCart;
+                    return RedirectToAction("Index", "Home");
+                }
+                OrderViewModel model = new OrderViewModel();
+                return View(model);
             }
-            OrderViewModel model = new OrderViewModel();
-            return View(model);
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message; ;
+                return RedirectToAction("Index", "Home");
+            }
         }
+
         [HttpPost]
         public async Task<IActionResult> Checkout(OrderViewModel model)
         {
@@ -329,49 +258,26 @@ namespace GymApp.Controllers
                     return View(model);
                 }
 
-                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                string? userId = User.GetId();
                 Guid userGuidId;
                 Guid.TryParse(userId, out userGuidId);
 
-                Order order = new Order()
-                {
-                    Id = model.Id,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Email = model.Email,
-                    Address = model.Address,
-                    City = model.City,
-                    Country = model.Country,
-                    Description = model.Description,
-                    PhoneNumber = model.PhoneNumber,
-                    UserId = userGuidId
-                };
+                List<Product>? products = await productService.GetAllProductsInCartAsync(userGuidId);
 
-                var products = await dbContext.ShoppingCart.Select(p => new Product()
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Image = p.Image,
-                    Size = p.Size,
-                    Price = p.Price,
-                    Quantity = p.Quantity,
-                    Type = p.Type,
-                    User = p.User,
-                    UserId = userGuidId
-                })
-                .ToListAsync();
+                Order order = await orderService.CreateNewOrderAsync(model, userGuidId);
 
                 if (products != null)
                 {
-                    dbContext.ShoppingCart.RemoveRange(products!);
+                    await cartService.RemoveAllProductsFromCartAsync(products);
                 }
-                await dbContext.Orders.AddAsync(order);
-                await dbContext.SaveChangesAsync();
             }
-            catch
+            catch (ArgumentException ex)
             {
-                BadRequest();
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
             }
+
+            TempData["Success"] = SuccessfullyPlacedOrder;
             return RedirectToAction("Index", "Home");
         }
     }

@@ -1,24 +1,22 @@
 ﻿namespace GymApp.Controllers
 {
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using GymApp.Data;
-    using System.Security.Claims;
+
     using GymApp.Data.Models;
     using GymApp.ViewModels;
     using GymApp.Infrastructure.Extensions;
     using GymApp.Services.Data.Interfaces;
 
+    using static GymApp.Common.NotificationMessagesConstants;
+
     [Authorize]
     public class CalculatorController : Controller
     {
-        private readonly GymAppDbContext dbContext;
         private readonly IFoodService foodService;
 
-        public CalculatorController(GymAppDbContext dbContext, IFoodService foodService)
+        public CalculatorController(IFoodService foodService)
         {
-            this.dbContext = dbContext;
             this.foodService = foodService;
         }
         [HttpGet]
@@ -28,15 +26,16 @@
             {
                 string? userId = User.GetId();
                 var foods = await foodService.AllUserFoodsByUserIdAsync(userId);
-                
+
                 return View(foods);
             }
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
-                return NotFound();
+                return RedirectToAction("Index", "Home");
             }
         }
+
         public async Task<IActionResult> AllProducts()
         {
             try
@@ -45,12 +44,12 @@
                 return View(foods);
             }
             catch (ArgumentException ex)
-            {   
-                //To DO
+            {
                 TempData["Error"] = ex.Message;
-                return NotFound();
+                return RedirectToAction("Index", "Home");
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> AddProductToList(int id, int? weight)
         {
@@ -67,90 +66,92 @@
 
                     if (food != null)
                     {
-                        var userFood = await dbContext
-                            .ApplicationUsersFoods
-                            .FirstOrDefaultAsync(uf => uf.TrainingGuyId == userGuidId && uf.FoodId == id);
+                        var userFood = await foodService.GetApplicationUserFoodAsync(id, userId);
 
                         int weightGrams = weight.Value;
                         double weightMultiplier = weightGrams / 100.0;
 
                         if (foodWithDefaultValues != null && food != null && userFood == null)
                         {
-
-                            food.Calories = (int)(foodWithDefaultValues.Calories * weightMultiplier);
-                            food.Carbs = foodWithDefaultValues.Carbs * weightMultiplier;
-                            food.Fat = foodWithDefaultValues.Fat * weightMultiplier;
-                            food.Protein = foodWithDefaultValues.Protein * weightMultiplier;
-                            food.Grams = weightGrams;
-
-
-                            food.UsersFood.Add(new ApplicationUserFood()
-                            {
-                                FoodId = id,
-                                TrainingGuyId = userGuidId
-                            });
-
-                            await dbContext.SaveChangesAsync();
+                            await foodService.AddingNewFoodToListAsync(food, foodWithDefaultValues, weightMultiplier, weightGrams, id, userGuidId);
                         }
                         else if (foodWithDefaultValues != null && food != null && userFood != null)
                         {
-                            food.Calories += (int)(foodWithDefaultValues.Calories * weightMultiplier);
-                            food.Carbs += foodWithDefaultValues.Carbs * weightMultiplier;
-                            food.Fat += foodWithDefaultValues.Fat * weightMultiplier;
-                            food.Protein += foodWithDefaultValues.Protein * weightMultiplier;
-                            food.Grams += weightGrams;
-                            await dbContext.SaveChangesAsync();
+                            await foodService.AddingMacrosToAnExistingFoodAsync(food, foodWithDefaultValues, weightMultiplier, weightGrams);
                         }
                     }
                 }
-                else
+                else if (!weight.HasValue)
                 {
-                    return RedirectToAction("AllProducts", "Calculator");
+                    string? userId = User.GetId();
+                    Guid userGuidId;
+                    Guid.TryParse(userId, out userGuidId);
+
+                    var foodWithDefaultValues = await foodService.AllFoodsWithDefaultValuesByIdAsync(id);
+                    var food = await foodService.AllUserFoodsByIdAsync(id);
+
+                    if (food != null)
+                    {
+                        var userFood = await foodService.GetApplicationUserFoodAsync(id, userId);
+
+                        int weightGrams = 100;
+                        double weightMultiplier = weightGrams / 100.0;
+
+                        if (foodWithDefaultValues != null && food != null && userFood == null)
+                        {
+
+                            await foodService.AddingNewFoodToListAsync(food, foodWithDefaultValues, weightMultiplier, weightGrams, id, userGuidId);
+                        }
+                        else if (foodWithDefaultValues != null && food != null && userFood != null)
+                        {
+                            await foodService.AddingMacrosToAnExistingFoodAsync(food, foodWithDefaultValues, weightMultiplier, weightGrams);
+                        }
+                    }
                 }
             }
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
-                return BadRequest();
+                return RedirectToAction("Index", "Home");
             }
 
-            return RedirectToAction("AllProducts", "Calculator");
+            TempData["Success"] = SuccessfullyAddedFood;
+
+            return RedirectToAction("CalMacro", "Calculator");
         }
+
         [HttpPost]
         public async Task<IActionResult> RemoveFromFoodList(int id)
         {
             try
             {
-                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                string? userId = User.GetId();
 
-                var user = await dbContext.
-                    ApplicationUsersFoods.
-                    FirstAsync(auf => auf.TrainingGuyId.ToString() == userId);
+                var user = await foodService.GetUserFromApplicationUserFoodByUserIdAsync(userId);
 
-                var food = await dbContext
-                    .ApplicationUsersFoods
-                    .Where(auf => auf.TrainingGuyId.ToString() == userId)
-                    .FirstAsync(auf => auf.FoodId == id);
+                var food = await foodService.GetApplicationUserFoodAsync(id, userId);
 
                 if (food != null)
                 {
-
-                    dbContext.ApplicationUsersFoods.Remove(food!);
-                    await dbContext.SaveChangesAsync();
+                    await foodService.RemoveFoodFromListAsync(food);
                 }
             }
-            catch
+            catch (ArgumentException ex)
             {
-                BadRequest();
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
             }
+            TempData["Error"] = SuccessfullyRemovedFood;
             return RedirectToAction("CalMacro", "Calculator");
         }
+
         [HttpGet]
         public IActionResult AddFood()
         {
             AddFoodViewModel model = new AddFoodViewModel();
             return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> AddFood(AddFoodViewModel model)
         {
@@ -160,35 +161,17 @@
                 {
                     return View(model);
                 }
-                Food food = new Food()
-                {
-                    Name = model.Name, 
-                    Calories = model.Calories,
-                    Carbs = model.Carbs,
-                    Fat = model.Fat,
-                    Protein = model.Protein
-                };
-                UserFood userFood = new UserFood()
-                {
-                    Name = model.Name,
-                    Calories = model.Calories,
-                    Carbs = model.Carbs,
-                    Fat = model.Fat,
-                    Protein = model.Protein
-                };
-                await dbContext.Foods.AddAsync(food);
-                await dbContext.UsersFoods.AddAsync(userFood);
-                await dbContext.SaveChangesAsync();
+                Food food = await foodService.CreateFoodWithDefaultValuesAsync(model);
+                UserFood userFood = await foodService.CreateFoodThatUserCanModifyAsync(model);
 
                 return RedirectToAction("CalMacro", "Calculator");
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                return BadRequest();
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
             }
-
         }
     }
 }

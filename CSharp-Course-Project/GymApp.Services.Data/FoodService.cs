@@ -4,9 +4,10 @@
 
     using GymApp.Data;
     using GymApp.ViewModels;
-    using GymApp.Services.Data.Interfaces;
-    using static GymApp.Common.ExeptionMessages;
     using GymApp.Data.Models;
+    using GymApp.Services.Data.Interfaces;
+
+    using static GymApp.Common.ExceptionMessages;
 
     public class FoodService : IFoodService
     {
@@ -80,6 +81,91 @@
             }
             return foods;
         }
+        public async Task<ApplicationUserFood?> GetApplicationUserFoodAsync(int foodId, string? userId)
+        {
+           var userFood = await dbContext
+                            .ApplicationUsersFoods
+                            .FirstOrDefaultAsync(uf => uf.TrainingGuyId.ToString() == userId && uf.FoodId == foodId);
 
+            return userFood;
+        }
+
+        public async Task<ApplicationUserFood?> GetUserFromApplicationUserFoodByUserIdAsync(string? userId)
+        {
+            var user = await dbContext.
+                    ApplicationUsersFoods.
+                    FirstAsync(auf => auf.TrainingGuyId.ToString() == userId);
+            return user;
+        }
+
+        public async Task AddingMacrosToAnExistingFoodAsync(UserFood? food, Food? foodWithDefaultValues, double weightMultiplier, int weightGrams)
+        {
+            food!.Calories += (int)(foodWithDefaultValues!.Calories * weightMultiplier);
+            food.Carbs += foodWithDefaultValues.Carbs * weightMultiplier;
+            food.Fat += foodWithDefaultValues.Fat * weightMultiplier;
+            food.Protein += foodWithDefaultValues.Protein * weightMultiplier;
+            food.Grams += weightGrams;
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task AddingNewFoodToListAsync(UserFood? food, Food? foodWithDefaultValues, double weightMultiplier, int weightGrams, int foodId, Guid userGuidId)
+        {
+            food!.Calories = (int)(foodWithDefaultValues!.Calories * weightMultiplier);
+            food.Carbs = foodWithDefaultValues.Carbs * weightMultiplier;
+            food.Fat = foodWithDefaultValues.Fat * weightMultiplier;
+            food.Protein = foodWithDefaultValues.Protein * weightMultiplier;
+            food.Grams = weightGrams;
+
+
+            food.UsersFood.Add(new ApplicationUserFood()
+            {
+                FoodId = foodId,
+                TrainingGuyId = userGuidId
+            });
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task RemoveFoodFromListAsync(ApplicationUserFood? food)
+        {
+            if (food == null)
+            { 
+                throw new ArgumentException(ThereIsNoFoodWithThisId);
+            }
+            dbContext.ApplicationUsersFoods.Remove(food!);
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Food> CreateFoodWithDefaultValuesAsync(AddFoodViewModel model)
+        {
+            Food food = new Food()
+            {
+                Name = model.Name,
+                Calories = model.Calories,
+                Carbs = model.Carbs,
+                Fat = model.Fat,
+                Protein = model.Protein
+            };
+            await dbContext.Foods.AddAsync(food);
+            await dbContext.SaveChangesAsync();
+            return food;    
+        }
+
+        public async Task<UserFood> CreateFoodThatUserCanModifyAsync(AddFoodViewModel model)
+        {
+            UserFood userFood = new UserFood()
+            {
+                Name = model.Name,
+                Calories = model.Calories,
+                Carbs = model.Carbs,
+                Fat = model.Fat,
+                Protein = model.Protein
+            };
+            await dbContext.UsersFoods.AddAsync(userFood);
+            await dbContext.SaveChangesAsync();
+            return userFood;
+        }
     }
 }
