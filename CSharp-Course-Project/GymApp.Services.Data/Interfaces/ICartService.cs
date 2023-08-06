@@ -5,11 +5,11 @@
 
     public interface ICartService
     {
-        decimal GetTotalSumOfAllProducts(List<ProductViewModel> modelProducts);
+        //decimal GetTotalSumOfAllProducts(List<ProductViewModel> modelProducts);
 
-        CartViewModel CreateNewCartViewModel(List<ProductViewModel> modelProducts, decimal sum);
+        Task<CartViewModel> CreateNewCartViewModelAsync(string? userId);
 
-        Task<bool> IsInCartHasProductByNameAsync(string productName);
+        Task<bool> IsInCartHasProductWithNameAsync(string productName);
 
         Task<bool> IsInCartHasProductByNameAndSizeAsync(string productName, string size);
 

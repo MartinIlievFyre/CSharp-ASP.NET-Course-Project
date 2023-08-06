@@ -37,13 +37,7 @@
             {
                 string? userId = User.GetId();
 
-                List<Product> products = await productService.GetAllProductsInCartByUserIdAsync(userId);
-
-                List<ProductViewModel> modelProducts = productService.GetAllProductViewModelsOnProducts(products);
-
-                decimal sum = cartService.GetTotalSumOfAllProducts(modelProducts);
-
-                CartViewModel model = cartService.CreateNewCartViewModel(modelProducts, sum);
+                CartViewModel model = await cartService.CreateNewCartViewModelAsync(userId);
                 return View(model);
             }
             catch (ArgumentException ex)
@@ -58,109 +52,57 @@
         {
             try
             {
+                string? userId = User.GetId();
+                Guid userGuidId;
+                Guid.TryParse(userId, out userGuidId);
 
-                if (quantity.HasValue && quantity > 0)
+                Accessory? accessory;
+                Supplement? supplement;
+                Wear? wear;
+
+                quantity = (quantity.HasValue && quantity > 0) ? quantity : 1;
+
+
+                if (typeOfProduct == TypeProductSupplement)
                 {
-                    string? userId = User.GetId();
-                    Guid userGuidId;
-                    Guid.TryParse(userId, out userGuidId);
-
-                    Accessory? accessory;
-                    Supplement? supplement;
-                    Wear? wear;
-
-                    if (typeOfProduct == TypeProductSupplement)
+                    supplement = await supplementService.GetSupplemenntByNameAsync(name);
+                    if (!await cartService.IsInCartHasProductWithNameAsync(name))
                     {
-                        supplement = await supplementService.GetSupplemenntByNameAsync(name);
-                        if (!await cartService.IsInCartHasProductByNameAsync(name))
-                        {
-                            await cartService.AddSupplementToCartAsync(supplement, userGuidId, typeOfProduct, quantity);
-                        }
-                        else
-                        {
-                            Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
-                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
-                        }
+                        await cartService.AddSupplementToCartAsync(supplement, userGuidId, typeOfProduct, quantity);
                     }
-                    else if (typeOfProduct == TypeProductAccessory)
+                    else
                     {
-                        accessory = await accessoryService.GetAccessoryByNameAsync(name);
-                        if (!await cartService.IsInCartHasProductByNameAsync(name))
-                        {
-                            await cartService.AddAccessoryToCartAsync(accessory, userGuidId, typeOfProduct, quantity);
-                        }
-                        else
-                        {
-                            Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
-                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
-                        }
-                    }
-                    else if (typeOfProduct == TypeProductWear)
-                    {
-                        wear = await wearService.GetWearByNameAsync(name);
-                        if (!await cartService.IsInCartHasProductByNameAndSizeAsync(name, size))
-                        {
-                            await cartService.AddWearToCartAsync(wear, userGuidId, typeOfProduct, size, quantity);
-                        }
-                        else
-                        {
-                            Product? product = await productService.GetProductFromShoppingCartByNameAndSizeAsync(name, size);
-                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
-                        }
+                        Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
+                        await cartService.IncreaseProductQuantityWithOne(product, quantity);
                     }
                 }
-                else if (!quantity.HasValue)
+                else if (typeOfProduct == TypeProductAccessory)
                 {
-                    string? userId = User.GetId();
-                    Guid userGuidId;
-                    Guid.TryParse(userId, out userGuidId);
-
-                    Accessory? accessory;
-                    Supplement? supplement;
-                    Wear? wear;
-
-                    quantity = 1;
-
-                    if (typeOfProduct == TypeProductSupplement)
+                    accessory = await accessoryService.GetAccessoryByNameAsync(name);
+                    if (!await cartService.IsInCartHasProductWithNameAsync(name))
                     {
-                        supplement = await supplementService.GetSupplemenntByNameAsync(name);
-                        if (!await cartService.IsInCartHasProductByNameAsync(name))
-                        {
-                            await cartService.AddSupplementToCartAsync(supplement, userGuidId, typeOfProduct, quantity);
-                        }
-                        else
-                        {
-                            Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
-                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
-                        }
+                        await cartService.AddAccessoryToCartAsync(accessory, userGuidId, typeOfProduct, quantity);
                     }
-                    else if (typeOfProduct == TypeProductAccessory)
+                    else
                     {
-                        accessory = await accessoryService.GetAccessoryByNameAsync(name);
-                        if (!await cartService.IsInCartHasProductByNameAsync(name))
-                        {
-                            await cartService.AddAccessoryToCartAsync(accessory, userGuidId, typeOfProduct, quantity);
-                        }
-                        else
-                        {
-                            Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
-                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
-                        }
-                    }
-                    else if (typeOfProduct == TypeProductWear)
-                    {
-                        wear = await wearService.GetWearByNameAsync(name);
-                        if (!await cartService.IsInCartHasProductByNameAndSizeAsync(name, size))
-                        {
-                            await cartService.AddWearToCartAsync(wear, userGuidId, typeOfProduct, size, quantity);
-                        }
-                        else
-                        {
-                            Product? product = await productService.GetProductFromShoppingCartByNameAndSizeAsync(name, size);
-                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
-                        }
+                        Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
+                        await cartService.IncreaseProductQuantityWithOne(product, quantity);
                     }
                 }
+                else if (typeOfProduct == TypeProductWear)
+                {
+                    wear = await wearService.GetWearByNameAsync(name);
+                    if (!await cartService.IsInCartHasProductByNameAndSizeAsync(name, size))
+                    {
+                        await cartService.AddWearToCartAsync(wear, userGuidId, typeOfProduct, size, quantity);
+                    }
+                    else
+                    {
+                        Product? product = await productService.GetProductFromShoppingCartByNameAndSizeAsync(name, size);
+                        await cartService.IncreaseProductQuantityWithOne(product, quantity);
+                    }
+                }
+
 
                 TempData["Success"] = SuccessfullyAddedProductToCart;
                 return RedirectToAction("MyCartItems", "Cart");

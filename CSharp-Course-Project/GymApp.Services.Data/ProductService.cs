@@ -42,34 +42,34 @@ namespace GymApp.Services.Data
             return products;
         }
 
-        public async Task<List<Product>> GetAllProductsInCartByUserIdAsync(string? userId)
-        {
-            List<Product> products = await dbContext.
-                ShoppingCart.
-                Where(p => p.UserId.ToString() == userId).
-                ToListAsync();
-
-            
-            return products;
-        }
-
-        public List<ProductViewModel> GetAllProductViewModelsOnProducts(List<Product> products)
-        {
-            List<ProductViewModel> modelProducts = products.Select(p => new ProductViewModel()
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Price = p.Price,
-                Quantity = p.Quantity,
-                TotalPrice = p.TotalPrice,
-                Size = p.Size,
-                Image = p.Image,
-                Type = p.Type,
-            })
-                .ToList();
-            
-            return modelProducts;
-        }
+        //public async Task<List<Product>> GetAllProductsInCartByUserIdAsync(string? userId)
+        //{
+        //    List<Product> products = await dbContext.
+        //        ShoppingCart.
+        //        Where(p => p.UserId.ToString() == userId).
+        //        ToListAsync();
+        //
+        //    
+        //    return products;
+        //}
+        //
+        //public List<ProductViewModel> GetAllProductViewModelsOnProducts(List<Product> products)
+        //{
+        //    List<ProductViewModel> modelProducts = products.Select(p => new ProductViewModel()
+        //    {
+        //        Id = p.Id,
+        //        Name = p.Name,
+        //        Price = p.Price,
+        //        Quantity = p.Quantity,
+        //        TotalPrice = p.TotalPrice,
+        //        Size = p.Size,
+        //        Image = p.Image,
+        //        Type = p.Type,
+        //    })
+        //        .ToList();
+        //    
+        //    return modelProducts;
+        //}
 
         public async Task<Product?> GetProductFromShoppingCartByNameAndSizeAsync(string productName, string size)
         {
