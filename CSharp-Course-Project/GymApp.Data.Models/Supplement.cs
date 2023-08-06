@@ -3,6 +3,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using static GymApp.Common.EntityValidationConstants.Supplement;
+
     public class Supplement
     {
         [Key]

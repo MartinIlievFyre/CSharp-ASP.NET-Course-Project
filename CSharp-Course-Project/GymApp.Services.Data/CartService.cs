@@ -82,7 +82,6 @@
             return model;
         }
 
-
         public decimal GetTotalSumOfAllProducts(List<ProductViewModel> modelProducts)
         {
             decimal totalSum = modelProducts.Sum(p => p.TotalPrice);
@@ -98,7 +97,6 @@
             product!.Quantity += (int)quantity!;
             await dbContext.SaveChangesAsync();
         }
-
 
         public async Task<bool> IsInCartHasProductByNameAndSizeAsync(string productName, string size)
         {

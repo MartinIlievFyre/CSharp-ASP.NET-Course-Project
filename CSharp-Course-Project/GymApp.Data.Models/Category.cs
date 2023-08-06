@@ -1,8 +1,9 @@
 ﻿namespace GymApp.Data.Models
 {
-using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations;
 
     using static GymApp.Common.EntityValidationConstants.Category;
+
     public class Category
     {
         public Category()

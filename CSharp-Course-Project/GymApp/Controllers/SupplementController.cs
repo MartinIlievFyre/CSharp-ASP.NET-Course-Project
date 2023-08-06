@@ -1,91 +1,57 @@
-﻿using GymApp.Data;
-using GymApp.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-namespace GymApp.Controllers
+﻿namespace GymApp.Controllers
 {
+
+    using GymApp.ViewModels;
+    using Microsoft.AspNetCore.Mvc;
+    using GymApp.Services.Data.Interfaces;
+    using Microsoft.AspNetCore.Authorization;
+
     [Authorize]
     public class SupplementController : Controller
     {
-        private readonly GymAppDbContext dbContext;
-        public SupplementController(GymAppDbContext dbContext)
+        private readonly ISupplementService supplementService;
+
+        public SupplementController(ISupplementService supplementService)
         {
-                this.dbContext = dbContext;
+            this.supplementService = supplementService;
         }
         [HttpGet]
         [AllowAnonymous]
-        public async Task< IActionResult> Supplements()
+        public async Task<IActionResult> Supplements()
         {
-            var models = await dbContext
-                .Supplements
-                .Select(s => new SupplementViewModel()
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Manufacturer = s.Manufacturer,
-                    Price = s.Price,
-                    Type = s.Type,
-                    ImageUrl = s.ImageUrl
-                })
-                .ToListAsync();
-            return View(models);
+            try
+            {
+                IEnumerable<SupplementViewModel> models = await supplementService.AllSupplementsAsync();
+                return View(models);
+
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
         }
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> SupplementDetails(string id)
         {
-            var currentProduct = await dbContext
-         .Supplements
-         .Where(s => s.Id == int.Parse(id))
-         .Select(s => new SupplementViewModel()
-         {
-             Id = s.Id,
-             Name = s.Name,
-             Manufacturer = s.Manufacturer,
-             Price = s.Price,
-             Description = s.Description,
-             Benefits = s.Benefits,
-             Ingredients = s.Ingredients,
-             ImageUrl = s.ImageUrl,
-             Type = s.Type,
-         })
-         .FirstOrDefaultAsync();
-
-            if (currentProduct == null)
+            try
             {
-                return NotFound();
+                SupplementViewModel? currentProduct = await supplementService.GetSupplementViewModelByIdAsync(id);
+
+                List<int> randomSupplementsIds = await supplementService.RandomSupplementIdsAsync(id);
+
+                List<SupplementViewModel> randomProducts = await supplementService.RandomSupplementsWithIdsAsync(randomSupplementsIds);
+
+                SupplementDetailsViewModel viewModel = supplementService.CreateSupplementDetailsViewModol(randomProducts, currentProduct);
+
+                return View(viewModel);
             }
-
-            // Get three random accessory IDs (excluding the current product ID)
-            var randomSupplementsIds = await dbContext.Supplements
-                .Where(s => s.Id != int.Parse(id))
-                .Select(a => a.Id)
-                .OrderBy(x => Guid.NewGuid())
-                .Take(3)
-                .ToListAsync();
-
-            // Get the details of three random products
-            var randomProducts = await dbContext.Supplements
-                .Where(s => randomSupplementsIds.Contains(s.Id))
-                .Select(s => new SupplementViewModel()
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Manufacturer = s.Manufacturer,
-                    Price = s.Price,
-                    ImageUrl = s.ImageUrl
-                })
-                .ToListAsync();
-
-            var viewModel = new SupplementDetailsViewModel()
+            catch (ArgumentException ex)
             {
-                CurrentSupplement = currentProduct,
-                RandomSupplements = randomProducts
-            };
-
-            return View(viewModel);
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

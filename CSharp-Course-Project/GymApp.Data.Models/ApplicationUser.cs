@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using static GymApp.Common.EntityValidationConstants.ApplicationUser;
-using Microsoft.AspNetCore.Identity;
-
-namespace GymApp.Data.Models
+﻿namespace GymApp.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Identity;
+    
+    using static GymApp.Common.EntityValidationConstants.ApplicationUser;
+
     public class ApplicationUser : IdentityUser<Guid>
     {
         public ApplicationUser()

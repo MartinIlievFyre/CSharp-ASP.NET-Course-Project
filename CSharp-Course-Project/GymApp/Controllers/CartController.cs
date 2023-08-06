@@ -20,7 +20,7 @@
         private readonly IWearService wearService;
         private readonly IProductService productService;
         private readonly IOrderService orderService;
-        public CartController( ICartService cartService, ISupplementService supplementService, IAccessoryService accessoryService, IWearService wearService, IProductService productService, IOrderService orderService )
+        public CartController(ICartService cartService, ISupplementService supplementService, IAccessoryService accessoryService, IWearService wearService, IProductService productService, IOrderService orderService)
         {
             this.cartService = cartService;
             this.supplementService = supplementService;
@@ -29,7 +29,7 @@
             this.productService = productService;
             this.orderService = orderService;
         }
-       
+
         [HttpGet]
         public async Task<IActionResult> MyCartItems()
         {
@@ -51,7 +51,6 @@
                 TempData["Error"] = ex.Message;
                 return RedirectToAction("Index", "Home");
             }
-
         }
 
         [HttpPost]
@@ -162,15 +161,15 @@
                         }
                     }
                 }
+
+                TempData["Success"] = SuccessfullyAddedProductToCart;
+                return RedirectToAction("MyCartItems", "Cart");
             }
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
                 return RedirectToAction("Index", "Home");
             };
-
-            TempData["Success"] = SuccessfullyAddedProductToCart;
-            return RedirectToAction("MyCartItems", "Cart");
         }
 
         [HttpPost]
@@ -186,14 +185,14 @@
                 {
                     await cartService.RemoveProductFromCartAsync(product!);
                 }
+                TempData["Error"] = SuccessfullyRemovedProductFormCart;
+                return RedirectToAction("MyCartItems", "Cart");
             }
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
                 return RedirectToAction("Index", "Home");
             }
-            TempData["Error"] = SuccessfullyRemovedProductFormCart;
-            return RedirectToAction("MyCartItems", "Cart");
         }
 
         [HttpPost]
@@ -207,10 +206,11 @@
 
                 List<Product>? products = await productService.GetAllProductsInCartAsync(userGuidId);
 
-                if (products != null)
-                {
-                    await cartService.RemoveAllProductsFromCartAsync(products);
-                }
+
+                await cartService.RemoveAllProductsFromCartAsync(products);
+                TempData["Error"] = SuccessfullyRemovedAllProductsFromCart;
+                return RedirectToAction("MyCartItems", "Cart");
+
             }
             catch (ArgumentException ex)
             {
@@ -218,8 +218,6 @@
                 return RedirectToAction("Index", "Home");
             }
 
-            TempData["Error"] = SuccessfullyRemovedAllProductsFromCart;
-            return RedirectToAction("MyCartItems", "Cart");
         }
 
         [HttpGet]
@@ -233,11 +231,6 @@
 
                 List<Product>? products = await productService.GetAllProductsInCartAsync(userGuidId);
 
-                if (products.Count == 0)
-                {
-                    TempData["Error"] = ThereAreNoProductsInCart;
-                    return RedirectToAction("Index", "Home");
-                }
                 OrderViewModel model = new OrderViewModel();
                 return View(model);
             }
@@ -270,15 +263,14 @@
                 {
                     await cartService.RemoveAllProductsFromCartAsync(products);
                 }
+                TempData["Success"] = SuccessfullyPlacedOrder;
+                return RedirectToAction("Index", "Home");
             }
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
                 return RedirectToAction("Index", "Home");
             }
-
-            TempData["Success"] = SuccessfullyPlacedOrder;
-            return RedirectToAction("Index", "Home");
         }
     }
 }

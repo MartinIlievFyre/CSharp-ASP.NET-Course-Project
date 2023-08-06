@@ -1,111 +1,107 @@
-﻿using GymApp.Data;
-using GymApp.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using static GymApp.Common.EntityValidationConstants;
-
-namespace GymApp.Controllers
+﻿namespace GymApp.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+
+    using GymApp.ViewModels;
+    using GymApp.Data.Models;
+    using GymApp.Services.Data.Interfaces;
+
+    using static GymApp.Common.NotificationMessagesConstants;
+
     [Authorize]
     public class TrainingPlanController : Controller
     {
-        private readonly GymAppDbContext dbContext;
-        public TrainingPlanController(GymAppDbContext dbContext)
+        private readonly ICategoryService categoryService;
+        private readonly ITrainingPlanService trainingPlanService;
+        public TrainingPlanController(ICategoryService categoryService, ITrainingPlanService trainingPlanService)
         {
-            this.dbContext = dbContext;
+            this.categoryService = categoryService;
+            this.trainingPlanService = trainingPlanService;
         }
 
         public async Task<IActionResult> TrainingPlans()
         {
-            var models = new CategoryListViewModel();
-            var categories = await dbContext.Categories
-                .Select(c => new CategoryViewModel()
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                })
-                .ToListAsync();
-            models = new CategoryListViewModel()
+            try
             {
-                Categories = categories
-            };
-            return View(models);
+                IEnumerable<CategoryViewModel> categories = await categoryService.AllCategoriesAsync();
+                CategoryListViewModel models = categoryService.CreateCategoryListViewModel((ICollection<CategoryViewModel>)categories);
+                return View(models);
+
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
         }
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetTrainingPlan(string id)
         {
+            try
+            {
+                var trainingPlans = await trainingPlanService.GetAllTrainingPlanByCategoryId(id);
 
-            var trainingPlans = await dbContext
-                .TrainingPlans
-                .Where(tp => tp.CategoryId == int.Parse(id))
-                .Select(tp => new TrainingPlanViewModel()
-                {
-                    Id = tp.Id,
-                    Name = tp.Name,
-                    Description = tp.Description,
-                    Category = tp.Category.Name
-                    
-                })
-                .ToListAsync();
-            return View(trainingPlans);
+                return View(trainingPlans);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> EditTrainingPlan(int id)
         {
-            var categories = await dbContext.Categories.Select(c => new CategoryViewModel()
+            try
             {
-                Id = c.Id,
-                Name = c.Name,
-            })
-               .ToListAsync();
+                IEnumerable<CategoryViewModel> categories = await categoryService.AllCategoriesAsync();
 
-            var trainingPlan = await dbContext.TrainingPlans.FindAsync(id);
+                TrainingPlan trainingPlan = await trainingPlanService.GetTrainingPlanByIdAsync(id);
 
+                EditTrainingPlanViewModel model = trainingPlanService.CreateEditTrainingPlanViewModel(trainingPlan, categories);
 
-            EditTrainingPlanViewModel model = new EditTrainingPlanViewModel()
+                return View(model);
+            }
+            catch (ArgumentException ex)
             {
-                Id = trainingPlan!.Id,
-                Name = trainingPlan.Name,
-                Description = trainingPlan.Description,
-                CategoryId = trainingPlan.CategoryId,
-                Categories = categories
-            };
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
 
-            return View(model);
         }
 
         [HttpPost]
         // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditTrainingPlan(EditTrainingPlanViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View(model);
+
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                IEnumerable<CategoryViewModel> categories = await categoryService.AllCategoriesAsync();
+
+                TrainingPlan trainingPlan = await trainingPlanService.GetTrainingPlanByIdAsync(model.Id);
+
+
+                await trainingPlanService.EditingInformationAboutTrainingPlanAsync(trainingPlan, model);
+
+                TempData["Success"] = SuccessfullyEditTrainingPlan;
+
+                return RedirectToAction("GetTrainingPlan", new { id = model.CategoryId });
             }
-            var categories = await dbContext.Categories.Select(c => new CategoryViewModel()
+            catch (ArgumentException ex)
             {
-                Id = c.Id,
-                Name = c.Name,
-            })
-               .ToListAsync();
-
-            var trainingPlan = await dbContext.TrainingPlans.FindAsync(model.Id);
-
-            if (trainingPlan != null)
-            {
-                trainingPlan.Name = model.Name;
-                trainingPlan.Description = model.Description;
-                trainingPlan.CategoryId = model.CategoryId;
-
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
             }
-
-            await dbContext.SaveChangesAsync();
-            return RedirectToAction("GetTrainingPlan", new { id = model.CategoryId });
         }
     }
 }

@@ -1,10 +1,8 @@
-﻿using GymApp.Data.Models;
-
-namespace GymApp.Data.Models
+﻿namespace GymApp.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Drawing;
+
     using static GymApp.Common.EntityValidationConstants.Wear;
 
 

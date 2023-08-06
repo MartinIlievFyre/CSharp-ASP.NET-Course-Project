@@ -1,14 +1,15 @@
-﻿using GymApp.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GymApp.Services.Data.Interfaces
+﻿namespace GymApp.Services.Data.Interfaces
 {
+    using GymApp.ViewModels;
+    using GymApp.Data.Models;
+
     public interface ISupplementService
     {
         Task<Supplement> GetSupplemenntByNameAsync(string supplementName);
+        Task<SupplementViewModel> GetSupplementViewModelByIdAsync(string supplementId);
+        Task<IEnumerable<SupplementViewModel>> AllSupplementsAsync();
+        Task<List<int>> RandomSupplementIdsAsync(string id);
+        Task<List<SupplementViewModel>> RandomSupplementsWithIdsAsync(List<int> randomSupplementIds);
+        SupplementDetailsViewModel CreateSupplementDetailsViewModol(List<SupplementViewModel> randomProducts, SupplementViewModel currentProduct);
     }
 }

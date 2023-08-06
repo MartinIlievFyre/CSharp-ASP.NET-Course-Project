@@ -1,7 +1,6 @@
 ﻿namespace GymApp.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
-
     using System.ComponentModel.DataAnnotations.Schema;
 
     public class ApplicationUserFood

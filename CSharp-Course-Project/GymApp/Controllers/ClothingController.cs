@@ -1,22 +1,18 @@
 ﻿namespace GymApp.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Authorization;
 
-    using GymApp.Data;
     using GymApp.ViewModels;
     using GymApp.Services.Data.Interfaces;
 
     public class ClothingController : Controller
     {
-        private GymAppDbContext dbContext;
         private readonly ICategoryService categoryService;
         private readonly IWearService wearService;
 
-        public ClothingController(GymAppDbContext dbContext, ICategoryService categoryService, IWearService wearService)
+        public ClothingController(ICategoryService categoryService, IWearService wearService)
         {
-            this.dbContext = dbContext;
             this.categoryService = categoryService;
             this.wearService = wearService;
         }

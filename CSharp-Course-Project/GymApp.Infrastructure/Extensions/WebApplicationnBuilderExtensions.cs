@@ -1,14 +1,5 @@
 ﻿namespace GymApp.Infrastructure.Extensions
 {
-
-    using System.Reflection;
-
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.Extensions.DependencyInjection;
-
-    using GymApp.Data.Models;
-
     public static class WebApplicationnBuilderExtensions
     {
        //public static IApplicationBuilder SeedAdministrator(this IApplicationBuilder app, string email)

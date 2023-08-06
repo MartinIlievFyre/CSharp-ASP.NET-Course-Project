@@ -1,16 +1,15 @@
-﻿using GymApp.Data.Models;
-using GymApp.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GymApp.Services.Data.Interfaces
+﻿namespace GymApp.Services.Data.Interfaces
 {
+    using GymApp.ViewModels;
+    using GymApp.Data.Models;
+
     public interface ITrainingPlanService
     {
         AddTrainingPlanViewModel CreateAddTrainingPlanViewModel(List<CategoryViewModel> categories);
         Task<TrainingPlan> CreateTrainingPlanAsync(AddTrainingPlanViewModel model);
+        Task<List<TrainingPlanViewModel>> GetAllTrainingPlanByCategoryId(string categoryId);
+        Task<TrainingPlan> GetTrainingPlanByIdAsync(int trainingPlanId);
+        EditTrainingPlanViewModel CreateEditTrainingPlanViewModel(TrainingPlan? trainingPlan, IEnumerable<CategoryViewModel> categories);
+        Task EditingInformationAboutTrainingPlanAsync(TrainingPlan trainingPlan, EditTrainingPlanViewModel model);
     }
 }

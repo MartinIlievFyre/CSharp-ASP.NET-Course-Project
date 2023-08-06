@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+
     using static GymApp.Common.EntityValidationConstants.Product;
 
     public class Product

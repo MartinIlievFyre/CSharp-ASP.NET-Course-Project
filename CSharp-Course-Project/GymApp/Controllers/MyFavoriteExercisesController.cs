@@ -1,162 +1,110 @@
-﻿using GymApp.Data;
-using GymApp.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-
-namespace GymApp.Controllers
+﻿namespace GymApp.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+
+    using GymApp.ViewModels;
+    using GymApp.Services.Data.Interfaces;
+    using GymApp.Infrastructure.Extensions;
+    using GymApp.Data.Models;
+
+    using static GymApp.Common.NotificationMessagesConstants;
+
     [Authorize]
     public class MyFavoriteExercisesController : Controller
     {
-        private readonly GymAppDbContext dbContext;
-        public MyFavoriteExercisesController(GymAppDbContext dbContext)
+        private readonly IExerciseService exerciseService;
+        private readonly ICategoryService categoryService;
+
+        public MyFavoriteExercisesController(IExerciseService exerciseService, ICategoryService categoryService)
         {
-            this.dbContext = dbContext;
+            this.exerciseService = exerciseService;
+            this.categoryService = categoryService;
         }
         [HttpGet]
         public async Task<IActionResult> MyFavoriteExercises()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var exercises = await dbContext
-               .Exercises
-               .Where(e => e.UsersExercises.Any(ue => ue.TrainingGuyId.ToString() == userId))
-               .Select(e => new ExerciseViewModel()
-               {
-                   Id = e.Id,
-                   Name = e.Name,
-                   ImageUrl = e.ImageUrl,
-                   Benefit = e.Benefit,
-                   Execution = e.Execution,
-                   Category = e.Category.Name
-               })
-               .ToListAsync();
-            var categories = await dbContext.Categories
-                .Select(c => new CategoryViewModel()
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                })
-                .ToListAsync();
-            var models = new CategoryListExerciseViewModel();
-            models = new CategoryListExerciseViewModel()
+            try
             {
-                Categories = categories,
-                Exercises = exercises
-            };
-            return View(models);
+                string? userId = User.GetId();
+                List<ExerciseViewModel> exercises = await exerciseService.GetAllExerciseViewModelsByUserId(userId);
+                IEnumerable<CategoryViewModel> categories = await categoryService.AllCategoriesAsync();
+                CategoryListExerciseViewModel models = categoryService.CreateCategoryListExerciseViewModel(categories, exercises);
+                return View(models);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
         }
         [HttpGet]
         public async Task<IActionResult> GetExercise(string id)
         {
             try
             {
-                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var exercises = await dbContext
-                    .Exercises
-                    .Where(e => e.CategoryId == int.Parse(id) && e.UsersExercises.Any(u => u.TrainingGuyId.ToString() == userId))
-                    .Select(e => new ExerciseViewModel()
-                    {
-                        Id = e.Id,
-                        Name = e.Name,
-                        Execution = e.Execution,
-                        Benefit = e.Benefit,
-                        Category = e.Category.Name,
-                        ImageUrl = e.ImageUrl
-                    })
-                    .ToListAsync();
+                string? userId = User.GetId();
+                List<ExerciseViewModel> exercises = await exerciseService
+                    .GetAllExerciseViewModelsByUserIdAndACategoryId(id, userId);
 
-                if (exercises.Count > 0)
-                {
-                    return View(exercises);
-                }
+
+                return View(exercises);
+
             }
-            catch (Exception)
+            catch (ArgumentException ex)
             {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("MyFavoriteExercises", "MyFavoriteExercises");
             }
-
-            return RedirectToAction("MyFavoriteExercises", "MyFavoriteExercises");
         }
 
         [HttpGet]
         public async Task<IActionResult> ExerciseDetails(string id)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var currentExercise = await dbContext
-         .Exercises
-         .Where(e => e.Id == int.Parse(id) && e.UsersExercises.Any(u => u.TrainingGuyId.ToString() == userId))
-         .Select(e => new ExerciseViewModel()
-         {
-             Id = e.Id,
-             Name = e.Name,
-             Execution = e.Execution,
-             Benefit = e.Benefit,
-             Category = e.Category.Name,
-             ImageUrl = e.ImageUrl,
-         })
-         .FirstOrDefaultAsync();
-
-            if (currentExercise == null)
+            try
             {
-                return NotFound();
+                string? userId = User.GetId();
+
+                ExerciseViewModel? currentExercise = await exerciseService.GetExerciseViewModelByIdAndUserIdAsync(id, userId);
+
+
+                // Get three random accessory IDs (excluding the current product ID)
+                List<int> randomExercisesIds = await exerciseService.RandomExerciseIdsAsync(id);
+
+                // Get the details of three random products
+                List<ExerciseViewModel> randomExercises = await exerciseService.RandomExercisesWithIdsAsync(randomExercisesIds);
+
+                ExerciseDetailsViewModel viewModel = exerciseService.CreateExerciseDetailsViewModel(currentExercise!, randomExercises);
+
+                return View(viewModel);
             }
-
-            // Get three random accessory IDs (excluding the current product ID)
-            var randomExercisesIds = await dbContext.Exercises
-                .Where(e => e.Id != int.Parse(id))
-                .Select(e => e.Id)
-                .OrderBy(x => Guid.NewGuid())
-                .Take(3)
-                .ToListAsync();
-
-            // Get the details of three random products
-            var randomExercises = await dbContext.Exercises
-                .Where(e => randomExercisesIds.Contains(e.Id))
-                .Select(e => new ExerciseViewModel()
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Category = e.Category.Name,
-                    ImageUrl = e.ImageUrl
-                })
-                .ToListAsync();
-
-            var viewModel = new ExerciseDetailsViewModel()
+            catch (ArgumentException ex)
             {
-                CurrentExercise = currentExercise,
-                RandomExercises = randomExercises
-            };
-
-            return View(viewModel);
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
         }
         [HttpPost]
         public async Task<IActionResult> RemoveFromMyFavorites(int id)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var user = await dbContext.
-                ApplicationUsersExercises.
-                FirstAsync(u => u.TrainingGuyId.ToString() == userId);
-
-            var exercise = await dbContext
-                .ApplicationUsersExercises
-                .FirstOrDefaultAsync(ue => ue.ExerciseId == id && ue.TrainingGuyId.ToString() == userId);
-
             try
             {
-                if (user != null)
-                    dbContext.ApplicationUsersExercises.Remove(exercise!);
+                string? userId = User.GetId();
 
+                ApplicationUserExercise user = await exerciseService.GetUserFromApplicationUserExerciseAsync(userId);
 
-                await dbContext.SaveChangesAsync();
+                ApplicationUserExercise? exercise = await exerciseService.GetExerciseByIdAndUserIdFromApplicationUserExerciseAsync(id, userId);
+
+                await exerciseService.RemoveExerciseFromMyFavoritesAsync(exercise);
+
+                TempData["Error"] = SuccessfullyRemovedeExerciseFormFavorites;
+                return RedirectToAction("MyFavoriteExercises", "MyFavoriteExercises");
             }
-            catch
+            catch (ArgumentException ex)
             {
-                BadRequest();
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("MyFavoriteExercises", "MyFavoriteExercises");
         }
     }
 }

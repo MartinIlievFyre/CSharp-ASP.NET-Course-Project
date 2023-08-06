@@ -19,7 +19,7 @@
 
         public async Task<Food> AllFoodsWithDefaultValuesByIdAsync(int foodId)
         {
-            var food = await dbContext.Foods.FirstOrDefaultAsync(f => f.Id == foodId);
+            Food? food = await dbContext.Foods.FirstOrDefaultAsync(f => f.Id == foodId);
             if (food == null)
             {
                 throw new ArgumentException(ThereIsNoFoodWithThisId);
@@ -29,7 +29,7 @@
 
         public async Task<UserFood> AllUserFoodsByIdAsync(int foodId)
         {
-            var food = await dbContext.UsersFoods.FirstOrDefaultAsync(f => f.Id == foodId);
+            UserFood? food = await dbContext.UsersFoods.FirstOrDefaultAsync(f => f.Id == foodId);
             if (food == null)
             {
                 throw new ArgumentException(ThereAreNoFoods);
@@ -39,7 +39,7 @@
 
         public async Task<IEnumerable<FoodViewModel>> AllFoodsWithDefaultValuesAsync()
         {
-            var foods = await this.dbContext
+            List<FoodViewModel> foods = await this.dbContext
                 .Foods
                 .Select(f => new FoodViewModel()
                 {
@@ -51,16 +51,13 @@
                     Protein = f.Protein
                 })
                 .ToListAsync();
-            if (foods == null)
-            {
-                throw new ArgumentException(ThereAreNoFoods);
-            }
+            
             return foods;
         }
 
         public async Task<IEnumerable<FoodViewModel>> AllUserFoodsByUserIdAsync(string? userId)
         {
-            var foods =
+            List<FoodViewModel> foods =
                 await this.dbContext
                 .UsersFoods
                 .Where(auf => auf.UsersFood.Any(uf => uf.TrainingGuyId.ToString() == userId))
@@ -75,15 +72,12 @@
                     Grams = auf.Grams
                 })
                 .ToListAsync();
-            if (foods == null)
-            {
-                throw new ArgumentException(ThereAreNoFoods);
-            }
+            
             return foods;
         }
         public async Task<ApplicationUserFood?> GetApplicationUserFoodAsync(int foodId, string? userId)
         {
-           var userFood = await dbContext
+           ApplicationUserFood? userFood = await dbContext
                             .ApplicationUsersFoods
                             .FirstOrDefaultAsync(uf => uf.TrainingGuyId.ToString() == userId && uf.FoodId == foodId);
 
@@ -92,7 +86,7 @@
 
         public async Task<ApplicationUserFood?> GetUserFromApplicationUserFoodByUserIdAsync(string? userId)
         {
-            var user = await dbContext.
+            ApplicationUserFood user = await dbContext.
                     ApplicationUsersFoods.
                     FirstAsync(auf => auf.TrainingGuyId.ToString() == userId);
             return user;

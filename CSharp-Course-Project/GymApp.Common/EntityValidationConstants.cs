@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace GymApp.Common
+﻿namespace GymApp.Common
 {
     public class EntityValidationConstants
     {

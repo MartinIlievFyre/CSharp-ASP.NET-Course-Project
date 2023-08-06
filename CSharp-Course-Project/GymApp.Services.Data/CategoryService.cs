@@ -8,6 +8,7 @@
 
     using static GymApp.Common.ExceptionMessages;
     using System.Collections.Generic;
+    using GymApp.Data.Models;
 
     public class CategoryService : ICategoryService
     {
@@ -18,13 +19,13 @@
         }
         public async Task<IEnumerable<CategoryViewModel>> AllCategoriesAsync()
         {
-            var categories = await dbContext.Categories.Select(e => new CategoryViewModel()
+            List<CategoryViewModel> categories = await dbContext.Categories.Select(e => new CategoryViewModel()
             {
                 Id = e.Id,
                 Name = e.Name
             })
                 .ToListAsync();
-            if (categories == null)
+            if (categories.Count == 0)
             {
                 throw new ArgumentException(ThereAreNoCategories);
             }
@@ -33,41 +34,54 @@
 
         public async Task<ICollection<CategoryViewModel>> AllWearCategoriesAsync()
         {
-            var categories = await dbContext.WearCategories
+            List<CategoryViewModel> categories = await dbContext.WearCategories
                 .Select(c => new CategoryViewModel()
                 {
                     Id = c.Id,
                     Name = c.Name
                 })
                 .ToListAsync();
-            if (categories == null)
+            if (categories.Count == 0)
             {
                 throw new ArgumentException(ThereAreNoCategories);
             }
             return categories;
         }
 
-        public CategoryListViewModel CreateCategoryListViewModel(ICollection<CategoryViewModel> categories)
-        {
-            CategoryListViewModel models = new CategoryListViewModel()
-            {
-                Categories = categories
-            };
-            if (categories == null)
-            {
-                throw new ArgumentException();
-            }
-            return models;
-        }
-
         public async Task<string> GetCategoryNameByCategoryIdAsync(int id)
         {
-            var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id);
+            Category? category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id);
             if (category == null)
             {
                 throw new ArgumentException(ThereIsNoCategoryWithThisId);
             }
             return category.Name;
+        }
+
+        public CategoryListViewModel CreateCategoryListViewModel(ICollection<CategoryViewModel> categories)
+        {
+            if (categories.Count == 0)
+            {
+                throw new ArgumentException();
+            }
+            CategoryListViewModel models = new CategoryListViewModel()
+            {
+                Categories = categories
+            };
+            return models;
+        }
+        public CategoryListExerciseViewModel CreateCategoryListExerciseViewModel(IEnumerable<CategoryViewModel> categories, List<ExerciseViewModel> exercises)
+        {
+            if (categories.Count() == 0)
+            {
+                throw new ArgumentException();
+            }
+            CategoryListExerciseViewModel models = new CategoryListExerciseViewModel()
+            {
+                Categories = (ICollection<CategoryViewModel>)categories,
+                Exercises = exercises
+            };
+            return models;
         }
     }
 }

@@ -1,12 +1,13 @@
-﻿using GymApp.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using static GymApp.Common.GeneralApplicationConstants;
-namespace GymApp.Data
+﻿namespace GymApp.Data
 {
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+    using GymApp.Data.Models;
+
+    using static GymApp.Common.GeneralApplicationConstants;
+
     public class GymAppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public GymAppDbContext(DbContextOptions<GymAppDbContext> options)
@@ -44,190 +45,190 @@ namespace GymApp.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             //Seeding exercise categories
-              builder
-                  .Entity<Category>()
-                  .HasData(new Category()
-                 {
-                     Id = 1,
-                     Name = "Legs"
-                 },
-                  new Category()
-                 {
-                     Id = 2,
-                     Name = "Biceps"
-                 },
-                  new Category()
-                 {
-                     Id = 3,
-                     Name = "Triceps"
-                 },
-                  new Category()
-                 {
-                     Id = 4,
-                     Name = "Chest"
-                 },
-                  new Category()
-                 {
-                     Id = 5,
-                     Name = "Back"
-                 },
-                  new Category()
-                 {
-                     Id = 6,
-                     Name = "Forearms"
-                 },
-                  new Category()
-                 {
-                     Id = 7,
-                     Name = "Abs"
-                 },
-                  new Category()
-                 {
-                     Id = 8,
-                     Name = "Shoulders"
-                 });
-            
+            builder
+                .Entity<Category>()
+                .HasData(new Category()
+                {
+                    Id = 1,
+                    Name = "Legs"
+                },
+                new Category()
+                {
+                    Id = 2,
+                    Name = "Biceps"
+                },
+                new Category()
+                {
+                    Id = 3,
+                    Name = "Triceps"
+                },
+                new Category()
+                {
+                    Id = 4,
+                    Name = "Chest"
+                },
+                new Category()
+                {
+                    Id = 5,
+                    Name = "Back"
+                },
+                new Category()
+                {
+                    Id = 6,
+                    Name = "Forearms"
+                },
+                new Category()
+                {
+                    Id = 7,
+                    Name = "Abs"
+                },
+                new Category()
+                {
+                    Id = 8,
+                    Name = "Shoulders"
+                });
+
 
 
             //Seeding clothes categories
-               builder
-                   .Entity<WearCategory>()
-                   .HasData(new WearCategory()
-                   {
-                       Id = 1,
-                       Name = "T-Shirts"
-                   },
-                    new WearCategory()
-                    {
-                        Id = 2,
-                        Name = "Hoodies"
-                    });
+            builder
+                .Entity<WearCategory>()
+                .HasData(new WearCategory()
+                {
+                    Id = 1,
+                    Name = "T-Shirts"
+                },
+                 new WearCategory()
+                 {
+                     Id = 2,
+                     Name = "Hoodies"
+                 });
 
             //Seeding exercises
-               builder
-                  .Entity<Exercise>()
-                  .HasData(new Exercise()
-                  {
-                      Id = 1,
-                      Name = "Leg Press",
-            
-                      Execution = "Sit in the leg press seat, and place your feet in the middle of the sled, about shoulder-width /apart. Press the sled out of the rack, lower the safety bars, and then slowly lower the sled towardsyour //chest until your thighs break 90 degrees. Press the sled back up but do not lock out your knees. If your lower back /or hips lift off the seat as you drive the weight back up, you’re going too far down.",
-            
-                      Benefit = "The leg press enables you to exert more force using only your legs, providing a squat-like motion/ without placing weight on your spine or torso, making it ideal for high-rep sets and drop sets.",
-                       
-                      ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/05/Sled-45-degree-Leg-Press-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
-                      CategoryId = 1
-                  },
-                  new Exercise()
-                  {
-                      Id = 2,
-                      Name = "Hack Squat",
-                      Execution = "Your stance on the foot platform will closely mimic that of your back squat stance. Youwant //your feet slightly outside shoulder width with feet angled slightly outward — they should be in linewith /the knee /as it tracks forward during the descent. \r\n\r\nYour torso should be stable with yourabdominals/ engaged and your /lower back flat on the back pad. Maintain a neutral head position as you lower you body/ until the bottoms of your /thighs are parallel to the foot platform and drive through your feet to the top.",
-            
-                      Benefit = "The hack squat, being a machine, offers enhanced stability compared to free-weight squat /variations, its predefined path reducing the risk of injury and accommodating pre-existing injuries.",
-            
-                      ImageUrl = "https://www.bodybuildingmealplan.com/wp-content/uploads/Hack-Squat-Muscles-Worked.jpg",
-                      CategoryId = 1
-                  },
-                  new Exercise()
-                  {
-                      Id = 3,
-                      Name = "Barbell Curl",
-                      Execution = "With an underhand grip slightly wider than the shoulders, grab a barbell, pull yourshoulders //back, and position your elbows under your shoulder joints or slightly in front by your ribs; then,curl /the barbell /up using your biceps to expose the fronts of your biceps.",
-            
-                      Benefit = "The barbell curl, with its simple and effective mechanics, has a small learning curve,making /it /ideal for beginners, while still providing benefits to more advanced lifters, allowing them to loadtheir /biceps/ with heavier weights and build stronger biceps more quickly.",
-            
-                      ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/05/barbell-curl-resized.png?/ezimgfmt=ng%3Awebp%2Fngcb4",
-                      CategoryId = 2
-                  },
-                  new Exercise()
-                  {
-                      Id = 4,
-                      Name = "Hammer Curl",
-                      Execution = "While standing, hold a dumbbell in each hand with wrists facing each other, tuck your arm in //at your sides, and flex your elbows to curl the dumbbells up towards your shoulders, then lower them back down with /control.",
-            
-                      Benefit = "The hammer curl, with its comfortable neutral wrist position, allows for lifting heavier weights /and accumulating more muscle-building volume over time, effectively targeting the inner biceps muscleand //forearm to promote denser arms.",
-            
-                      ImageUrl = "https://weighttraining.guide/wp-content/uploads/2016/11/Dumbbell-Hammer-Curl-resized.png",
-                      CategoryId = 2
-                  },
-                  new Exercise()
-                  {
-                      Id = 5,
-                      Name = "Skullcrusher",
-                      Execution = "Begin by lying on a bench with the hands supporting a weight (barbell, dumbbells, orcable //attachments) at the top of the bench pressing position, aligning the back and hips as in a bench press; slightly /pull the elbows back, pointing them behind you, as you lower the bar handle or loads towards your/head, almost /touching the forehead, experiencing a stretch on the triceps and partial engagement of the /lats,and finally, push /the bar back up.",
-            
-                      Benefit = "This exercise offers versatility with options such as barbells, kettlebells, or dumbbells, making/ it a versatile triceps exercise that capitalizes on your strength in this position, leading to significant /triceps strength gains.",
-            
-                      ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/12/Decline-Skull-crusher-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
-                      CategoryId = 3
-                  },
-                  new Exercise()
-                  {
-                      Id = 6,
-                      Name = "Triceps Pushdown",
-                      Execution = "Set the cables or band at a high anchor point, face your body towards it, place yourfeet //together, keep your elbows by your sides, chest up, back flat, and hips angled slightly forward, thengrab/ the /handles or band and push them down by fully extending your elbows, ensuring that your elbows are slightly in front /of your shoulders.",
-            
-                      Benefit = "This exercise allows for complete isolation of the triceps, providing the ability to feelthe //muscle contract and achieve a satisfying pump.",
-            
-                      ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/05/Triceps-Rope-Pushdown-resized.png?/ezimgfmt=ng%3Awebp%2Fngcb4",
-                      CategoryId = 3
-                  },
-                  new Exercise()
-                  {
-                      Id = 7,
-                      Name = "Dumbbell Bench Press",
-                      Execution = "Begin by sitting on a flat bench and hinging forward to pick up each dumbbell, placingthem /on /your knees; after getting set, lean back and drive the dumbbells back towards you using your knees,while //simultaneously pressing the weights over your chest, then lower the weights with elbows tucked at a 45-degree angle /until they break 90 degrees, followed by driving the dumbbells back up, optionally /transitioningto a neutral grip /position with palms facing each other for the press.",
-            
-                      Benefit = "Using two separate dumbbells for pressing exercises allows for easier customization of a /comfortable position, particularly beneficial for individuals with shoulder or elbow discomfort, while /also promoting enhanced joint and muscle stability; furthermore, the individual effort required by each /side helps balance any strength disparities and enables weaker sides of the body to catch up.",
-            
-                      ImageUrl = "https://fitnessvolt.com/wp-content/uploads/2018/04/dumbbell-bench-press.jpg",
-                      CategoryId = 4
-                  },
-                  new Exercise()
-                  {
-                      Id = 8,
-                      Name = "Bent-Over Row",
-                      Execution = "To perform the barbell bent-over row, set up in a deadlift position with feet shoulderwidth //apart in front of a loaded barbell, hinge at the hips to achieve a parallel torso to the floor, gripthe /barbell /slightly wider than your typical deadlift grip, lean back to distribute weight on your heels, and initiate the row /by pulling with your elbow until the barbell touches around your belly button, ensuring /thebarbell doesn't touch /the floor between repetitions, and considering a wider grip or a more upright /torso forindividuals with longer /arms.",
-            
-                      Benefit = "The bent-over row can be effectively executed using tools like kettlebells, dumbbells, ora /cable/ machine, allowing for efficient muscle overload as you can handle significant weight in the bent-overrow/ /position.",
-            
-                      ImageUrl = "https://weighttraining.guide/wp-content/uploads/2016/10/Bent-over-barbell-row.png",
-                      CategoryId = 5
-                  },
-                  new Exercise()
-                  {
-                      Id = 9,
-                      Name = "Wrist Roller",
-                      Execution = "Begin with a 2.5, five, or 10-pound weight plate, stand with feet hip-width apart, gripthe //wrist roller with knuckles facing towards you, gradually execute a front raise to elevate the roller to shoulder /height, roll the weight up while alternating hands until fully wound, and then slowly reverse the/movement.",
-            
-                      Benefit = "Engaging both forearm extensors and flexors, the wrist roller exercise strengthens these muscles /while the thick grip enhances grip strength, requiring focused attention on the wrists and forearms,which/ /are typically secondary to the primary movers.",
-            
-                      ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2022/11/Wrist-roller.png?ezimgfmt=ng%/3Awebp%2Fngcb4",
-                      CategoryId = 6
-                  },
-                  new Exercise()
-                  {
-                      Id = 10,
-                      Name = "L-Sit",
-                      Execution = "Sit between two dumbbells or kettlebells, placing each hand on a handle, then elevateyour /body/ off the floor by extending your legs and maintain an isometric hold, ensuring tension in the middleand /upper /back.",
-            
-                      Benefit = "By resisting gravity and rotational forces, the L-sit exercise enhances full-bodystrength, //demanding significant isometric strength while stimulating exceptional abdominal strength andstability, /making it a/ valuable core strengthening exercise that prepares lifters and gymnastic athletes formore /challenging athletic /movements.",
-            
-                      ImageUrl = "https://weighttraining.guide/wp-content/uploads/2021/10/Floor-L-sit-fixed.png",
-                      CategoryId = 7
-                  },
-                  new Exercise()
-                  {
-                      Id = 11,
-                      Name = "Dumbbell Shoulder Press",
-                      Execution = "Begin by grabbing a pair of dumbbells and lifting them to the starting position at your /shoulders, lightly brace your core while inhaling, press the dumbbells up to straight arms while exhaling,/inhale at/ the top or during controlled lowering back to your shoulders, and repeat for the desired number/ ofrepetitions.",
-            
-                      Benefit = "The dumbbell shoulder press targets and develops muscles in the shoulders, triceps, biceps,and //upper back, leading to improvements in overall upper body physique, and as a compound exercise utilizing multiple /joints and muscles simultaneously, it is more effective in producing results compared to /isolationexercises.",
-            
-                      ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/05/Dumbbell-Shoulder-Press-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
-                      CategoryId = 8
-                  });
+            builder
+               .Entity<Exercise>()
+               .HasData(new Exercise()
+               {
+                   Id = 1,
+                   Name = "Leg Press",
+
+                   Execution = "Sit in the leg press seat, and place your feet in the middle of the sled, about shoulder-width /apart. Press the sled out of the rack, lower the safety bars, and then slowly lower the sled towardsyour //chest until your thighs break 90 degrees. Press the sled back up but do not lock out your knees. If your lower back /or hips lift off the seat as you drive the weight back up, you’re going too far down.",
+
+                   Benefit = "The leg press enables you to exert more force using only your legs, providing a squat-like motion/ without placing weight on your spine or torso, making it ideal for high-rep sets and drop sets.",
+
+                   ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/05/Sled-45-degree-Leg-Press-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
+                   CategoryId = 1
+               },
+               new Exercise()
+               {
+                   Id = 2,
+                   Name = "Hack Squat",
+                   Execution = "Your stance on the foot platform will closely mimic that of your back squat stance. Youwant //your feet slightly outside shoulder width with feet angled slightly outward — they should be in linewith /the knee /as it tracks forward during the descent. \r\n\r\nYour torso should be stable with yourabdominals/ engaged and your /lower back flat on the back pad. Maintain a neutral head position as you lower you body/ until the bottoms of your /thighs are parallel to the foot platform and drive through your feet to the top.",
+
+                   Benefit = "The hack squat, being a machine, offers enhanced stability compared to free-weight squat /variations, its predefined path reducing the risk of injury and accommodating pre-existing injuries.",
+
+                   ImageUrl = "https://www.bodybuildingmealplan.com/wp-content/uploads/Hack-Squat-Muscles-Worked.jpg",
+                   CategoryId = 1
+               },
+               new Exercise()
+               {
+                   Id = 3,
+                   Name = "Barbell Curl",
+                   Execution = "With an underhand grip slightly wider than the shoulders, grab a barbell, pull yourshoulders //back, and position your elbows under your shoulder joints or slightly in front by your ribs; then,curl /the barbell /up using your biceps to expose the fronts of your biceps.",
+
+                   Benefit = "The barbell curl, with its simple and effective mechanics, has a small learning curve,making /it /ideal for beginners, while still providing benefits to more advanced lifters, allowing them to loadtheir /biceps/ with heavier weights and build stronger biceps more quickly.",
+
+                   ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/05/barbell-curl-resized.png?/ezimgfmt=ng%3Awebp%2Fngcb4",
+                   CategoryId = 2
+               },
+               new Exercise()
+               {
+                   Id = 4,
+                   Name = "Hammer Curl",
+                   Execution = "While standing, hold a dumbbell in each hand with wrists facing each other, tuck your arm in //at your sides, and flex your elbows to curl the dumbbells up towards your shoulders, then lower them back down with /control.",
+
+                   Benefit = "The hammer curl, with its comfortable neutral wrist position, allows for lifting heavier weights /and accumulating more muscle-building volume over time, effectively targeting the inner biceps muscleand //forearm to promote denser arms.",
+
+                   ImageUrl = "https://weighttraining.guide/wp-content/uploads/2016/11/Dumbbell-Hammer-Curl-resized.png",
+                   CategoryId = 2
+               },
+               new Exercise()
+               {
+                   Id = 5,
+                   Name = "Skullcrusher",
+                   Execution = "Begin by lying on a bench with the hands supporting a weight (barbell, dumbbells, orcable //attachments) at the top of the bench pressing position, aligning the back and hips as in a bench press; slightly /pull the elbows back, pointing them behind you, as you lower the bar handle or loads towards your/head, almost /touching the forehead, experiencing a stretch on the triceps and partial engagement of the /lats,and finally, push /the bar back up.",
+
+                   Benefit = "This exercise offers versatility with options such as barbells, kettlebells, or dumbbells, making/ it a versatile triceps exercise that capitalizes on your strength in this position, leading to significant /triceps strength gains.",
+
+                   ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/12/Decline-Skull-crusher-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
+                   CategoryId = 3
+               },
+               new Exercise()
+               {
+                   Id = 6,
+                   Name = "Triceps Pushdown",
+                   Execution = "Set the cables or band at a high anchor point, face your body towards it, place yourfeet //together, keep your elbows by your sides, chest up, back flat, and hips angled slightly forward, thengrab/ the /handles or band and push them down by fully extending your elbows, ensuring that your elbows are slightly in front /of your shoulders.",
+
+                   Benefit = "This exercise allows for complete isolation of the triceps, providing the ability to feelthe //muscle contract and achieve a satisfying pump.",
+
+                   ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/05/Triceps-Rope-Pushdown-resized.png?/ezimgfmt=ng%3Awebp%2Fngcb4",
+                   CategoryId = 3
+               },
+               new Exercise()
+               {
+                   Id = 7,
+                   Name = "Dumbbell Bench Press",
+                   Execution = "Begin by sitting on a flat bench and hinging forward to pick up each dumbbell, placingthem /on /your knees; after getting set, lean back and drive the dumbbells back towards you using your knees,while //simultaneously pressing the weights over your chest, then lower the weights with elbows tucked at a 45-degree angle /until they break 90 degrees, followed by driving the dumbbells back up, optionally /transitioningto a neutral grip /position with palms facing each other for the press.",
+
+                   Benefit = "Using two separate dumbbells for pressing exercises allows for easier customization of a /comfortable position, particularly beneficial for individuals with shoulder or elbow discomfort, while /also promoting enhanced joint and muscle stability; furthermore, the individual effort required by each /side helps balance any strength disparities and enables weaker sides of the body to catch up.",
+
+                   ImageUrl = "https://fitnessvolt.com/wp-content/uploads/2018/04/dumbbell-bench-press.jpg",
+                   CategoryId = 4
+               },
+               new Exercise()
+               {
+                   Id = 8,
+                   Name = "Bent-Over Row",
+                   Execution = "To perform the barbell bent-over row, set up in a deadlift position with feet shoulderwidth //apart in front of a loaded barbell, hinge at the hips to achieve a parallel torso to the floor, gripthe /barbell /slightly wider than your typical deadlift grip, lean back to distribute weight on your heels, and initiate the row /by pulling with your elbow until the barbell touches around your belly button, ensuring /thebarbell doesn't touch /the floor between repetitions, and considering a wider grip or a more upright /torso forindividuals with longer /arms.",
+
+                   Benefit = "The bent-over row can be effectively executed using tools like kettlebells, dumbbells, ora /cable/ machine, allowing for efficient muscle overload as you can handle significant weight in the bent-overrow/ /position.",
+
+                   ImageUrl = "https://weighttraining.guide/wp-content/uploads/2016/10/Bent-over-barbell-row.png",
+                   CategoryId = 5
+               },
+               new Exercise()
+               {
+                   Id = 9,
+                   Name = "Wrist Roller",
+                   Execution = "Begin with a 2.5, five, or 10-pound weight plate, stand with feet hip-width apart, gripthe //wrist roller with knuckles facing towards you, gradually execute a front raise to elevate the roller to shoulder /height, roll the weight up while alternating hands until fully wound, and then slowly reverse the/movement.",
+
+                   Benefit = "Engaging both forearm extensors and flexors, the wrist roller exercise strengthens these muscles /while the thick grip enhances grip strength, requiring focused attention on the wrists and forearms,which/ /are typically secondary to the primary movers.",
+
+                   ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2022/11/Wrist-roller.png?ezimgfmt=ng%/3Awebp%2Fngcb4",
+                   CategoryId = 6
+               },
+               new Exercise()
+               {
+                   Id = 10,
+                   Name = "L-Sit",
+                   Execution = "Sit between two dumbbells or kettlebells, placing each hand on a handle, then elevateyour /body/ off the floor by extending your legs and maintain an isometric hold, ensuring tension in the middleand /upper /back.",
+
+                   Benefit = "By resisting gravity and rotational forces, the L-sit exercise enhances full-bodystrength, //demanding significant isometric strength while stimulating exceptional abdominal strength andstability, /making it a/ valuable core strengthening exercise that prepares lifters and gymnastic athletes formore /challenging athletic /movements.",
+
+                   ImageUrl = "https://weighttraining.guide/wp-content/uploads/2021/10/Floor-L-sit-fixed.png",
+                   CategoryId = 7
+               },
+               new Exercise()
+               {
+                   Id = 11,
+                   Name = "Dumbbell Shoulder Press",
+                   Execution = "Begin by grabbing a pair of dumbbells and lifting them to the starting position at your /shoulders, lightly brace your core while inhaling, press the dumbbells up to straight arms while exhaling,/inhale at/ the top or during controlled lowering back to your shoulders, and repeat for the desired number/ ofrepetitions.",
+
+                   Benefit = "The dumbbell shoulder press targets and develops muscles in the shoulders, triceps, biceps,and //upper back, leading to improvements in overall upper body physique, and as a compound exercise utilizing multiple /joints and muscles simultaneously, it is more effective in producing results compared to /isolationexercises.",
+
+                   ImageUrl = "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/05/Dumbbell-Shoulder-Press-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
+                   CategoryId = 8
+               });
 
             //Seeding food
             builder
@@ -307,65 +308,65 @@ namespace GymApp.Data
 
 
             //Seeding accessories
-             builder
-                 .Entity<Accessory>()
-                 .HasData(new Accessory()
-                 {
-                     Id = 1,
-                     Name = "Weight belt LEVER Black",
-                     Manufacturer = "GymBeam",
-                     Description = "The LEVER weightlifting belt is a practical device designed for individuals engaged in /strength training, aiming to increase the weights they lift; it helps stabilize the core and lower back muscles, /boosting your confidence and enabling you to lift heavier weights. Made from 4-layered material /- 2inner layers /of cowhide and suede covered with 2 outer layers of buffalo suede - it ensures stability/ anddurability while /fitting perfectly to your body; the belt also features an adjustable section to /accommodateyour waist size, /eliminating concerns about it being too large or small. If you want to /enhance the weightslifted during squats or/ deadlifts, this high-quality leather belt should undoubtedly /be part of your fitnessarsenal.",
-                     Benefits = "The 4-layer leather belt with an adjustable section provides stability and durabilitywhile //ensuring comfort, offering support during weightlifting and is suitable for individuals engaging inheavy/ /lifting.",
-                     Type = TypeProductAccessory,
-                     ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/w/e//weightlifting-belt-lever-gymbeam_5_.jpg",
-                     Price = 99.99m
-                 },
-                 new Accessory()
-                 {
-                     Id = 2,
-                     Name = "Fitness gloves Ronnie",
-                     Manufacturer = "GymBeam",
-                     Description = "The Ronnie fitness gloves are high-quality exercise gloves made of split leather witha //rubber-padded cowhide interior for an ideal fit and intense workout protection for every athlete; they /are reinforced with a double lining in the palm area for durability and resistance against wear, designed/ for professional athletes seeking superior hand protection during training, guarding against scratches, /calluses,and /impacts while providing a secure grip on workout equipment, but they should not be machine /washed.",
-                     Benefits = "The Ronnie fitness gloves protect hands from injuries, calluses, and abrasions, providinga //secure grip during workouts with fitness equipment, bars, or weights; they are perfect for strength training, have/ an ergonomic shape for long-lasting durability, and fit hands comfortably without /squeezingfingers.",
-                     Type = TypeProductAccessory,
-                     ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/r/u//rukavice_2j_1.jpg",
-                     Price = 19.99m
-                 },
-                 new Accessory()
-                 {
-                     Id = 3,
-                     Name = "Green shaker 700ml",
-                     Manufacturer = "GymBeam",
-                     Description = "The green shaker is a classic 700ml shaker with a traditional closure and filter,perfect //for mixing your favorite proteins, pre-workout stimulants, and creatine; made of non-toxic plasticand /free from /BPA and DEHP.",
-                     Benefits = "This 700ml shaker, made of high-quality polypropylene PP, is perfect for mixing allsoluble //dietary supplements, featuring a leak-proof screw-on lid, a cone-shaped filter to prevent lumps, milliliter (ml) /and ounce (oz) markings, break-resistant, dishwasher, microwave, and fridge safe, BPA and/ DEHPfree, and compliant/ with food regulations.",
-                     ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/s/h//shaker_yellow_green.jpg",
-                     Type = TypeProductAccessory,
-                     Price = 7.99m
-                 },
-                 new Accessory()
-                 {
-                     Id = 4,
-                     Name = "Towel for fitness",
-                     Manufacturer = "GymBeam",
-                     Description = "This gray fitness and workout towel, made of 100% soft and pleasant-to-touch cotton, stands /out with its excellent absorption, high durability, and anti-static, antibacterial properties. With /dimensions of 50x90 cm, this towel possesses these qualities naturally, without the use of any chemical compounds,/ making it suitable for individuals with sensitive skin or allergies, as it does not cause /allergicreactions. /Every athlete recognizes the significance of a workout towel, an essential accessory /in the gym, no only to wipe /away sweat from the face but also to provide a clean surface for various /exercises, such as forabdominal /workouts, seating, or under the feet during exercises. Not having a /workout towel in the gym is apure faux pas /(embarrassing mistake) and can easily be avoided to prevent /someone from asking, \"Where is yourtowel?\"",
-                     Benefits = "Made of 100% cotton, this towel has anti-static and antibacterial properties, driesquickly, //absorbs efficiently, feels soft and pleasant to touch, and boasts a long lifespan.",
-                     ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/g/r//grey_fitness_towel_gymbeam_1_.jpg",
-                     Type = TypeProductAccessory,
-                     Price = 14.99m
-                 });
+            builder
+                .Entity<Accessory>()
+                .HasData(new Accessory()
+                {
+                    Id = 1,
+                    Name = "Weight belt LEVER Black",
+                    Manufacturer = "GymBeam",
+                    Description = "The LEVER weightlifting belt is a practical device designed for individuals engaged in /strength training, aiming to increase the weights they lift; it helps stabilize the core and lower back muscles, /boosting your confidence and enabling you to lift heavier weights. Made from 4-layered material /- 2inner layers /of cowhide and suede covered with 2 outer layers of buffalo suede - it ensures stability/ anddurability while /fitting perfectly to your body; the belt also features an adjustable section to /accommodateyour waist size, /eliminating concerns about it being too large or small. If you want to /enhance the weightslifted during squats or/ deadlifts, this high-quality leather belt should undoubtedly /be part of your fitnessarsenal.",
+                    Benefits = "The 4-layer leather belt with an adjustable section provides stability and durabilitywhile //ensuring comfort, offering support during weightlifting and is suitable for individuals engaging inheavy/ /lifting.",
+                    Type = TypeProductAccessory,
+                    ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/w/e//weightlifting-belt-lever-gymbeam_5_.jpg",
+                    Price = 99.99m
+                },
+                new Accessory()
+                {
+                    Id = 2,
+                    Name = "Fitness gloves Ronnie",
+                    Manufacturer = "GymBeam",
+                    Description = "The Ronnie fitness gloves are high-quality exercise gloves made of split leather witha //rubber-padded cowhide interior for an ideal fit and intense workout protection for every athlete; they /are reinforced with a double lining in the palm area for durability and resistance against wear, designed/ for professional athletes seeking superior hand protection during training, guarding against scratches, /calluses,and /impacts while providing a secure grip on workout equipment, but they should not be machine /washed.",
+                    Benefits = "The Ronnie fitness gloves protect hands from injuries, calluses, and abrasions, providinga //secure grip during workouts with fitness equipment, bars, or weights; they are perfect for strength training, have/ an ergonomic shape for long-lasting durability, and fit hands comfortably without /squeezingfingers.",
+                    Type = TypeProductAccessory,
+                    ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/r/u//rukavice_2j_1.jpg",
+                    Price = 19.99m
+                },
+                new Accessory()
+                {
+                    Id = 3,
+                    Name = "Green shaker 700ml",
+                    Manufacturer = "GymBeam",
+                    Description = "The green shaker is a classic 700ml shaker with a traditional closure and filter,perfect //for mixing your favorite proteins, pre-workout stimulants, and creatine; made of non-toxic plasticand /free from /BPA and DEHP.",
+                    Benefits = "This 700ml shaker, made of high-quality polypropylene PP, is perfect for mixing allsoluble //dietary supplements, featuring a leak-proof screw-on lid, a cone-shaped filter to prevent lumps, milliliter (ml) /and ounce (oz) markings, break-resistant, dishwasher, microwave, and fridge safe, BPA and/ DEHPfree, and compliant/ with food regulations.",
+                    ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/s/h//shaker_yellow_green.jpg",
+                    Type = TypeProductAccessory,
+                    Price = 7.99m
+                },
+                new Accessory()
+                {
+                    Id = 4,
+                    Name = "Towel for fitness",
+                    Manufacturer = "GymBeam",
+                    Description = "This gray fitness and workout towel, made of 100% soft and pleasant-to-touch cotton, stands /out with its excellent absorption, high durability, and anti-static, antibacterial properties. With /dimensions of 50x90 cm, this towel possesses these qualities naturally, without the use of any chemical compounds,/ making it suitable for individuals with sensitive skin or allergies, as it does not cause /allergicreactions. /Every athlete recognizes the significance of a workout towel, an essential accessory /in the gym, no only to wipe /away sweat from the face but also to provide a clean surface for various /exercises, such as forabdominal /workouts, seating, or under the feet during exercises. Not having a /workout towel in the gym is apure faux pas /(embarrassing mistake) and can easily be avoided to prevent /someone from asking, \"Where is yourtowel?\"",
+                    Benefits = "Made of 100% cotton, this towel has anti-static and antibacterial properties, driesquickly, //absorbs efficiently, feels soft and pleasant to touch, and boasts a long lifespan.",
+                    ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/g/r//grey_fitness_towel_gymbeam_1_.jpg",
+                    Type = TypeProductAccessory,
+                    Price = 14.99m
+                });
 
             //Seeding food
-             builder
-                   .Entity<UserFood>()
-                   .HasData(new UserFood()
-                   {
-                       Id = 1,
-                       Name = "Apple",
-                       Calories = 52,
-                       Carbs = 13.8,
-                       Fat = 0.2,
-                       Protein = 0.3
-                   });
+            builder
+                  .Entity<UserFood>()
+                  .HasData(new UserFood()
+                  {
+                      Id = 1,
+                      Name = "Apple",
+                      Calories = 52,
+                      Carbs = 13.8,
+                      Fat = 0.2,
+                      Protein = 0.3
+                  });
             builder
                   .Entity<Food>()
                   .HasData(new Food()
@@ -463,14 +464,14 @@ namespace GymApp.Data
 
 
 
-             builder.Entity<ApplicationUserExercise>().HasKey(aue => new { aue.TrainingGuyId, aue.ExerciseId });
+            builder.Entity<ApplicationUserExercise>().HasKey(aue => new { aue.TrainingGuyId, aue.ExerciseId });
             builder.Entity<ApplicationUserFood>().HasKey(auf => new { auf.TrainingGuyId, auf.FoodId });
             builder.Entity<ApplicationUserTrainingPlan>().HasKey(autp => new { autp.TrainingGuyId, autp.TrainingPlanId });
 
-              builder.Entity<UserFood>().Property("Calories").HasDefaultValue(0);
-              builder.Entity<UserFood>().Property("Carbs").HasDefaultValue(0);
-              builder.Entity<UserFood>().Property("Fat").HasDefaultValue(0);
-              builder.Entity<UserFood>().Property("Protein").HasDefaultValue(0);
+            builder.Entity<UserFood>().Property("Calories").HasDefaultValue(0);
+            builder.Entity<UserFood>().Property("Carbs").HasDefaultValue(0);
+            builder.Entity<UserFood>().Property("Fat").HasDefaultValue(0);
+            builder.Entity<UserFood>().Property("Protein").HasDefaultValue(0);
 
             base.OnModelCreating(builder);
 

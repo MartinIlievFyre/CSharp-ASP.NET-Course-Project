@@ -1,12 +1,12 @@
 ﻿namespace GymApp.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
-    using GymApp.Data.Models;
     using GymApp.ViewModels;
-    using GymApp.Infrastructure.Extensions;
+    using GymApp.Data.Models;
     using GymApp.Services.Data.Interfaces;
+    using GymApp.Infrastructure.Extensions;
 
     using static GymApp.Common.NotificationMessagesConstants;
 
@@ -108,16 +108,16 @@
                         }
                     }
                 }
+
+                TempData["Success"] = SuccessfullyAddedFood;
+
+                return RedirectToAction("CalMacro", "Calculator");
             }
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
                 return RedirectToAction("Index", "Home");
             }
-
-            TempData["Success"] = SuccessfullyAddedFood;
-
-            return RedirectToAction("CalMacro", "Calculator");
         }
 
         [HttpPost]
@@ -135,14 +135,15 @@
                 {
                     await foodService.RemoveFoodFromListAsync(food);
                 }
+
+                TempData["Error"] = SuccessfullyRemovedFood;
+                return RedirectToAction("CalMacro", "Calculator");
             }
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
                 return RedirectToAction("Index", "Home");
             }
-            TempData["Error"] = SuccessfullyRemovedFood;
-            return RedirectToAction("CalMacro", "Calculator");
         }
 
         [HttpGet]
@@ -163,7 +164,7 @@
                 }
                 Food food = await foodService.CreateFoodWithDefaultValuesAsync(model);
                 UserFood userFood = await foodService.CreateFoodThatUserCanModifyAsync(model);
-
+                TempData["Success"] = SuccessfullyCreatedFood;
                 return RedirectToAction("CalMacro", "Calculator");
 
             }

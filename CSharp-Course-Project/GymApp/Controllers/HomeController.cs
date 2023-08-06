@@ -1,10 +1,10 @@
-﻿using GymApp.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-
-namespace GymApp.Controllers
+﻿namespace GymApp.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+
+    using GymApp.ViewModels;
+    using System.Diagnostics;
+
     public class HomeController : Controller
     {
         public HomeController()
@@ -19,7 +19,7 @@ namespace GymApp.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            
+
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

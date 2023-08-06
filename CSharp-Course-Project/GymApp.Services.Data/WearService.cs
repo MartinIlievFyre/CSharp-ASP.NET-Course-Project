@@ -77,7 +77,7 @@
 
                 })
                 .ToListAsync();
-            if (clothes == null)
+            if (clothes.Count == 0)
             {
                 throw new ArgumentException(ThereAreNoClothesWithThisCategoryId);
             }
@@ -92,7 +92,7 @@
                     .OrderBy(x => Guid.NewGuid())
                     .Take(3)
                     .ToListAsync();
-            if (randomClothesIds == null)
+            if (randomClothesIds.Count == 0)
             {
                 throw new ArgumentException(RandomClothesIdsAreNull);
             }
@@ -111,7 +111,7 @@
                         ImageUrl = c.ImageUrl
                     })
                     .ToListAsync();
-            if (randomProducts == null)
+            if (randomProducts.Count == 0)
             {
                 throw new ArgumentException(RandomClothesWithIdsAreNull);
             }

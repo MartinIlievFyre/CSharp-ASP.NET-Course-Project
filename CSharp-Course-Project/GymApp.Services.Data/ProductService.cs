@@ -22,7 +22,7 @@ namespace GymApp.Services.Data
             {
                 throw new ArgumentException(ThereIsNoUserWithThisId);
             }
-            var products = await dbContext.ShoppingCart.Select(p => new Product()
+            List<Product> products = await dbContext.ShoppingCart.Select(p => new Product()
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -35,9 +35,9 @@ namespace GymApp.Services.Data
                 UserId = (Guid)userGuidId!
             })
                 .ToListAsync();
-            if (products == null)
+            if (products.Count == 0)
             { 
-                throw new ArgumentException(ThereAreNoProductsWithUserId);
+                throw new ArgumentException(ThereAreNoProductsInCart);
             }
             return products;
         }
@@ -48,10 +48,8 @@ namespace GymApp.Services.Data
                 ShoppingCart.
                 Where(p => p.UserId.ToString() == userId).
                 ToListAsync();
-            if (products == null)
-            {
-                throw new ArgumentException(ThereAreNoProductsWithUserId);
-            }
+
+            
             return products;
         }
 
@@ -69,16 +67,13 @@ namespace GymApp.Services.Data
                 Type = p.Type,
             })
                 .ToList();
-            if (modelProducts == null)
-            {
-                throw new ArgumentException();
-            }
+            
             return modelProducts;
         }
 
         public async Task<Product?> GetProductFromShoppingCartByNameAndSizeAsync(string productName, string size)
         {
-            var product = await dbContext.ShoppingCart.Where(p => p.Name == productName && p.Size == size).FirstOrDefaultAsync();
+            Product? product = await dbContext.ShoppingCart.Where(p => p.Name == productName && p.Size == size).FirstOrDefaultAsync();
             if (product == null)
             {
                 throw new ArgumentException(ThereIsNoProductWithThisNameAndSizeInShoppingCart);
@@ -102,7 +97,7 @@ namespace GymApp.Services.Data
 
         public async Task<Product?> GetProductFromShoppingCartByProductIdAndUserIdAsync(int productId, string? userId)
         {
-            var product = await dbContext
+            Product? product = await dbContext
                 .ShoppingCart
                 .FirstOrDefaultAsync(ue => ue.Id == productId && ue.UserId.ToString() == userId);
             if (product == null)

@@ -18,30 +18,9 @@
         {
             this.dbContext = dbContext;
         }
-        public async Task<IEnumerable<AccessoryViewModel>> AllAccessoriesAsync()
+        public async Task<AccessoryViewModel> GetAccessoryByIdAsync(string id)
         {
-            var accessories = await dbContext
-                .Accessories
-                .Select(a => new AccessoryViewModel()
-                {
-                    Id = a.Id,
-                    Name = a.Name,
-                    Manufacturer = a.Manufacturer,
-                    Price = a.Price,
-                    ImageUrl = a.ImageUrl,
-                    Type = a.Type,
-                })
-                .ToListAsync();
-            if (accessories == null)
-            {
-                throw new ArgumentException(ThereAreNoProducts);
-            }
-            return accessories;
-        }
-
-        public async Task<AccessoryViewModel> GetProductByIdAsync(string id)
-        {
-            var currentProduct = await dbContext
+            AccessoryViewModel? currentProduct = await dbContext
              .Accessories
              .Where(a => a.Id == int.Parse(id))
              .Select(a => new AccessoryViewModel()
@@ -64,15 +43,48 @@
             return currentProduct!;
         }
 
+        public async Task<Accessory?> GetAccessoryByNameAsync(string accessoryName)
+        {
+            Accessory? accessory = await dbContext.Accessories.FirstOrDefaultAsync(a => a.Name == accessoryName);
+
+            if (accessory == null)
+            {
+                throw new ArgumentException(ThereIsNoAccessoryWithThisName);
+            }
+
+            return accessory;
+        }
+
+        public async Task<IEnumerable<AccessoryViewModel>> AllAccessoriesAsync()
+        {
+            List<AccessoryViewModel> accessories = await dbContext
+                .Accessories
+                .Select(a => new AccessoryViewModel()
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Manufacturer = a.Manufacturer,
+                    Price = a.Price,
+                    ImageUrl = a.ImageUrl,
+                    Type = a.Type,
+                })
+                .ToListAsync();
+            if (accessories.Count == 0)
+            {
+                throw new ArgumentException(ThereAreNoProducts);
+            }
+            return accessories;
+        }
+
         public async Task<List<int>> RandomAccessoryIdsAsync(string id)
         {
-            var randomAccessoryIds = await dbContext.Accessories
+            List<int> randomAccessoryIds = await dbContext.Accessories
                    .Where(a => a.Id != int.Parse(id))
                    .Select(a => a.Id)
                    .OrderBy(x => Guid.NewGuid())
                    .Take(3)
                    .ToListAsync();
-            if (randomAccessoryIds == null)
+            if (randomAccessoryIds.Count == 0)
             {
                 throw new ArgumentException(RandomAccessoryIdsAreNull);
             }
@@ -81,7 +93,7 @@
 
         public async Task<List<AccessoryViewModel>> RandomAccessoriesWithIdsAsync(List<int> randomAccessoryIds)
         {
-            var randomProducts = await dbContext
+            List<AccessoryViewModel> randomProducts = await dbContext
                     .Accessories
                     .Where(a => randomAccessoryIds.Contains(a.Id))
                     .Select(a => new AccessoryViewModel()
@@ -93,7 +105,7 @@
                         ImageUrl = a.ImageUrl
                     })
                     .ToListAsync();
-            if (randomProducts == null)
+            if (randomProducts.Count == 0)
             {
                 throw new ArgumentException(RandomAccessoryWithIdsAreNull);
             }
@@ -114,16 +126,5 @@
             return viewModel;
         }
 
-        public async Task<Accessory?> GetAccessoryByNameAsync(string accessoryName)
-        {
-            Accessory? accessory = await dbContext.Accessories.FirstOrDefaultAsync(a => a.Name == accessoryName);
-
-            if (accessory == null)
-            {
-                throw new ArgumentException(ThereIsNoAccessoryWithThisName);
-            }
-
-            return accessory;
-        }
     }
 }

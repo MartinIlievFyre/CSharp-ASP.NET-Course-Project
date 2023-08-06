@@ -37,18 +37,10 @@
         {
             try
             {
-                AccessoryViewModel currentProduct = await accessoryService.GetProductByIdAsync(id);
+                AccessoryViewModel currentProduct = await accessoryService.GetAccessoryByIdAsync(id);
 
-                if (currentProduct == null)
-                {
-                    return NotFound();
-                }
-
-                // Get three random accessory IDs (excluding the current product ID)
                 List<int> randomAccessoryIds = await accessoryService.RandomAccessoryIdsAsync(id);
                 
-
-                // Get the details of three random products
                 var randomProducts = await accessoryService.RandomAccessoriesWithIdsAsync(randomAccessoryIds);
 
                 var viewModel = accessoryService.CreateAccessoryDetailsViewModel(currentProduct, randomProducts);
