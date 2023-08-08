@@ -161,7 +161,16 @@
             public const int NameMinLength = 2;
             public const int NameMaxLength = 50;
         }
-
+        public static class RolesConstants
+        {
+            public const string AdminUserName = "admin";
+            public const string AdminEmail = "admin@abv.com";
+            public const string AdminPassword = "ec816eef-6646-403c-b923-ad7ddc078ca6";
+            public const string AdminId = "65711ed3-baf2-4084-ab0c-dc0b7af05a45";
+            public const string UserId = "a12d2cfd-0058-4c64-babd-8c1437001f78";
+            public const string NameOfRoleAdmin = "Admin";
+            public const string NameOfRoleUser = "User";
+        }
         public static class Register
         {
             public const int NameMinLength = 2;

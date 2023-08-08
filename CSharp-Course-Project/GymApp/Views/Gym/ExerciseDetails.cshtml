@@ -1,4 +1,6 @@
-﻿@model ExerciseDetailsViewModel
+﻿@using static GymApp.Common.EntityValidationConstants.RolesConstants;
+
+@model ExerciseDetailsViewModel
 @{
     ViewBag.Title = Model.CurrentExercise.Name;
 }
@@ -17,8 +19,10 @@
             <form asp-controller="Gym" asp-action="AddToMyFavorites" asp-route-id="@Model.CurrentExercise.Id">
                 <button type="submit" class="btn btn-outline-success btn-lg mt-3 py-2 px-4 rounded-pill">Add to favorites</button>
             </form>
-
-            <a asp-controller="Gym" asp-action="EditExercise" asp-route-id="@Model.CurrentExercise.Id" class="btn btn-outline-warning btn-lg mt-3 py-2 px-4 rounded-pill">Edit Exercise</a>
+            @if (this.User.IsInRole(NameOfRoleAdmin))
+            {
+                <a asp-controller="Gym" asp-action="EditExercise" asp-route-id="@Model.CurrentExercise.Id" class="btn btn-outline-warning btn-lg mt-3 py-2 px-4 rounded-pill">Edit Exercise</a>
+            }    
         </div>
     </div>
 

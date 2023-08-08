@@ -108,8 +108,8 @@
                 return RedirectToAction("Index", "Home");
             };
         }
-
-        // [Authorize(Roles = "Admin")]
+ 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> EditExercise(int id)
         {
@@ -132,7 +132,7 @@
         }
 
         [HttpPost]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditExercise(EditExerciseViewModel model)
         {
             try

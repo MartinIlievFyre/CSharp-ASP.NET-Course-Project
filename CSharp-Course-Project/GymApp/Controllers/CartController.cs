@@ -10,6 +10,7 @@
 
     using static GymApp.Common.GeneralApplicationConstants;
     using static GymApp.Common.NotificationMessagesConstants;
+    using static GymApp.Common.ExceptionMessages;
 
     [Authorize]
     public class CartController : Controller
@@ -62,47 +63,47 @@
 
                 quantity = (quantity.HasValue && quantity > 0) ? quantity : 1;
 
-
-                if (typeOfProduct == TypeProductSupplement)
+                switch (typeOfProduct)
                 {
-                    supplement = await supplementService.GetSupplemenntByNameAsync(name);
-                    if (!await cartService.IsInCartHasProductWithNameAsync(name))
-                    {
-                        await cartService.AddSupplementToCartAsync(supplement, userGuidId, typeOfProduct, quantity);
-                    }
-                    else
-                    {
-                        Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
-                        await cartService.IncreaseProductQuantityWithOne(product, quantity);
-                    }
+                    case TypeProductSupplement:
+                        supplement = await supplementService.GetSupplemenntByNameAsync(name);
+                        if (!await cartService.IsInCartHasProductWithNameAsync(name))
+                        {
+                            await cartService.AddSupplementToCartAsync(supplement, userGuidId, typeOfProduct, quantity);
+                        }
+                        else
+                        {
+                            Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
+                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
+                        }
+                        break;
+                    case TypeProductAccessory:
+                        accessory = await accessoryService.GetAccessoryByNameAsync(name);
+                        if (!await cartService.IsInCartHasProductWithNameAsync(name))
+                        {
+                            await cartService.AddAccessoryToCartAsync(accessory, userGuidId, typeOfProduct, quantity);
+                        }
+                        else
+                        {
+                            Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
+                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
+                        }
+                        break;
+                    case TypeProductWear:
+                        wear = await wearService.GetWearByNameAsync(name);
+                        if (!await cartService.IsInCartHasProductByNameAndSizeAsync(name, size))
+                        {
+                            await cartService.AddWearToCartAsync(wear, userGuidId, typeOfProduct, size, quantity);
+                        }
+                        else
+                        {
+                            Product? product = await productService.GetProductFromShoppingCartByNameAndSizeAsync(name, size);
+                            await cartService.IncreaseProductQuantityWithOne(product, quantity);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentException(InvalidProductType);
                 }
-                else if (typeOfProduct == TypeProductAccessory)
-                {
-                    accessory = await accessoryService.GetAccessoryByNameAsync(name);
-                    if (!await cartService.IsInCartHasProductWithNameAsync(name))
-                    {
-                        await cartService.AddAccessoryToCartAsync(accessory, userGuidId, typeOfProduct, quantity);
-                    }
-                    else
-                    {
-                        Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
-                        await cartService.IncreaseProductQuantityWithOne(product, quantity);
-                    }
-                }
-                else if (typeOfProduct == TypeProductWear)
-                {
-                    wear = await wearService.GetWearByNameAsync(name);
-                    if (!await cartService.IsInCartHasProductByNameAndSizeAsync(name, size))
-                    {
-                        await cartService.AddWearToCartAsync(wear, userGuidId, typeOfProduct, size, quantity);
-                    }
-                    else
-                    {
-                        Product? product = await productService.GetProductFromShoppingCartByNameAndSizeAsync(name, size);
-                        await cartService.IncreaseProductQuantityWithOne(product, quantity);
-                    }
-                }
-
 
                 TempData["Success"] = SuccessfullyAddedProductToCart;
                 return RedirectToAction("MyCartItems", "Cart");
@@ -114,6 +115,7 @@
             };
         }
 
+
         [HttpPost]
         public async Task<IActionResult> RemoveFromCart(int id)
         {
@@ -123,10 +125,8 @@
 
                 var product = await productService.GetProductFromShoppingCartByProductIdAndUserIdAsync(id, userId);
 
-                if (product != null)
-                {
-                    await cartService.RemoveProductFromCartAsync(product!);
-                }
+                await cartService.RemoveProductFromCartAsync(product!);
+
                 TempData["Error"] = SuccessfullyRemovedProductFormCart;
                 return RedirectToAction("MyCartItems", "Cart");
             }
@@ -148,7 +148,6 @@
 
                 List<Product>? products = await productService.GetAllProductsInCartAsync(userGuidId);
 
-
                 await cartService.RemoveAllProductsFromCartAsync(products);
                 TempData["Error"] = SuccessfullyRemovedAllProductsFromCart;
                 return RedirectToAction("MyCartItems", "Cart");
@@ -157,7 +156,7 @@
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("MyCartItems", "Cart");
             }
 
         }

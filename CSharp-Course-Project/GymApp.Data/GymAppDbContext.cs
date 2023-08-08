@@ -7,6 +7,7 @@
     using GymApp.Data.Models;
 
     using static GymApp.Common.GeneralApplicationConstants;
+    using GymApp.Data.Configuration;
 
     public class GymAppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
@@ -14,7 +15,6 @@
             : base(options)
         {
         }
-
         public DbSet<Exercise> Exercises { get; set; } = null!;
 
         public DbSet<TrainingPlan> TrainingPlans { get; set; } = null!;
@@ -44,6 +44,15 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            var roleConfiguration = new CreateRolesConfiguration();
+            var userConfiguration = new SeedUsersConfiguration();
+
+            builder.ApplyConfiguration<IdentityRole<Guid>>(roleConfiguration);
+
+            //Configure the users and add roles to them
+            builder.ApplyConfiguration<ApplicationUser>(userConfiguration);
+            builder.ApplyConfiguration<IdentityUserRole<Guid>>(userConfiguration); ;
+
             //Seeding exercise categories
             builder
                 .Entity<Category>()

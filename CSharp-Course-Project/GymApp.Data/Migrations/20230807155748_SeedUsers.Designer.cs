@@ -4,6 +4,7 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApp.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    partial class GymAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230807155748_SeedUsers")]
+    partial class SeedUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,15 +202,15 @@ namespace GymApp.Migrations
                         {
                             Id = new Guid("f37fa09c-9247-42c4-b748-b5c8e10c6af9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "756b732a-37de-49a7-bca1-7b03316d4d46",
-                            CreatedOn = new DateTime(2023, 8, 8, 17, 41, 29, 300, DateTimeKind.Utc).AddTicks(2042),
+                            ConcurrencyStamp = "297d8dc7-0c2a-47c9-befd-b187b7322448",
+                            CreatedOn = new DateTime(2023, 8, 7, 15, 57, 47, 937, DateTimeKind.Utc).AddTicks(3686),
                             Email = "vlado01@abv.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             IsModerator = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "VLADO-01",
-                            PasswordHash = "AQAAAAEAACcQAAAAEH3sy/URFR0g8xg0bgkVOwdfZvPVTI744gBMvyPRl1ES1caaNJy50pKNdvtwOlGxlA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN372X6Yp1YY4y4+TqaRy8acjgWHNKX3nfGUFB5iUm8ALLeFALv5uFne6PQWisPjJw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "SecurityStamp01",
                             TwoFactorEnabled = false,
@@ -218,17 +220,17 @@ namespace GymApp.Migrations
                         {
                             Id = new Guid("a82fbea5-96ff-48f0-be6f-e32f27604bff"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6a408014-3fde-4727-b361-a7689ec946d2",
-                            CreatedOn = new DateTime(2023, 8, 8, 17, 41, 29, 301, DateTimeKind.Utc).AddTicks(4005),
+                            ConcurrencyStamp = "db267b41-6178-4157-8950-302ba549c6f8",
+                            CreatedOn = new DateTime(2023, 8, 7, 15, 57, 47, 938, DateTimeKind.Utc).AddTicks(5582),
                             Email = "monika02@abv.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             IsModerator = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "MONIKA-02",
-                            PasswordHash = "AQAAAAEAACcQAAAAEH2s46W2pK++ZaYhUalI6t+fbQyJoaET6Lj691m1KQ9ke3uQ7RtzlljqHsUJmEOa4Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP0UpvBcSB9bexAu5uTnH8sVOp/YYpOqyCOPKtTDVmIoazmVUQ3PKNfjk9p3xZLrYA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "SecurityStamp02",
+                            SecurityStamp = "SecurityStamp01",
                             TwoFactorEnabled = false,
                             UserName = "Monika-02"
                         },
@@ -236,17 +238,17 @@ namespace GymApp.Migrations
                         {
                             Id = new Guid("cbef4ddc-5788-48ab-9380-aa457c89a554"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "73af3145-c508-47b8-b14e-fc1361938702",
-                            CreatedOn = new DateTime(2023, 8, 8, 17, 41, 29, 302, DateTimeKind.Utc).AddTicks(5655),
+                            ConcurrencyStamp = "2c3e71f0-dac2-481f-8ef8-cf43cc2fd3ba",
+                            CreatedOn = new DateTime(2023, 8, 7, 15, 57, 47, 939, DateTimeKind.Utc).AddTicks(7492),
                             Email = "presko-03@abv.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             IsModerator = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "PRESLAV-03",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFea3fac/lMeaGLxaeDfM4/zokuqseZbOPminyGhjQbmf+GLviVaIWnfPRqV7HGtIQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJsW8io+Aug86SZBuJnZYjnhj+pkQc/eKU9UmH6EVWj+j9nDR6EaeYNUBiT3iALcPw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "SecurityStamp03",
+                            SecurityStamp = "SecurityStamp01",
                             TwoFactorEnabled = false,
                             UserName = "Preslav-03"
                         },
@@ -254,17 +256,17 @@ namespace GymApp.Migrations
                         {
                             Id = new Guid("a17550b2-729b-4a14-afdb-738804dbf7f2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c687ec6e-804c-4199-8aea-d3cac678b2d7",
-                            CreatedOn = new DateTime(2023, 8, 8, 17, 41, 29, 303, DateTimeKind.Utc).AddTicks(7421),
+                            ConcurrencyStamp = "c93d9503-8146-4e7b-98c5-5e4ea2bebe8f",
+                            CreatedOn = new DateTime(2023, 8, 7, 15, 57, 47, 940, DateTimeKind.Utc).AddTicks(9273),
                             Email = "admin@abv.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             IsModerator = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHDxHB2nVlQXUTEmN2CEaVy6r+bSXKKkKXi3sUOlBv/1+R2W7V20gSE1MlmeYPfw5A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDvBNOyUiJol951mXSREdmW9o0CP3kRq6BwPYX4e3TqLUXdmyObQJK90QSbY5D6eaw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "SecurityStamp04",
+                            SecurityStamp = "SecurityStamp01",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -1070,14 +1072,14 @@ namespace GymApp.Migrations
                         new
                         {
                             Id = new Guid("a12d2cfd-0058-4c64-babd-8c1437001f78"),
-                            ConcurrencyStamp = "f36702ab-7c14-4051-bc7f-2e776fb7eb34",
+                            ConcurrencyStamp = "5459b93f-4ebc-454d-a4ce-9fbb29029249",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = new Guid("65711ed3-baf2-4084-ab0c-dc0b7af05a45"),
-                            ConcurrencyStamp = "95f7daef-16c2-4594-92bf-bbd674c6a8b6",
+                            ConcurrencyStamp = "e5bf4d37-a27b-40c8-b944-ddb26c92b6ea",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

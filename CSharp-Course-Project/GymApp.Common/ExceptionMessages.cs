@@ -21,7 +21,7 @@
 
         public const string ThereAreNoProductsInCart = "There are no products in your cart!";
 
-
+        public const string InvalidProductType = "Invalid product type!";
 
         //Exercise
         public const string ThereIsExerciseWithThisName = "There is exercise with this name!";

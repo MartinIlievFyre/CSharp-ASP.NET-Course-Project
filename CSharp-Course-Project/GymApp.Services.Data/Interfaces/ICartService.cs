@@ -5,8 +5,6 @@
 
     public interface ICartService
     {
-        //decimal GetTotalSumOfAllProducts(List<ProductViewModel> modelProducts);
-
         Task<CartViewModel> CreateNewCartViewModelAsync(string? userId);
 
         Task<bool> IsInCartHasProductWithNameAsync(string productName);

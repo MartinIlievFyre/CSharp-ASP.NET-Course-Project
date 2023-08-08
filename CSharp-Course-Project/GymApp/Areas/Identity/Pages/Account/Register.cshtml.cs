@@ -85,6 +85,7 @@ namespace GymApp.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser()
                 { 
+                    Name = Input.Name,
                     UserName = Input.Name,
                     Email = Input.Email
                 };

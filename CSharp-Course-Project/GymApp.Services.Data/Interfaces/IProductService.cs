@@ -6,9 +6,6 @@
     public interface IProductService
     {
         Task<List<Product>> GetAllProductsInCartAsync(Guid? userGuidId);
-       // Task<List<Product>> GetAllProductsInCartByUserIdAsync(string? userId);
-
-        //List<ProductViewModel> GetAllProductViewModelsOnProducts(List<Product> products);
 
         Task<Product?> GetProductFromShoppingCartByNameAsync(string productName);
 
