@@ -18,7 +18,7 @@
         {
             this.dbContext = dbContext;
         }
-        public async Task<AccessoryViewModel> GetAccessoryByIdAsync(string id)
+        public async Task<AccessoryViewModel> GetAccessoryViewModelByIdAsync(string id)
         {
             AccessoryViewModel? currentProduct = await dbContext
              .Accessories
@@ -126,5 +126,22 @@
             return viewModel;
         }
 
+        public async Task<Accessory> GetAccessoryByIdAsync(int accessoryId)
+        {
+            Accessory? accessory = await dbContext.Accessories.FirstOrDefaultAsync(e => e.Id == accessoryId);
+
+            if (accessory == null)
+            {
+                throw new ArgumentException(ThereIsNoAccessoryWithThisId);
+            }
+
+            return accessory;
+        }
+
+        public async Task DeleteAccessoryAsync(Accessory accessory)
+        {
+            dbContext.Accessories.Remove(accessory);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -5,6 +5,11 @@
 
     using GymApp.Services.Data.Interfaces;
     using GymApp.ViewModels;
+    using GymApp.Infrastructure.Extensions;
+
+    using static GymApp.Common.NotificationMessagesConstants;
+    using static GymApp.Common.EntityValidationConstants.RolesConstants;
+    using GymApp.Data.Models;
 
     [Authorize]
     public class AccessoryController : Controller
@@ -37,7 +42,7 @@
         {
             try
             {
-                AccessoryViewModel currentProduct = await accessoryService.GetAccessoryByIdAsync(id);
+                AccessoryViewModel currentProduct = await accessoryService.GetAccessoryViewModelByIdAsync(id);
 
                 List<int> randomAccessoryIds = await accessoryService.RandomAccessoryIdsAsync(id);
                 
@@ -51,6 +56,27 @@
             {
                 TempData["Error"] = ex.Message;
                 return RedirectToAction("Index", "Home");
+            }
+        }
+        [HttpPost]
+        [Authorize(Roles = NameOfRoleAdmin)]
+        public async Task<IActionResult> DeleteAccessory(int id)
+        {
+            try
+            {
+                Accessory accessory = await accessoryService.GetAccessoryByIdAsync(id);
+
+                await accessoryService.DeleteAccessoryAsync(accessory);
+                string? userId = User.GetId();
+
+                TempData["Error"] = SuccessfullyDeletedAccessory;
+                return RedirectToAction("Accessories", "Accessory");
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Accessories", "Accessory");
+
             }
         }
     }

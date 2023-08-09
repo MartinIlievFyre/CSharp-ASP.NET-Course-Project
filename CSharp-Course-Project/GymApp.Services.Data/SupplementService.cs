@@ -123,5 +123,22 @@
             }
             return viewModel;
         }
+        public async Task<Supplement> GetSupplementByidAsync(int supplementId)
+        {
+            Supplement? supplement = await dbContext.Supplements.FirstOrDefaultAsync(e => e.Id == supplementId);
+
+            if (supplement == null)
+            {
+                throw new ArgumentException(ThereIsNoSupplementWithThisId);
+            }
+
+            return supplement;
+        }
+
+        public async Task DeleteSupplementAsync(Supplement supplement)
+        {
+            dbContext.Supplements.Remove(supplement);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

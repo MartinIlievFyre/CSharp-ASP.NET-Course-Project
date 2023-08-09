@@ -1,4 +1,7 @@
-﻿namespace GymApp.Controllers
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
+namespace GymApp.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
@@ -158,5 +161,24 @@
                 return RedirectToAction("Index", "Home");
             }
         }
+       [HttpPost]
+       [Authorize(Roles = "Admin")]
+       public async Task<IActionResult> DeleteExercise(int id)
+       {
+           try
+           {
+               var exercise = await exerciseService.GetExerciseByIdAsync(id);
+       
+              await exerciseService.DeleteExerciseAsync(exercise!);
+              
+              TempData["Error"] = SuccessfullyDeletedExercise;
+              return RedirectToAction("Exercises", "Gym");
+           }
+           catch (ArgumentException ex)
+           {
+               TempData["Error"] = ex.Message;
+               return RedirectToAction("Index", "Home");
+           }
+       }
     }
 }

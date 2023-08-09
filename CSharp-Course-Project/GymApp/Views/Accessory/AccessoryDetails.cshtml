@@ -1,4 +1,5 @@
-﻿@model AccessoryDetailsViewModel
+﻿@using static GymApp.Common.EntityValidationConstants.RolesConstants;
+@model AccessoryDetailsViewModel
 @{
     ViewBag.Title = Model.CurrentAccessory.Name;
 }
@@ -9,7 +10,17 @@
             <img src="@Model.CurrentAccessory.ImageUrl" alt="@Model.CurrentAccessory.Name" style="width:100%;" class="img-fluid">
         </div>
         <div class="col-lg-8">
-            <h3 style="margin-top: 50px;">@Model.CurrentAccessory.Name</h3>
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 style="margin-top: 35px;">
+                    @Model.CurrentAccessory.Name
+                </h3>
+                @if (User.IsInRole(NameOfRoleAdmin))
+                {
+                    <form asp-controller="Accessory" asp-action="DeleteAccessory" asp-route-id="@Model.CurrentAccessory.Id">
+                        <button type="submit" class="btn btn-outline-danger btn-lg py-2 px-4 rounded-pill" style="margin-top: 35px;">Delete accessory</button>
+                    </form>
+                }
+            </div>
             <p class="font-weight-bold">Manufacturer: @Model.CurrentAccessory.Manufacturer</p>
             <h5 style="font-size: 18px;">Price: @Model.CurrentAccessory.Price BGN</h5>
             <h4 class="mt-4">Benefits:</h4>
@@ -34,7 +45,7 @@
     <div class="row">
         @foreach (var randomProduct in Model.RandomAccessories)
         {
-            <div class="col-lg-4 mb-4" >
+            <div class="col-lg-4 mb-4">
                 <div class="card">
                     <div class="card-body">
                         <a class="navbar-brand" asp-area="" asp-controller="Accessory" asp-action="AccessoryDetails" asp-route-id="@randomProduct.Id">

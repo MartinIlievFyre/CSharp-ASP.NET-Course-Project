@@ -26,6 +26,7 @@
         Task<ApplicationUserExercise> GetUserFromApplicationUserExerciseAsync(string? userId);
         Task<ApplicationUserExercise> GetExerciseByIdAndUserIdFromApplicationUserExerciseAsync(int exerciseId, string? userId);
         Task RemoveExerciseFromMyFavoritesAsync(ApplicationUserExercise? exercise);
+        Task DeleteExerciseAsync(Exercise exercise);
     }
 
 }

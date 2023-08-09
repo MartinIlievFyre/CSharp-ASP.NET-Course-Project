@@ -10,7 +10,6 @@
     using GymApp.Services.Data.Interfaces;
 
     using static GymApp.Common.ExceptionMessages;
-    using GymApp.Migrations;
 
     public class ExerciseService : IExerciseService
     {
@@ -313,6 +312,11 @@
         {
             dbContext.ApplicationUsersExercises.Remove(exercise!);
 
+            await dbContext.SaveChangesAsync();
+        }
+        public async Task DeleteExerciseAsync(Exercise exercise)
+        {
+            dbContext.Exercises.Remove(exercise!);
             await dbContext.SaveChangesAsync();
         }
     }

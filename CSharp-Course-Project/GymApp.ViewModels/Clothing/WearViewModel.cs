@@ -21,6 +21,5 @@
         public string Fabric { get; set; } = null!;
         public string Type { get; set; } = null!;
 
-
     }
 }

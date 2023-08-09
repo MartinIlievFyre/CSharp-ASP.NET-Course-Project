@@ -1,4 +1,9 @@
-﻿﻿@using static GymApp.Common.GeneralApplicationConstants;
+﻿@using static GymApp.Common.GeneralApplicationConstants;
+@using static GymApp.Common.EntityValidationConstants.RolesConstants;
+@using GymApp.Data.Models;
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,36 +28,46 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gym" asp-action="Exercises">ALL EXERCISES</a>
+                        <li class="nav-item dropdown" style="margin-left: 1rem; font-family: Trebuchet MS;">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="~/images/fitness.png" width="40" height="40" class="d-inline-block align-top" alt="">
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Gym" asp-action="Exercises">EXERCISES</a>
+                                @if (this.User.Identity.IsAuthenticated)
+                                {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="MyFavoriteExercises" asp-action="MyFavoriteExercises">FAVORITE EXERCISES</a>
+                                }
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TrainingPlan" asp-action="TrainingPlans">TRAINING PLANS</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Calculator" asp-action="CalMacro">CALORIE CALCULATOR</a>
+                            </div>
                         </li>
                         @if (this.User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="MyFavoriteExercises" asp-action="MyFavoriteExercises">MY FAVORITE EXERCISES</a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="AddExercise" asp-action="AddExercise">ADD EXERCISE</a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="TrainingPlan" asp-action="TrainingPlans">TRAINING PLANS</a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="AddTrainingPlan" asp-action="AddTrainingPlan">ADD TRAINING PLAN</a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Calculator" asp-action="CalMacro">CALORIE CALCULATOR</a>
+                            if (User.IsInRole(NameOfRoleAdmin))
+                            {
+                                <li class="nav-item dropdown" style="margin-left: 1rem; font-family: Trebuchet MS">
+                                    <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="~/images/user.png" width="40" height="40" class="d-inline-block align-top" alt="">
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" asp-area="" asp-controller="AddExercise" asp-action="AddExercise">ADD EXERCISE</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="AddTrainingPlan" asp-action="AddTrainingPlan">ADD TRAINING PLAN</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="AddClothing" asp-action="AddWear">ADD WEAR</a>
+                                    </div>
+                                </li>
+                            }
+                            <li class="nav-item dropdown" style="margin-right: 1rem; font-family: Trebuchet MS;">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="~/images/medicine.png" width="40" height="40" class="d-inline-block align-top" alt="">
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clothing" asp-action="Clothes">CLOTHES</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Accessory" asp-action="Accessories">ACCESSORIES</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Supplement" asp-action="Supplements">SUPPLEMENTS</a>
+                                </div>
                             </li>
                         }
-                        <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clothing" asp-action="Clothes">CLOTHES</a>
-                        </li>
-                        <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Accessory" asp-action="Accessories">ACCESSORIES</a>
-                        </li>
-                        <li class="nav-item" style="margin-right: 1rem; font-family: Trebuchet MS">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Supplement" asp-action="Supplements">SUPPLEMENTS</a>
-                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -63,7 +78,7 @@
         <main role="main" class="pb-3">
             <div class="row">
                 <div class="col">
-                    <partial name="_NotificationPartial"/>
+                    <partial name="_NotificationPartial" />
                     @RenderBody()
                 </div>
             </div>

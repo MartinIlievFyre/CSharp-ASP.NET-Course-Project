@@ -7,7 +7,10 @@
     using GymApp.ViewModels;
 
     using static GymApp.Common.NotificationMessagesConstants;
+    using static GymApp.Common.EntityValidationConstants.RolesConstants;
+    using Microsoft.AspNetCore.Authorization;
 
+    [Authorize(Roles = NameOfRoleAdmin)]
     public class AddTrainingPlanController : Controller
     {
         private readonly ICategoryService categoryService;

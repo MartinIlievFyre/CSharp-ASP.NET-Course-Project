@@ -21,11 +21,13 @@ namespace GymApp.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -40,7 +42,6 @@ namespace GymApp.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
             public string Email { get; set; }
 
             [Required]
@@ -67,18 +68,24 @@ namespace GymApp.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, true, lockoutOnFailure: false);
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+                var result = await _signInManager.PasswordSignInAsync(user, Input.Password, false, false);
                 if (result.Succeeded)
                 {
                     return LocalRedirect(returnUrl);
                 }
                 else if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
+                    var lockoutEnd = await _userManager.GetLockoutEndDateAsync(user);
+                    var remainingTime = lockoutEnd - DateTimeOffset.UtcNow;
+                    if (remainingTime != null)
+                        ModelState.AddModelError(string.Empty,
+                            $"Your account is locked out. Please try again in {(int)remainingTime.Value.TotalDays} days.");
+                    return Page();
                 }
                 else
                 {
@@ -87,7 +94,9 @@ namespace GymApp.Areas.Identity.Pages.Account
                 }
             }
 
+            // If we got this far, something failed, redisplay form
             return Page();
         }
+
     }
 }

@@ -1,15 +1,26 @@
-﻿@model SupplementDetailsViewModel
+﻿@using static GymApp.Common.EntityValidationConstants.RolesConstants;
+@model SupplementDetailsViewModel
 @{
     ViewBag.Title = Model.CurrentSupplement.Name;
 }
 
-<div class="container">
+<div class="container" style="margin-top: 50px;">
     <div class="row">
         <div class="col-lg-4">
             <img src="@Model.CurrentSupplement.ImageUrl" alt="@Model.CurrentSupplement.Name" style="width:100%;" class="img-fluid">
         </div>
         <div class="col-lg-8">
-            <h3 style="margin-top: 50px;">@Model.CurrentSupplement.Name</h3>
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 style="margin-top: 35px;">
+                    @Model.CurrentSupplement.Name
+                </h3>
+                @if (User.IsInRole(NameOfRoleAdmin))
+                {
+                    <form asp-controller="Supplement" asp-action="DeleteSupplement" asp-route-id="@Model.CurrentSupplement.Id">
+                        <button type="submit" class="btn btn-outline-danger btn-lg py-2 px-4 rounded-pill" style="margin-top: 35px;">Delete supplement</button>
+                    </form>
+                }
+            </div>
             <p class="font-weight-bold">Manufacturer: @Model.CurrentSupplement.Manufacturer</p>
             <h5 style="font-size: 18px;">Price: @Model.CurrentSupplement.Price BGN</h5>
             <h4 class="mt-4">Benefits:</h4>

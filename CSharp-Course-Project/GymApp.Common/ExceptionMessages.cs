@@ -24,6 +24,7 @@
         public const string InvalidProductType = "Invalid product type!";
 
         //Exercise
+
         public const string ThereIsExerciseWithThisName = "There is exercise with this name!";
 
         public const string ThereAreNoExercisesWithThisCategoryId = "There are no exercises in this category!";
@@ -63,6 +64,8 @@
 
         public const string ThereIsNoAccessoryWithThisName = "There is no accessory with this name!";
 
+        public const string ThereIsNoAccessoryWithThisId = "There is no accessory with this ID!";
+
 
 
 
@@ -75,8 +78,9 @@
 
         public const string ThereAreNoClothesWithThisCategoryId = "There are no products in this category!";
 
+        public const string ThereIsNoWearWithThisId = "There is no wear with this ID!";
 
-
+        public const string ThereIsWearWithThisName = "There is clothing with this name!";
 
         //User
         public const string ThereIsNoUserWithThisId = "There is no user with this ID!";
@@ -93,6 +97,7 @@
 
         //Supplement
         public const string ThereIsNoSupplementWithThisName = "There is no supplement with this name!";
+        public const string ThereIsNoSupplementWithThisId = "There is no supplement with this ID!";
 
         public const string RandomSupplementIdsAreNull = "There are no three different supplement IDs!";
 

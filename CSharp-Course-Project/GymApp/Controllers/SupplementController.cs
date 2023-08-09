@@ -5,7 +5,10 @@
     using Microsoft.AspNetCore.Mvc;
     using GymApp.Services.Data.Interfaces;
     using Microsoft.AspNetCore.Authorization;
-
+    using GymApp.Infrastructure.Extensions;
+    using GymApp.Services.Data;
+    using GymApp.Data.Models;
+    using static GymApp.Common.NotificationMessagesConstants;
     [Authorize]
     public class SupplementController : Controller
     {
@@ -51,6 +54,26 @@
             {
                 TempData["Error"] = ex.Message;
                 return RedirectToAction("Index", "Home");
+            }
+        }
+        [HttpPost]
+        //[Authorize(Roles = NameOfRoleAdmin)]
+        public async Task<IActionResult> DeleteSupplement(int id)
+        {
+            try
+            {
+                Supplement supplement = await supplementService.GetSupplementByidAsync(id);
+
+                await supplementService.DeleteSupplementAsync(supplement);
+                
+                TempData["Error"] = SuccessfullyDeletedSupplement;
+                return RedirectToAction("Supplements", "Supplement");
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Supplements", "Supplement");
+
             }
         }
     }

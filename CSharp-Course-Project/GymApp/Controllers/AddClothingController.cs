@@ -2,34 +2,35 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    
-    using GymApp.ViewModels;
-    using GymApp.Data.Models;
-    using GymApp.Services.Data.Interfaces;
-    
+
     using static GymApp.Common.NotificationMessagesConstants;
     using static GymApp.Common.EntityValidationConstants.RolesConstants;
+    using GymApp.Services.Data.Interfaces;
+    using GymApp.ViewModels;
+    using GymApp.ViewModels.Clothing;
+    using GymApp.Data.Models;
+    using GymApp.ViewModels.WearCategory;
 
     [Authorize(Roles = NameOfRoleAdmin)]
-    public class AddExerciseController : Controller
+    public class AddClothingController : Controller
     {
         private readonly ICategoryService categoryService;
-        private readonly IExerciseService exerciseService;
-        public AddExerciseController( ICategoryService categoryService, IExerciseService exerciseService)
+        private readonly IWearService wearService;
+        public AddClothingController(ICategoryService categoryService, IWearService wearService)
         {
             this.categoryService = categoryService;
-            this.exerciseService = exerciseService;
+            this.wearService = wearService;
         }
         [HttpGet]
-        public async Task<IActionResult> AddExercise()
+        public async Task<IActionResult> AddWear()
         {
             try
             {
-                List<CategoryViewModel> categories = (List<CategoryViewModel>)await categoryService.AllCategoriesAsync(); 
-                    
-                AddExerciseViewModel model = exerciseService.CreateAddExerciseViewModel(categories);
+                List<WearCategoryViewModel> categories = (List<WearCategoryViewModel>)await categoryService.AllWearCategoriesAsync();
 
-                 return View(model);
+                AddWearViewModel model = wearService.CreateAddWearViewModel(categories);
+
+                return View(model);
             }
             catch (ArgumentException ex)
             {
@@ -38,7 +39,7 @@
             }
         }
         [HttpPost]
-        public async Task<IActionResult> AddExercise(AddExerciseViewModel model)
+        public async Task<IActionResult> AddWear(AddWearViewModel model)
         {
             try
             {
@@ -46,10 +47,10 @@
                 {
                     return View(model);
                 }
-                
 
-                Exercise exercise = await exerciseService.CreateExerciseAsync(model);
-                TempData["Success"] = SuccessfullyCreatedExercise;
+
+                Wear wear = await wearService.CreateWearAsync(model);
+                TempData["Success"] = SuccessfullyCreatedClothing;
                 return RedirectToAction("Exercises", "Gym");
 
             }

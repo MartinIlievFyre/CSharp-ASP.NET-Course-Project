@@ -6,6 +6,8 @@ namespace GymApp
     using GymApp.Data.Models;
     using GymApp.Services.Data;
     using GymApp.Services.Data.Interfaces;
+    using Microsoft.AspNetCore.Identity;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -20,25 +22,20 @@ namespace GymApp
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount =
-                builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedAccount");
+                {
+                    options.SignIn.RequireConfirmedAccount = false;
 
-                options.Password.RequireNonAlphanumeric =
-                builder.Configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumeric");
+                options.Password.RequireNonAlphanumeric = false;
 
-                options.Password.RequireLowercase =
-                builder.Configuration.GetValue<bool>("Identity:Password:RequireLowercase");
+                options.Password.RequireLowercase = false;
 
-                options.Password.RequireUppercase =
-                builder.Configuration.GetValue<bool>("Identity:Password:RequireUppercase");
+                options.Password.RequireUppercase = false;
 
-                options.Password.RequireDigit =
-                builder.Configuration.GetValue<bool>("Identity:Password:RequireDigit");
+                options.Password.RequireDigit = false;
 
-                options.Password.RequiredLength =
-                builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
+                options.Password.RequiredLength = 3;
             })
+                .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<GymAppDbContext>();
 
             builder.Services.AddScoped<IAccessoryService, AccessoryService>();

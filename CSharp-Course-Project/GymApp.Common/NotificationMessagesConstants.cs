@@ -12,6 +12,7 @@
 
         public const string SuccessfullyCreatedExercise = "Successfully created exercise!";
 
+        public const string SuccessfullyDeletedExercise = "Successfully deleted exercise!";
 
         //Food
 
@@ -43,7 +44,15 @@
 
         public const string SuccessfullyRemovedAllProductsFromCart = "Successfully removed all products from cart!";
 
-        
+        //Wear
+        public const string SuccessfullyDeletedWear = "Successfully deleted wear!";
+
+        public const string SuccessfullyCreatedClothing = "Successfully created wear!";
+
+        //Supplement
+        public const string SuccessfullyDeletedSupplement = "Successfully deleted supplement!";
+        //Supplement
+        public const string SuccessfullyDeletedAccessory = "Successfully deleted accessory!";
 
     }
 }

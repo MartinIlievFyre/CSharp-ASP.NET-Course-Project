@@ -19,7 +19,7 @@
             this.categoryService = categoryService;
             this.trainingPlanService = trainingPlanService;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> TrainingPlans()
         {
             try
@@ -53,7 +53,7 @@
             }
         }
 
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> EditTrainingPlan(int id)
         {
@@ -76,7 +76,7 @@
         }
 
         [HttpPost]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditTrainingPlan(EditTrainingPlanViewModel model)
         {
             try

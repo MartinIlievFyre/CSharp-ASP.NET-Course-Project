@@ -10,6 +10,7 @@
     using GymApp.Services.Data.Interfaces;
 
     using static GymApp.Common.ExceptionMessages;
+    using static GymApp.Common.GeneralApplicationConstants;
 
     public class CartService : ICartService
     {
@@ -71,7 +72,7 @@
         public async Task<CartViewModel> CreateNewCartViewModelAsync(string? userId)
         {
             List<Product> products = await GetAllProductsInCartByUserIdAsync(userId);
-
+            
             List<ProductViewModel> modelProducts = GetAllProductViewModelsOnProducts(products);
 
             decimal sum = GetTotalSumOfAllProducts(modelProducts);
@@ -94,7 +95,6 @@
                 ShoppingCart.
                 Where(p => p.UserId.ToString() == userId).
                 ToListAsync();
-
 
             return products;
         }//Done

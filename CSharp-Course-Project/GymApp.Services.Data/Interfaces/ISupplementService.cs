@@ -11,5 +11,7 @@
         Task<List<int>> RandomSupplementIdsAsync(string id);
         Task<List<SupplementViewModel>> RandomSupplementsWithIdsAsync(List<int> randomSupplementIds);
         SupplementDetailsViewModel CreateSupplementDetailsViewModol(List<SupplementViewModel> randomProducts, SupplementViewModel currentProduct);
+        Task<Supplement> GetSupplementByidAsync(int supplementId);
+        Task DeleteSupplementAsync(Supplement supplement);
     }
 }
