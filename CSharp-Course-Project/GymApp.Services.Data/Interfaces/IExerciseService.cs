@@ -18,7 +18,7 @@
         ExerciseDetailsViewModel CreateExerciseDetailsViewModel(ExerciseViewModel currentExercise ,List<ExerciseViewModel> randomExercises);
         EditExerciseViewModel CreateEditExerciseViewModel(Exercise? exercise , IEnumerable<CategoryViewModel> categories);
         Task<Exercise?> GetExerciseByIdAsync(int exerciseId);
-        Task<bool> IsExerciseWithThisIdExistInApplicationUserExerciseAsync(int exerciseId);
+        Task<bool> IsExerciseWithThisIdExistInApplicationUserExerciseAsync(int exerciseId, Guid userGuyId);
         bool IsThereExerciseWithThisUserInApplicationUserExercises(Exercise exercise, string? userId);
         Task CreateNewApplicationUserExerciseAsync(Exercise exercise, int id, Guid userGuidId);
         Task EditingInformationAboutExerciseAsync(Exercise exercise, EditExerciseViewModel model);

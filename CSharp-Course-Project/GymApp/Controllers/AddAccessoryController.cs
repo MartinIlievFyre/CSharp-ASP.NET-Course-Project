@@ -1,33 +1,32 @@
 ﻿namespace GymApp.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
     using GymApp.Data.Models;
-    using GymApp.ViewModels.Clothing;
-    using GymApp.ViewModels.WearCategory;
+    using GymApp.ViewModels.Accessory;
     using GymApp.Services.Data.Interfaces;
+
     using static GymApp.Common.NotificationMessagesConstants;
     using static GymApp.Common.EntityValidationConstants.RolesConstants;
 
     [Authorize(Roles = NameOfRoleAdmin)]
-    public class AddClothingController : Controller
+    public class AddAccessoryController : Controller
     {
         private readonly ICategoryService categoryService;
-        private readonly IWearService wearService;
-        public AddClothingController(ICategoryService categoryService, IWearService wearService)
+        private readonly IAccessoryService accessoryService;
+        public AddAccessoryController(IAccessoryService accessoryService, ICategoryService categoryService)
         {
+            this.accessoryService = accessoryService;
             this.categoryService = categoryService;
-            this.wearService = wearService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> AddWear()
+        public IActionResult AddAccessory()
         {
             try
             {
-                List<WearCategoryViewModel> categories = (List<WearCategoryViewModel>)await categoryService.AllWearCategoriesAsync();
-
-                AddWearViewModel model = wearService.CreateAddWearViewModel(categories);
+                AddAccessoryViewModel model = accessoryService.CreateAddAccessoryViewModel();
 
                 return View(model);
             }
@@ -38,7 +37,7 @@
             }
         }
         [HttpPost]
-        public async Task<IActionResult> AddWear(AddWearViewModel model)
+        public async Task<IActionResult> AddAccessory(AddAccessoryViewModel model)
         {
             try
             {
@@ -47,16 +46,16 @@
                     return View(model);
                 }
 
+                Accessory accessory = await accessoryService.CreateAccessoryAsync(model);
 
-                Wear wear = await wearService.CreateWearAsync(model);
-                TempData["Success"] = SuccessfullyCreatedClothing;
-                return RedirectToAction("Exercises", "Gym");
+                TempData["Success"] = SuccessfullyCreatedAccessory;
+                return RedirectToAction("Accessories", "Accessory");
 
             }
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
-                return RedirectToAction("AddExercise", "AddExercise");
+                return RedirectToAction("AddAccessory", "AddAccessory");
             }
         }
     }

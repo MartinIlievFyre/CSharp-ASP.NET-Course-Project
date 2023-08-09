@@ -10,6 +10,9 @@
     using GymApp.Services.Data.Interfaces;
 
     using static GymApp.Common.ExceptionMessages;
+    using static GymApp.Common.GeneralApplicationConstants;
+
+    using GymApp.ViewModels.Accessory;
 
     public class AccessoryService : IAccessoryService
     {
@@ -142,6 +145,38 @@
         {
             dbContext.Accessories.Remove(accessory);
             await dbContext.SaveChangesAsync();
+        }
+
+        public AddAccessoryViewModel CreateAddAccessoryViewModel()
+        {
+            AddAccessoryViewModel model = new AddAccessoryViewModel();
+            if (model == null)
+            {
+                throw new ArgumentException();
+            }
+            return model;
+        }
+
+        public async Task<Accessory> CreateAccessoryAsync(AddAccessoryViewModel model)
+        {
+            bool isExerciseExist = await dbContext.Accessories.AnyAsync(a => a.Name == model.Name);
+            if (isExerciseExist)
+            {
+                throw new ArgumentException(ThereIsWearWithThisName);
+            }
+            Accessory accessory = new Accessory()
+            {
+                Name = model.Name,
+                Price = model.Price,
+                Manufacturer = model.Manufacturer,
+                Benefits = model.Benefits,
+                Description = model.Description,
+                ImageUrl = model.ImageUrl,
+                Type = TypeProductAccessory
+            };
+            await dbContext.AddAsync(accessory);
+            await dbContext.SaveChangesAsync();
+            return accessory;
         }
     }
 }

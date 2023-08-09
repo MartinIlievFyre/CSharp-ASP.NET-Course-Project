@@ -32,8 +32,8 @@
         public const string SuccessfullyEditTrainingPlan = "You have successfully edited the training plan!";
 
         public const string SuccessfullyCreatedTrainingPlan = "Successfully created training plan!";
-        
 
+        public const string SuccessfullyDeletedTrainingPlan = "Successfully deleted training plan!";
         //Cart
 
         public const string ThereAreNoProductsInCart = "There are no products in your cart!";
@@ -51,8 +51,10 @@
 
         //Supplement
         public const string SuccessfullyDeletedSupplement = "Successfully deleted supplement!";
-        //Supplement
+        public const string SuccessfullyCreatedSupplement = "Successfully created supplement!";
+        //Accessory
         public const string SuccessfullyDeletedAccessory = "Successfully deleted accessory!";
+        public const string SuccessfullyCreatedAccessory = "Successfully created accessory!";
 
     }
 }

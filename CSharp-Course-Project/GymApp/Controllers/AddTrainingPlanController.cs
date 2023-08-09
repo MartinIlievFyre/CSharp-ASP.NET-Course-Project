@@ -1,6 +1,7 @@
 ﻿namespace GymApp.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
     using GymApp.Data.Models;
     using GymApp.Services.Data.Interfaces;
@@ -8,7 +9,6 @@
 
     using static GymApp.Common.NotificationMessagesConstants;
     using static GymApp.Common.EntityValidationConstants.RolesConstants;
-    using Microsoft.AspNetCore.Authorization;
 
     [Authorize(Roles = NameOfRoleAdmin)]
     public class AddTrainingPlanController : Controller

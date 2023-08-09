@@ -2,10 +2,14 @@
 {
     using GymApp.ViewModels;
     using GymApp.Data.Models;
+    using GymApp.ViewModels.Accessory;
+    using GymApp.ViewModels.Supplement;
 
     public interface ISupplementService
     {
         Task<Supplement> GetSupplemenntByNameAsync(string supplementName);
+        AddSupplementViewModel CreateAddSupplementViewModel();
+        Task<Supplement> CreateSupplementAsync(AddSupplementViewModel model);
         Task<SupplementViewModel> GetSupplementViewModelByIdAsync(string supplementId);
         Task<IEnumerable<SupplementViewModel>> AllSupplementsAsync();
         Task<List<int>> RandomSupplementIdsAsync(string id);

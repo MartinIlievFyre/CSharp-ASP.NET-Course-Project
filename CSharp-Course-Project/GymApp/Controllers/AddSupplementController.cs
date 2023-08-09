@@ -1,33 +1,32 @@
 ﻿namespace GymApp.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
     using GymApp.Data.Models;
-    using GymApp.ViewModels.Clothing;
-    using GymApp.ViewModels.WearCategory;
+    using GymApp.ViewModels.Supplement;
     using GymApp.Services.Data.Interfaces;
+
     using static GymApp.Common.NotificationMessagesConstants;
     using static GymApp.Common.EntityValidationConstants.RolesConstants;
 
     [Authorize(Roles = NameOfRoleAdmin)]
-    public class AddClothingController : Controller
+    public class AddSupplementController : Controller
     {
         private readonly ICategoryService categoryService;
-        private readonly IWearService wearService;
-        public AddClothingController(ICategoryService categoryService, IWearService wearService)
+        private readonly ISupplementService supplementService;
+        public AddSupplementController(ISupplementService supplementService, ICategoryService categoryService)
         {
+            this.supplementService = supplementService;
             this.categoryService = categoryService;
-            this.wearService = wearService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> AddWear()
+        public IActionResult AddSupplement()
         {
             try
             {
-                List<WearCategoryViewModel> categories = (List<WearCategoryViewModel>)await categoryService.AllWearCategoriesAsync();
-
-                AddWearViewModel model = wearService.CreateAddWearViewModel(categories);
+                AddSupplementViewModel model = supplementService.CreateAddSupplementViewModel();
 
                 return View(model);
             }
@@ -38,7 +37,7 @@
             }
         }
         [HttpPost]
-        public async Task<IActionResult> AddWear(AddWearViewModel model)
+        public async Task<IActionResult> AddSupplement(AddSupplementViewModel model)
         {
             try
             {
@@ -47,16 +46,16 @@
                     return View(model);
                 }
 
+                Supplement supplement = await supplementService.CreateSupplementAsync(model);
 
-                Wear wear = await wearService.CreateWearAsync(model);
-                TempData["Success"] = SuccessfullyCreatedClothing;
-                return RedirectToAction("Exercises", "Gym");
+                TempData["Success"] = SuccessfullyCreatedSupplement;
+                return RedirectToAction("Supplements", "Supplement");
 
             }
             catch (ArgumentException ex)
             {
                 TempData["Error"] = ex.Message;
-                return RedirectToAction("AddExercise", "AddExercise");
+                return RedirectToAction("Supplements", "Supplement");
             }
         }
     }

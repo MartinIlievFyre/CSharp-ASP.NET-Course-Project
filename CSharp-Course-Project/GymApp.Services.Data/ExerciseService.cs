@@ -283,9 +283,9 @@
         }
 
 
-        public async Task<bool> IsExerciseWithThisIdExistInApplicationUserExerciseAsync(int exerciseId)
+        public async Task<bool> IsExerciseWithThisIdExistInApplicationUserExerciseAsync(int exerciseId, Guid userGuyId)
         {
-            bool doesExercisesExist = await dbContext.ApplicationUsersExercises.AnyAsync(ue => ue.ExerciseId == exerciseId);
+            bool doesExercisesExist = await dbContext.ApplicationUsersExercises.AnyAsync(ue => ue.ExerciseId == exerciseId && ue.TrainingGuyId == userGuyId);
             return doesExercisesExist;
         }
 

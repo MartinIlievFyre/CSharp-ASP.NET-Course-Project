@@ -1,0 +1,60 @@
+﻿@using GymApp.ViewModels.Supplement;
+@model AddSupplementViewModel
+@{
+    ViewBag.Title = "Add Supplement";
+}
+
+<h2 class="text-center display-4 font-weight-bold">@ViewBag.Title</h2>
+<hr />
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="AddSupplement" method="post">
+                <div class="mb-3">
+                    <label asp-for="@Model.Name" class="form-label">Name:</label>
+                    <input asp-for="@Model.Name" class="form-control" aria-required="true" placeholder="Belt" />
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="@Model.Price" class="form-label">Price:</label>
+                    <input asp-for="@Model.Price" class="form-control" aria-required="true" placeholder="49.99" />
+                    <span asp-validation-for="@Model.Price" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="@Model.ImageUrl" class="form-label">Image URL:</label>
+                    <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" placeholder="Link for image" />
+                    <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+                </div>
+
+
+
+                <div class="mb-3">
+                    <label asp-for="@Model.Manufacturer" class="form-label">Manufacturer:</label>
+                    <input asp-for="@Model.Manufacturer" class="form-control" aria-required="true" placeholder="The name of manufacture" />
+                    <span asp-validation-for="@Model.Manufacturer" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.Description" class="form-label">Description:</label>
+                    <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="5" placeholder="Some description..."></textarea>
+                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.Benefits" class="form-label">Benefits:</label>
+                    <textarea asp-for="@Model.Benefits" class="form-control" aria-required="true" rows="5" placeholder="Benefits from accessory..."></textarea>
+                    <span asp-validation-for="@Model.Benefits" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 text-center">
+                    <input class="btn btn-lg mt-3 addExercise-button btn-info" style="width:275px; height:90px; font-size:40px;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" type="submit" value="Add Clothing" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

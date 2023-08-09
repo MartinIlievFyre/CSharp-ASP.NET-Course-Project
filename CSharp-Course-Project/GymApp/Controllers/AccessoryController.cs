@@ -3,13 +3,12 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
 
-    using GymApp.Services.Data.Interfaces;
     using GymApp.ViewModels;
-    using GymApp.Infrastructure.Extensions;
+    using GymApp.Data.Models;
+    using GymApp.Services.Data.Interfaces;
 
     using static GymApp.Common.NotificationMessagesConstants;
     using static GymApp.Common.EntityValidationConstants.RolesConstants;
-    using GymApp.Data.Models;
 
     [Authorize]
     public class AccessoryController : Controller
@@ -67,7 +66,6 @@
                 Accessory accessory = await accessoryService.GetAccessoryByIdAsync(id);
 
                 await accessoryService.DeleteAccessoryAsync(accessory);
-                string? userId = User.GetId();
 
                 TempData["Error"] = SuccessfullyDeletedAccessory;
                 return RedirectToAction("Accessories", "Accessory");

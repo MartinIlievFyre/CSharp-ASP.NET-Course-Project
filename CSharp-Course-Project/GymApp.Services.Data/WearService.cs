@@ -7,6 +7,7 @@
     using GymApp.Services.Data.Interfaces;
 
     using static GymApp.Common.ExceptionMessages;
+    using static GymApp.Common.GeneralApplicationConstants;
     using System.Collections.Generic;
     using GymApp.ViewModels;
     using GymApp.ViewModels.Clothing;
@@ -162,7 +163,7 @@
 
         public async Task<Wear> CreateWearAsync(AddWearViewModel model)
         {
-            bool isExerciseExist = await dbContext.Clothes.AnyAsync(e => e.Name == model.Name);
+            bool isExerciseExist = await dbContext.Clothes.AnyAsync(c => c.Name == model.Name);
             if (isExerciseExist)
             {
                 throw new ArgumentException(ThereIsWearWithThisName);
@@ -177,7 +178,7 @@
                 Description = model.Description,
                 Fabric = model.Fabric,
                 ImageUrl = model.ImageUrl,
-                Type = model.Type
+                Type = TypeProductWear
             };
             await dbContext.AddAsync(wear);
             await dbContext.SaveChangesAsync();

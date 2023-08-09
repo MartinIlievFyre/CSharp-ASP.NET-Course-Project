@@ -29,9 +29,9 @@
         [Required]
         [StringLength(FabricMaxLength, MinimumLength = FabricMinLength)]
         public string Fabric { get; set; } = null!;
-        [Required]
-        [StringLength(TypeMaxLength, MinimumLength = TypeMinLength)]
-        public string Type { get; set; } = null!;
+       //[Required]
+       //[StringLength(TypeMaxLength, MinimumLength = TypeMinLength)]
+       //public string Type { get; set; } = null!;
         public int CategoryId { get; set; }
         public ICollection<WearCategoryViewModel> WearCategories { get; set; } = new List<WearCategoryViewModel>();
     }

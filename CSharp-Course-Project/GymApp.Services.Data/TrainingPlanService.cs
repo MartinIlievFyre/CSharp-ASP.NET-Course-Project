@@ -116,6 +116,10 @@
             await dbContext.SaveChangesAsync();
         }
 
-
+        public async Task DeleteTrainingPlanAsync(TrainingPlan trainingPlan)
+        {
+            dbContext.TrainingPlans.Remove(trainingPlan);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

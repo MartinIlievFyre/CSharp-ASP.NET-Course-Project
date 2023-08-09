@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
-namespace GymApp.Controllers
+﻿namespace GymApp.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
@@ -93,7 +90,7 @@ namespace GymApp.Controllers
 
                 Exercise? exercise = await exerciseService.GetExerciseByIdAsync(id);
 
-                if (!await exerciseService.IsExerciseWithThisIdExistInApplicationUserExerciseAsync(id))
+                if (!await exerciseService.IsExerciseWithThisIdExistInApplicationUserExerciseAsync(id, userGuidId))
                 {
                     if (!exerciseService.IsThereExerciseWithThisUserInApplicationUserExercises(exercise!, userId))
                     {

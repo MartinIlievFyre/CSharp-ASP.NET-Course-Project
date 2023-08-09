@@ -1,14 +1,15 @@
 ﻿namespace GymApp.Controllers
 {
-
-    using GymApp.ViewModels;
     using Microsoft.AspNetCore.Mvc;
-    using GymApp.Services.Data.Interfaces;
     using Microsoft.AspNetCore.Authorization;
-    using GymApp.Infrastructure.Extensions;
-    using GymApp.Services.Data;
+    
+    using GymApp.ViewModels;
     using GymApp.Data.Models;
+    using GymApp.Services.Data.Interfaces;
+
     using static GymApp.Common.NotificationMessagesConstants;
+    using static GymApp.Common.EntityValidationConstants.RolesConstants;
+
     [Authorize]
     public class SupplementController : Controller
     {
@@ -57,7 +58,7 @@
             }
         }
         [HttpPost]
-        //[Authorize(Roles = NameOfRoleAdmin)]
+        [Authorize(Roles = NameOfRoleAdmin)]
         public async Task<IActionResult> DeleteSupplement(int id)
         {
             try

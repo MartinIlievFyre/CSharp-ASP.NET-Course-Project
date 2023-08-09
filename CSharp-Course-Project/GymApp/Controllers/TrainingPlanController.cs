@@ -8,6 +8,9 @@
     using GymApp.Services.Data.Interfaces;
 
     using static GymApp.Common.NotificationMessagesConstants;
+    using static GymApp.Common.EntityValidationConstants.RolesConstants;
+    using GymApp.Infrastructure.Extensions;
+    using GymApp.Services.Data;
 
     [Authorize]
     public class TrainingPlanController : Controller
@@ -53,8 +56,8 @@
             }
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet]
+        [Authorize(Roles = NameOfRoleAdmin)]
         public async Task<IActionResult> EditTrainingPlan(int id)
         {
             try
@@ -76,7 +79,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = NameOfRoleAdmin)]
         public async Task<IActionResult> EditTrainingPlan(EditTrainingPlanViewModel model)
         {
             try
@@ -101,6 +104,26 @@
             {
                 TempData["Error"] = ex.Message;
                 return RedirectToAction("Index", "Home");
+            }
+        }
+        [HttpPost]
+        [Authorize(Roles = NameOfRoleAdmin)]
+        public async Task<IActionResult> DeleteTrainingPlan(int id)
+        {
+            try
+            {
+                TrainingPlan trainingPlan = await trainingPlanService.GetTrainingPlanByIdAsync(id);
+
+                await trainingPlanService.DeleteTrainingPlanAsync(trainingPlan);
+
+                TempData["Error"] = SuccessfullyDeletedTrainingPlan;
+                return RedirectToAction("TrainingPlans", "TrainingPlan");
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("TrainingPlans", "TrainingPlan");
+
             }
         }
     }

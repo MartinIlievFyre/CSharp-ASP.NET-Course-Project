@@ -11,5 +11,6 @@
         Task<TrainingPlan> GetTrainingPlanByIdAsync(int trainingPlanId);
         EditTrainingPlanViewModel CreateEditTrainingPlanViewModel(TrainingPlan? trainingPlan, IEnumerable<CategoryViewModel> categories);
         Task EditingInformationAboutTrainingPlanAsync(TrainingPlan trainingPlan, EditTrainingPlanViewModel model);
+        Task DeleteTrainingPlanAsync(TrainingPlan trainingPlan);
     }
 }
