@@ -109,73 +109,7 @@
             };
         }
  
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> EditExercise(int id)
-        {
-            try
-            {
-                IEnumerable<CategoryViewModel> categories = await categoryService.AllCategoriesAsync();
-
-                Exercise? exercise = await exerciseService.GetExerciseByIdAsync(id);
-
-                EditExerciseViewModel model = exerciseService.CreateEditExerciseViewModel(exercise, categories);
-
-                return View(model);
-
-            }
-            catch (ArgumentException ex)
-            {
-                TempData["Error"] = ex.Message;
-                return RedirectToAction("Index", "Home");
-            }
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EditExercise(EditExerciseViewModel model)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return View(model);
-                }
-
-                IEnumerable<CategoryViewModel> categories = await categoryService.AllCategoriesAsync();
-
-                Exercise? exercise = await exerciseService.GetExerciseByIdAsync(model.Id);
-
-                await exerciseService.EditingInformationAboutExerciseAsync(exercise!, model);
-
-                TempData["Success"] = SuccessfullyEditExercise;
-
-                return RedirectToAction("ExerciseDetails", new { id = model.Id });
-            }
-            catch (ArgumentException ex)
-            {
-                TempData["Error"] = ex.Message;
-                return RedirectToAction("Index", "Home");
-            }
-        }
-       [HttpPost]
-       [Authorize(Roles = "Admin")]
-       public async Task<IActionResult> DeleteExercise(int id)
-       {
-           try
-           {
-               var exercise = await exerciseService.GetExerciseByIdAsync(id);
+        
        
-              await exerciseService.DeleteExerciseAsync(exercise!);
-              
-              TempData["Error"] = SuccessfullyDeletedExercise;
-              return RedirectToAction("Exercises", "Gym");
-           }
-           catch (ArgumentException ex)
-           {
-               TempData["Error"] = ex.Message;
-               return RedirectToAction("Index", "Home");
-           }
-       }
     }
 }

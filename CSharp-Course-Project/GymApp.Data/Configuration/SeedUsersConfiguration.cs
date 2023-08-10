@@ -20,6 +20,7 @@ namespace GymApp.Data.Configuration
                     UserName = "Vlado-01",
                     NormalizedUserName = "VLADO-01",
                     Email = "vlado01@abv.com",
+                    NormalizedEmail = "VLADO01@ABV.COM",
                     PasswordHash = _passwordHasher.HashPassword(null, "test01"),
                     SecurityStamp = "SecurityStamp01"
                 },
@@ -29,6 +30,7 @@ namespace GymApp.Data.Configuration
                     UserName = "Monika-02",
                     NormalizedUserName = "MONIKA-02",
                     Email = "monika02@abv.com",
+                    NormalizedEmail = "MONIKAO2@ABV.COM",
                     PasswordHash = _passwordHasher.HashPassword(null, "test02"),
                     SecurityStamp = "SecurityStamp02"
                 },
@@ -37,7 +39,8 @@ namespace GymApp.Data.Configuration
                     Id = Guid.Parse("cbef4ddc-5788-48ab-9380-aa457c89a554"),
                     UserName = "Preslav-03",
                     NormalizedUserName = "PRESLAV-03",
-                    Email = "presko-03@abv.com",
+                    Email = "presko03@abv.com",
+                    NormalizedEmail = "PRESKO03@ABV.COM",
                     PasswordHash = _passwordHasher.HashPassword(null, "test03"),
                     SecurityStamp = "SecurityStamp03"
                 },
@@ -47,6 +50,7 @@ namespace GymApp.Data.Configuration
                     UserName = AdminUserName,
                     NormalizedUserName = AdminUserName,
                     Email = AdminEmail,
+                    NormalizedEmail = AdminEmail.ToUpper(),
                     PasswordHash = _passwordHasher.HashPassword(null, AdminPassword),
                     SecurityStamp = "SecurityStamp04"
                 });

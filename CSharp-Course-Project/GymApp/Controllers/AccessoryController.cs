@@ -57,25 +57,6 @@
                 return RedirectToAction("Index", "Home");
             }
         }
-        [HttpPost]
-        [Authorize(Roles = NameOfRoleAdmin)]
-        public async Task<IActionResult> DeleteAccessory(int id)
-        {
-            try
-            {
-                Accessory accessory = await accessoryService.GetAccessoryByIdAsync(id);
-
-                await accessoryService.DeleteAccessoryAsync(accessory);
-
-                TempData["Error"] = SuccessfullyDeletedAccessory;
-                return RedirectToAction("Accessories", "Accessory");
-            }
-            catch (ArgumentException ex)
-            {
-                TempData["Error"] = ex.Message;
-                return RedirectToAction("Accessories", "Accessory");
-
-            }
-        }
+        
     }
 }

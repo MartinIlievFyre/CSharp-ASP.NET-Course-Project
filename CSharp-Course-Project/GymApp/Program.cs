@@ -48,6 +48,7 @@ namespace GymApp
             builder.Services.AddScoped<IWearService, WearService>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
 
 
             builder.Services.AddControllersWithViews();

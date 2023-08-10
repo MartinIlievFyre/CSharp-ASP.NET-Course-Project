@@ -1,0 +1,68 @@
+﻿@using GymApp.ViewModels.Clothing;
+@model EditWearViewModel
+
+@{
+    ViewData["Title"] = "Edit wear";
+}
+
+<h2 class="text-center display-4 font-weight-bold" style="margin-top: 50px;">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-action="EditWear" method="post">
+            <div class="mb-3">
+                <label asp-for="@Model.Name" class="form-label">Name:</label>
+                <input asp-for="@Model.Name" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Price" class="form-label">Price:</label>
+                <input asp-for="@Model.Price" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.Price" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.ImageUrl" class="form-label">ImageUrl:</label>
+                <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Size" class="form-label">Size:</label>
+                <input asp-for="@Model.Size" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.Size" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Fabric" class="form-label">Fabric:</label>
+                <input asp-for="@Model.Fabric" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.Fabric" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Color" class="form-label">Color:</label>
+                <input asp-for="@Model.Color" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.Color" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Description" class="form-label">Description:</label>
+                <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.CategoryId" class="form-label">Category:</label>
+                <select asp-for="@Model.CategoryId" class="form-control">
+                    @foreach (var category in Model.WearCategories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
+            </div>
+            <div class="mb-3 text-center">
+                <input class="btn btn-outline-warning btn-lg mt-3 py-3 px-4 rounded-pill" type="submit" value="Edit" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

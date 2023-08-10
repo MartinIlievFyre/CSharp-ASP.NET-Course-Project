@@ -48,13 +48,17 @@
         public const string SuccessfullyDeletedWear = "Successfully deleted wear!";
 
         public const string SuccessfullyCreatedClothing = "Successfully created wear!";
-
+        public const string SuccessfullyEditWear = "You have successfully edited the wear!";
         //Supplement
         public const string SuccessfullyDeletedSupplement = "Successfully deleted supplement!";
         public const string SuccessfullyCreatedSupplement = "Successfully created supplement!";
+        public const string SuccessfullyEditSypplement = "You have successfully edited the supplement!";
         //Accessory
         public const string SuccessfullyDeletedAccessory = "Successfully deleted accessory!";
         public const string SuccessfullyCreatedAccessory = "Successfully created accessory!";
+
+        //User
+        public const string ThisUserIsAlreadyDeleted = "This user id already deleted!";
 
     }
 }

@@ -130,59 +130,6 @@
             };
             return viewModel;
         }
-        public async Task<Wear> GetWearByidAsync(int wearId)
-        {
-            Wear? Wear = await dbContext.Clothes.FirstOrDefaultAsync(e => e.Id == wearId);
-
-            if (Wear == null)
-            {
-                throw new ArgumentException(ThereIsNoWearWithThisId);
-            }
-
-            return Wear;
-        }
-
-        public async Task DeleteWearAsync(Wear wear)
-        {
-            dbContext.Clothes.Remove(wear);
-            await dbContext.SaveChangesAsync();
-        }
-
-        public AddWearViewModel CreateAddWearViewModel(List<WearCategoryViewModel> categories)
-        {
-            AddWearViewModel model = new AddWearViewModel()
-            {
-                WearCategories = categories
-            };
-            if (model == null)
-            {
-                throw new ArgumentException();
-            }
-            return model;
-        }
-
-        public async Task<Wear> CreateWearAsync(AddWearViewModel model)
-        {
-            bool isExerciseExist = await dbContext.Clothes.AnyAsync(c => c.Name == model.Name);
-            if (isExerciseExist)
-            {
-                throw new ArgumentException(ThereIsWearWithThisName);
-            }
-            Wear wear = new Wear()
-            {
-                Name = model.Name,
-                Price = model.Price,
-                Color = model.Color,
-                WearCategoryId = model.CategoryId,
-                Size = model.Size,
-                Description = model.Description,
-                Fabric = model.Fabric,
-                ImageUrl = model.ImageUrl,
-                Type = TypeProductWear
-            };
-            await dbContext.AddAsync(wear);
-            await dbContext.SaveChangesAsync();
-            return wear;
-        }
+        
     }
 }

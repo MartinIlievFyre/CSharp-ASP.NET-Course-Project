@@ -3,8 +3,12 @@
     using System.ComponentModel.DataAnnotations;
 
     using static GymApp.Common.EntityValidationConstants.Supplement;
-    public class AddSupplementViewModel
+    public class EditSupplementViewModel
     {
+        
+        [Required]
+        public int Id { get; set; }
+
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; } = null!;

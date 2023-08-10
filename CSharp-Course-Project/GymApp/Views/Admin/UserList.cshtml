@@ -1,0 +1,60 @@
+﻿@using GymApp.Data.Models;
+@model List<ApplicationUser>
+@{
+    ViewData["Title"] = "User list";
+}
+
+<h1 class="text-center display-4 font-weight-bold" style="margin-top: 50px; margin-bottom: 20px;">User List</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" style="font-size: 20px;">Id</th>
+                <th scope="col" style="font-size: 20px;">Username</th>
+                <th scope="col" style="font-size: 20px;">Email</th>
+                <th scope="col" style="font-size: 20px;">Phone number</th>
+                <th scope="col" style="font-size: 20px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>
+                        @if (user.IsDeleted == false)
+                        {
+                            <span class="badge badge-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">Deleted</span>
+                        }
+                        @user.Id
+                    </td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>
+                        @if (user.IsDeleted == false)
+                        {
+                            <form asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@user.Id" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .badge-success {
+        background-color: #28a745;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+    }
+</style>

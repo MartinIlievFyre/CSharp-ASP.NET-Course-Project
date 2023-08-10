@@ -4,7 +4,7 @@
     ViewBag.Title = "Add Accessory";
 }
 
-<h2 class="text-center display-4 font-weight-bold">@ViewBag.Title</h2>
+<h2 class="text-center display-4 font-weight-bold" style="margin-top: 50px;">@ViewBag.Title</h2>
 <hr />
 
 <div class="container mt-4">
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="@Model.ImageUrl" class="form-label">Image URL:</label>
+                    <label asp-for="@Model.ImageUrl" class="form-label">Image Link:</label>
                     <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" placeholder="Link for image" />
                     <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
                 </div>
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="mb-3 text-center">
-                    <input class="btn btn-lg mt-3 addExercise-button btn-info" style="width:275px; height:90px; font-size:40px;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" type="submit" value="Add Clothing" />
+                    <input class="btn btn-lg mt-3 addExercise-button btn-info" style="width:320px; height:90px; font-size:40px;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" type="submit" value="Add Accessory" />
                 </div>
             </form>
         </div>

@@ -45,7 +45,7 @@ namespace GymApp.Services.Data
 
         public async Task<Product?> GetProductFromShoppingCartByNameAndSizeAsync(string productName, string size)
         {
-            Product? product = await dbContext.ShoppingCart.Where(p => p.Name == productName && p.Size == size).FirstOrDefaultAsync();
+            Product? product = await dbContext.ShoppingCart.Where(p => p.Name == productName && p.Size!.ToUpper() == size.ToUpper()).FirstOrDefaultAsync();
             if (product == null)
             {
                 throw new ArgumentException(ThereIsNoProductWithThisNameAndSizeInShoppingCart);

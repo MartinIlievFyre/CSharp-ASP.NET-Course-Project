@@ -1,9 +1,10 @@
-﻿namespace GymApp.ViewModels.Supplement
+﻿namespace GymApp.ViewModels.Accessory
 {
     using System.ComponentModel.DataAnnotations;
 
-    using static GymApp.Common.EntityValidationConstants.Supplement;
-    public class AddSupplementViewModel
+    using static GymApp.Common.EntityValidationConstants.Accessory;
+
+    public class EditAccessoryViewModel
     {
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
@@ -20,9 +21,6 @@
         [Required]
         [StringLength(BenefitsMaxLength, MinimumLength = BenefitsMinLength)]
         public string Benefits { get; set; } = null!;
-        [Required]
-        [StringLength(IngredientsMaxLength, MinimumLength = IngredientsMinLength)]
-        public string Ingredients { get; set; } = null!;
 
         [Required]
         [MaxLength(ImageUrlMaxlLength)]

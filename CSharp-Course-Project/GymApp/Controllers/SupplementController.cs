@@ -57,25 +57,6 @@
                 return RedirectToAction("Index", "Home");
             }
         }
-        [HttpPost]
-        [Authorize(Roles = NameOfRoleAdmin)]
-        public async Task<IActionResult> DeleteSupplement(int id)
-        {
-            try
-            {
-                Supplement supplement = await supplementService.GetSupplementByidAsync(id);
-
-                await supplementService.DeleteSupplementAsync(supplement);
-                
-                TempData["Error"] = SuccessfullyDeletedSupplement;
-                return RedirectToAction("Supplements", "Supplement");
-            }
-            catch (ArgumentException ex)
-            {
-                TempData["Error"] = ex.Message;
-                return RedirectToAction("Supplements", "Supplement");
-
-            }
-        }
+        
     }
 }

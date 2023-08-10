@@ -14,12 +14,16 @@
                 <h3 style="margin-top: 35px;">
                     @Model.CurrentSupplement.Name
                 </h3>
-                @if (User.IsInRole(NameOfRoleAdmin))
-                {
-                    <form asp-controller="Supplement" asp-action="DeleteSupplement" asp-route-id="@Model.CurrentSupplement.Id">
-                        <button type="submit" class="btn btn-outline-danger btn-lg py-2 px-4 rounded-pill" style="margin-top: 35px;">Delete supplement</button>
-                    </form>
-                }
+                <div class="d-flex justify-content-between align-items-center">
+                    @if (User.IsInRole(NameOfRoleAdmin))
+                    {
+                        <a asp-controller="Admin" asp-action="EditSupplement" asp-route-id="@Model.CurrentSupplement.Id" class="btn btn-outline-warning btn-lg py-2 px-4 rounded-pill" style="margin-top: 35px;">Edit Supplement</a>
+
+                        <form asp-controller="Admin" asp-action="DeleteSupplement" asp-route-id="@Model.CurrentSupplement.Id">
+                            <button type="submit" class="btn btn-outline-danger btn-lg py-2 px-4 rounded-pill" style="margin-top: 35px; margin-left: 10px;">Delete supplement</button>
+                        </form>
+                    }
+                </div>
             </div>
             <p class="font-weight-bold">Manufacturer: @Model.CurrentSupplement.Manufacturer</p>
             <h5 style="font-size: 18px;">Price: @Model.CurrentSupplement.Price BGN</h5>
@@ -37,6 +41,13 @@
         <div class="col-lg-12">
             <h4>Details about product</h4>
             <p class="description-text" style="font-size: 18px; margin-bottom: 30px;">@Model.CurrentSupplement.Description</p>
+        </div>
+    </div>
+    <br />
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <h4>Ingredients:</h4>
+            <p class="description-text" style="font-size: 18px; margin-bottom: 30px;">@Model.CurrentSupplement.Ingredients</p>
         </div>
     </div>
     <div class="col-lg-4">

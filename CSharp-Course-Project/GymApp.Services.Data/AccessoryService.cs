@@ -129,54 +129,6 @@
             return viewModel;
         }
 
-        public async Task<Accessory> GetAccessoryByIdAsync(int accessoryId)
-        {
-            Accessory? accessory = await dbContext.Accessories.FirstOrDefaultAsync(e => e.Id == accessoryId);
-
-            if (accessory == null)
-            {
-                throw new ArgumentException(ThereIsNoAccessoryWithThisId);
-            }
-
-            return accessory;
-        }
-
-        public async Task DeleteAccessoryAsync(Accessory accessory)
-        {
-            dbContext.Accessories.Remove(accessory);
-            await dbContext.SaveChangesAsync();
-        }
-
-        public AddAccessoryViewModel CreateAddAccessoryViewModel()
-        {
-            AddAccessoryViewModel model = new AddAccessoryViewModel();
-            if (model == null)
-            {
-                throw new ArgumentException();
-            }
-            return model;
-        }
-
-        public async Task<Accessory> CreateAccessoryAsync(AddAccessoryViewModel model)
-        {
-            bool isExerciseExist = await dbContext.Accessories.AnyAsync(a => a.Name == model.Name);
-            if (isExerciseExist)
-            {
-                throw new ArgumentException(ThereIsWearWithThisName);
-            }
-            Accessory accessory = new Accessory()
-            {
-                Name = model.Name,
-                Price = model.Price,
-                Manufacturer = model.Manufacturer,
-                Benefits = model.Benefits,
-                Description = model.Description,
-                ImageUrl = model.ImageUrl,
-                Type = TypeProductAccessory
-            };
-            await dbContext.AddAsync(accessory);
-            await dbContext.SaveChangesAsync();
-            return accessory;
-        }
+        
     }
 }

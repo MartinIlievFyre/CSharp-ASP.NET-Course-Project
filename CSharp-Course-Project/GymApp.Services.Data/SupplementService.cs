@@ -126,54 +126,8 @@
             }
             return viewModel;
         }
-        public async Task<Supplement> GetSupplementByidAsync(int supplementId)
-        {
-            Supplement? supplement = await dbContext.Supplements.FirstOrDefaultAsync(e => e.Id == supplementId);
+       
 
-            if (supplement == null)
-            {
-                throw new ArgumentException(ThereIsNoSupplementWithThisId);
-            }
-
-            return supplement;
-        }
-
-        public async Task DeleteSupplementAsync(Supplement supplement)
-        {
-            dbContext.Supplements.Remove(supplement);
-            await dbContext.SaveChangesAsync();
-        }
-
-        public AddSupplementViewModel CreateAddSupplementViewModel()
-        {
-            AddSupplementViewModel model = new AddSupplementViewModel();
-            if (model == null)
-            {
-                throw new ArgumentException();
-            }
-            return model;
-        }
-
-        public async Task<Supplement> CreateSupplementAsync(AddSupplementViewModel model)
-        {
-            bool isExerciseExist = await dbContext.Supplements.AnyAsync(s => s.Name == model.Name);
-            if (isExerciseExist)
-            {
-                throw new ArgumentException(ThereIsWearWithThisName);
-            }
-            Supplement supplement = new Supplement()
-            {
-                Name = model.Name,
-                Price = model.Price,
-                Manufacturer = model.Manufacturer,
-                Benefits = model.Benefits,
-                Description = model.Description,
-                ImageUrl = model.ImageUrl,
-                Type = TypeProductSupplement
-            };
-            await dbContext.AddAsync(supplement);
-            await dbContext.SaveChangesAsync();
-            return supplement;
-        }
+       
     }
 }

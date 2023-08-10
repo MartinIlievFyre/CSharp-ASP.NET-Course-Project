@@ -13,6 +13,7 @@
     using static GymApp.Common.ExceptionMessages;
 
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class CartController : Controller
     {
         private readonly ICartService cartService;

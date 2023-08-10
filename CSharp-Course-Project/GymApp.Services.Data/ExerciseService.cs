@@ -18,6 +18,17 @@
         {
             this.dbContext = dbContext;
         }
+        public async Task<Exercise?> GetExerciseByIdAsync(int exerciseId)
+        {
+            Exercise? exercise = await dbContext.Exercises.FirstOrDefaultAsync(e => e.Id == exerciseId);
+
+            if (exercise == null)
+            {
+                throw new ArgumentException(ThereIsNoExerciseWithThisId);
+            }
+
+            return exercise;
+        }
         public async Task<List<ExerciseViewModel>> GetAllExerciseViewModelsByCategoryIdAsync(string categoryId)
         {
             Category? category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == int.Parse(categoryId));
@@ -68,17 +79,6 @@
             return exerciseViewModel;
         }
 
-        public async Task<Exercise?> GetExerciseByIdAsync(int exerciseId)
-        {
-            Exercise? exercise = await dbContext.Exercises.FirstOrDefaultAsync(e => e.Id == exerciseId);
-
-            if (exercise == null)
-            {
-                throw new ArgumentException(ThereIsNoExerciseWithThisId);
-            }
-
-            return exercise;
-        }
 
         public async Task<List<ExerciseViewModel>> GetAllExerciseViewModelsByUserId(string? userId)
         {
@@ -167,38 +167,6 @@
             }
             return exercise;
         }
-        public async Task<Exercise> CreateExerciseAsync(AddExerciseViewModel model)
-        {
-            bool isExerciseExist = await dbContext.Exercises.AnyAsync(e => e.Name == model.Name);
-            if (isExerciseExist)
-            {
-                throw new ArgumentException(ThereIsExerciseWithThisName);
-            }
-            Exercise exercise = new Exercise()
-            {
-                Name = model.Name,
-                Execution = model.Execution,
-                Benefit = model.Benefit,
-                ImageUrl = model.ImageUrl,
-                CategoryId = model.CategoryId
-            };
-            await dbContext.AddAsync(exercise);
-            await dbContext.SaveChangesAsync();
-            return exercise;
-        }
-
-        public AddExerciseViewModel CreateAddExerciseViewModel(List<CategoryViewModel> categories)
-        {
-            AddExerciseViewModel model = new AddExerciseViewModel()
-            {
-                Categories = categories
-            };
-            if (model == null)
-            {
-                throw new ArgumentException();
-            }
-            return model;
-        }
 
         public ExerciseDetailsViewModel CreateExerciseDetailsViewModel(ExerciseViewModel currentExercise, List<ExerciseViewModel> randomExercises)
         {
@@ -226,26 +194,7 @@
             Task.Delay(1500).Wait();
         }
 
-        public EditExerciseViewModel CreateEditExerciseViewModel(Exercise? exercise, IEnumerable<CategoryViewModel> categories)
-        {
-            EditExerciseViewModel model = new EditExerciseViewModel()
-            {
-                Id = exercise!.Id,
-                Name = exercise.Name,
-                Benefit = exercise.Benefit,
-                Execution = exercise.Execution,
-                ImageUrl = exercise.ImageUrl,
-                CategoryId = exercise.CategoryId,
-                Categories = (ICollection<CategoryViewModel>)categories
-            };
-
-            if (model == null)
-            {
-                throw new ArgumentException();
-            }
-
-            return model;
-        }
+        
 
         public async Task<List<int>> RandomExerciseIdsAsync(string id)
         {
@@ -294,29 +243,10 @@
             bool isThereExerciseWithThisUserId = exercise.UsersExercises.Any(ue => ue.TrainingGuyId.ToString() == userId);
             return isThereExerciseWithThisUserId;
         }
-
-
-        public async Task EditingInformationAboutExerciseAsync(Exercise exercise, EditExerciseViewModel model)
-        {
-            exercise!.Name = model.Name;
-            exercise.Benefit = model.Benefit;
-            exercise.Execution = model.Execution;
-            exercise.ImageUrl = model.ImageUrl;
-            exercise.CategoryId = model.CategoryId;
-
-            await dbContext.SaveChangesAsync();
-        }
-
-
         public async Task RemoveExerciseFromMyFavoritesAsync(ApplicationUserExercise? exercise)
         {
             dbContext.ApplicationUsersExercises.Remove(exercise!);
 
-            await dbContext.SaveChangesAsync();
-        }
-        public async Task DeleteExerciseAsync(Exercise exercise)
-        {
-            dbContext.Exercises.Remove(exercise!);
             await dbContext.SaveChangesAsync();
         }
     }

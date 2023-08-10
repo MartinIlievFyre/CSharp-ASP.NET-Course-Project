@@ -1,4 +1,5 @@
-﻿@model ClothingDetailsViewModel
+﻿@using static GymApp.Common.EntityValidationConstants.RolesConstants;
+@model ClothingDetailsViewModel
 @{
     ViewBag.Title = Model.CurrentClothing.Name;
 }
@@ -13,9 +14,16 @@
                 <h3 style="margin-top: 35px;">
                     @Model.CurrentClothing.Name
                 </h3>
-                <form asp-controller="Clothing" asp-action="DeleteWear" asp-route-id="@Model.CurrentClothing.Id">
-                    <button type="submit" class="btn btn-outline-danger btn-lg py-2 px-4 rounded-pill" style="margin-top: 35px;">Delete wear</button>
-                </form>
+                <div class="d-flex justify-content-between align-items-center">
+                @if (User.IsInRole(NameOfRoleAdmin))
+                {
+                    <a asp-controller="Admin" asp-action="EditWear" asp-route-id="@Model.CurrentClothing.Id" class="btn btn-outline-warning btn-lg py-2 px-4 rounded-pill" style="margin-top: 35px;">Edit Wear</a>
+
+                    <form asp-controller="Admin" asp-action="DeleteWear" asp-route-id="@Model.CurrentClothing.Id">
+                            <button type="submit" class="btn btn-outline-danger btn-lg py-2 px-4 rounded-pill" style="margin-top: 35px; margin-left: 10px;">Delete wear</button>
+                    </form>
+                }
+                </div>
             </div>
             <p class="font-weight-bold">Fabric: @Model.CurrentClothing.Fabric</p>
             <p class="font-weight-bold">Color: @Model.CurrentClothing.Color</p>

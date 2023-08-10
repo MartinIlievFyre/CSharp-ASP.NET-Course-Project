@@ -1,13 +1,17 @@
 ﻿namespace GymApp.ViewModels.Clothing
 {
-    using GymApp.Data.Models;
-    using GymApp.ViewModels.WearCategory;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using GymApp.ViewModels.WearCategory;
+
     using static GymApp.Common.EntityValidationConstants.Wear;
-    public class AddWearViewModel
+
+    public class EditWearViewModel
     {
+        [Required]
+        public int Id { get; set; }
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; } = null!;

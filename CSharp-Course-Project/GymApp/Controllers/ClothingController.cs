@@ -76,25 +76,6 @@
                 return RedirectToAction("Index", "Home");
             }
         }
-        [HttpPost]
-        [Authorize(Roles = NameOfRoleAdmin)]
-        public async Task<IActionResult> DeleteWear(int id)
-        {
-            try
-            {
-                Wear wear = await wearService.GetWearByidAsync(id);
-
-                await wearService.DeleteWearAsync(wear!);
-
-                TempData["Error"] = SuccessfullyDeletedWear;
-                return RedirectToAction("Clothes", "Clothing");
-            }
-            catch (ArgumentException ex)
-            {
-                TempData["Error"] = ex.Message;
-                return RedirectToAction("Clothes", "Clothing");
-
-            }
-        }
+        
     }
 }
