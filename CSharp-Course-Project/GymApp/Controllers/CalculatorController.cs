@@ -36,6 +36,7 @@
             }
         }
 
+        [HttpPost]
         public async Task<IActionResult> AllProducts()
         {
             try

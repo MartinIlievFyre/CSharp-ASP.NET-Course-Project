@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 
-using static GymApp.Common.ExceptionMessages;
 using static GymApp.Common.NotificationMessagesConstants;
 
 namespace UnitTests.Controllers

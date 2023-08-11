@@ -4,6 +4,7 @@ using GymApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApp.Data.Migrations
 {
     [DbContext(typeof(GymAppDbContext))]
-    partial class GymAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230811214935_SeedingProducts")]
+    partial class SeedingProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,7 +174,7 @@ namespace GymApp.Data.Migrations
                             Id = 10,
                             Benefits = "A fitness accessory that engages multiple muscle groups simultaneously, equipped with non-slip handles and a double wheel for enhanced stability, enhancing physical fitness, sculpting the physique, and improving body mobility and stability.",
                             Description = "The Ab Wheel, an abdominal exercise wheel, will help you achieve your fitness goals. By engaging multiple muscle groups simultaneously (back, arms, core, shoulders, and legs), it effectively enhances physical condition and quickly shapes the body. Furthermore, it aids in improving overall body stability and mobility, which can be beneficial for other exercises. Workout comfort is guaranteed by the non-slip handles and the dual wheel design, providing maximum stability! Enhance your fitness and sculpt the body you've always dreamed of.",
-                            ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/1/_/1_2.png",
+                            ImageUrl = "https://gymbeam.bg/media/catalog/product/cache/70f742f66feec18cb83790f14444a3d1/h/a/hand-grip_trainer_gymbeam1.jpg",
                             Manufacturer = "GymBeam",
                             Name = "Ab Wheel",
                             Price = 18.99m,
@@ -266,8 +268,8 @@ namespace GymApp.Data.Migrations
                         {
                             Id = new Guid("f37fa09c-9247-42c4-b748-b5c8e10c6af9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bd366743-daf9-4d6b-8832-09282f28816c",
-                            CreatedOn = new DateTime(2023, 8, 11, 21, 52, 37, 930, DateTimeKind.Utc).AddTicks(5081),
+                            ConcurrencyStamp = "91737648-0364-4c07-a553-fcfdecb8ce44",
+                            CreatedOn = new DateTime(2023, 8, 11, 21, 49, 34, 911, DateTimeKind.Utc).AddTicks(2404),
                             Email = "vlado01@abv.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
@@ -275,7 +277,7 @@ namespace GymApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "VLADO01@ABV.COM",
                             NormalizedUserName = "VLADO-01",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKQTjuaxI9h6Mbxi6G+zWFU56bFogPDLDJmltLmmwdadfyg2aMOsiLT1b0EsLbHfvQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFXQuqetOd/ELR09NV8NaCoXS+fVM5lrEFtP/yNAbDuOXndyiyzaKdoctap5c70u0Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "SecurityStamp01",
                             TwoFactorEnabled = false,
@@ -285,8 +287,8 @@ namespace GymApp.Data.Migrations
                         {
                             Id = new Guid("a82fbea5-96ff-48f0-be6f-e32f27604bff"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "103dc6b6-5a36-4a39-a6ed-8bd839ca7dad",
-                            CreatedOn = new DateTime(2023, 8, 11, 21, 52, 37, 931, DateTimeKind.Utc).AddTicks(7025),
+                            ConcurrencyStamp = "cc095c1e-e043-41ed-b867-c130d689405d",
+                            CreatedOn = new DateTime(2023, 8, 11, 21, 49, 34, 912, DateTimeKind.Utc).AddTicks(4182),
                             Email = "monika02@abv.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
@@ -294,7 +296,7 @@ namespace GymApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MONIKA02@ABV.COM",
                             NormalizedUserName = "MONIKA-02",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPQmOh2tKLK/ZWn38m5/+sXehB35FWwJqWd44eFbj7JagToqHzDZLH2tlzLpEsCMKw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC7DDHYMpqBFgcGxC2+X2COlmlAiHJCYylYjFcwBc/uh1E/p411hrAfiZDwdV0H7eQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "SecurityStamp02",
                             TwoFactorEnabled = false,
@@ -304,8 +306,8 @@ namespace GymApp.Data.Migrations
                         {
                             Id = new Guid("cbef4ddc-5788-48ab-9380-aa457c89a554"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ef3a6787-6ae4-48f3-bb87-d1a5a1df6bb3",
-                            CreatedOn = new DateTime(2023, 8, 11, 21, 52, 37, 932, DateTimeKind.Utc).AddTicks(8805),
+                            ConcurrencyStamp = "54632d26-2752-4394-9f52-021329f0e507",
+                            CreatedOn = new DateTime(2023, 8, 11, 21, 49, 34, 913, DateTimeKind.Utc).AddTicks(5655),
                             Email = "presko03@abv.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
@@ -313,7 +315,7 @@ namespace GymApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PRESKO03@ABV.COM",
                             NormalizedUserName = "PRESLAV-03",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDanhX8kFGtw07q6s1xdNBbtfH3AgFfvyndeWpS3/h3b3w5uy0ZKuB/ljGiVKNsSdg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPNftemYF9/rZa6sn+g99ZZwwVPC4KaDsn62iYxR1c9vrNGdiSA48DDbKd9uE9HgWw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "SecurityStamp03",
                             TwoFactorEnabled = false,
@@ -323,8 +325,8 @@ namespace GymApp.Data.Migrations
                         {
                             Id = new Guid("a17550b2-729b-4a14-afdb-738804dbf7f2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d90f1cca-0dcb-483c-881b-d92d8111d6c4",
-                            CreatedOn = new DateTime(2023, 8, 11, 21, 52, 37, 934, DateTimeKind.Utc).AddTicks(555),
+                            ConcurrencyStamp = "7c09c4a7-32ed-44b7-b2de-47c037b3776b",
+                            CreatedOn = new DateTime(2023, 8, 11, 21, 49, 34, 914, DateTimeKind.Utc).AddTicks(7146),
                             Email = "admin@abv.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
@@ -332,7 +334,7 @@ namespace GymApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ABV.COM",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOLQwARVNRw/Zs2cLchvxUAs/q37ER2yah1Z3tDcwWE34iJXaw2bDeehezp5RcWLlA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKYZs+jEFVAYobzrkNXLZhQ/a3ZNW/7X/Wz1bvhzqvPaBnlNFiNvWQ/ssryRQkLhTw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "SecurityStamp04",
                             TwoFactorEnabled = false,
@@ -1326,14 +1328,14 @@ namespace GymApp.Data.Migrations
                         new
                         {
                             Id = new Guid("a12d2cfd-0058-4c64-babd-8c1437001f78"),
-                            ConcurrencyStamp = "ae4ac668-66d4-48b3-a58b-debc0f8e7591",
+                            ConcurrencyStamp = "c3a1d5cb-0e86-40ab-88d2-6f5ed633c661",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = new Guid("65711ed3-baf2-4084-ab0c-dc0b7af05a45"),
-                            ConcurrencyStamp = "7da25ad8-e36d-4479-b000-27e85e9813e5",
+                            ConcurrencyStamp = "ec7b7e64-fcb4-475a-b04f-96feca2c4047",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
