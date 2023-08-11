@@ -4,11 +4,7 @@
     using Microsoft.AspNetCore.Authorization;
 
     using GymApp.ViewModels;
-    using GymApp.Data.Models;
     using GymApp.Services.Data.Interfaces;
-
-    using static GymApp.Common.NotificationMessagesConstants;
-    using static GymApp.Common.EntityValidationConstants.RolesConstants;
 
     [Authorize]
     public class AccessoryController : Controller

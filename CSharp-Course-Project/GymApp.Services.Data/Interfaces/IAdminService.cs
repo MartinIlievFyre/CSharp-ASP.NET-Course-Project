@@ -20,6 +20,8 @@ namespace GymApp.Services.Data.Interfaces
         Task<Accessory> GetAccessoryByIdAsync(int accessoryId);
         Task<Accessory> CreateAccessoryAsync(AddAccessoryViewModel model);
         AddAccessoryViewModel CreateAddAccessoryViewModel();
+        EditAccessoryViewModel CreateEditAccessoryViewModel(Accessory accessory);
+        Task EditingInformationAboutAccessoryAsync(Accessory accessory, EditAccessoryViewModel model);
 
         //SUPPLEMENT
         Task DeleteSupplementAsync(Supplement supplement);
@@ -54,6 +56,7 @@ namespace GymApp.Services.Data.Interfaces
 
         //PANEL
         Task<List<ApplicationUser>> UsersListAsync();
+        Task<List<ApplicationUser>> UserInListByUsernameAsync(string searchInput);
         Task<ApplicationUser> GetApplicationUserByIdAsync(string userId);
         Task SoftDeletingUser(ApplicationUser user);
     }

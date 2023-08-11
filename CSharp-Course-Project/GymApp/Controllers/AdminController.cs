@@ -1,6 +1,7 @@
 ﻿namespace GymApp.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Authorization;
 
     using GymApp.ViewModels;
@@ -13,9 +14,6 @@
 
     using static GymApp.Common.NotificationMessagesConstants;
     using static GymApp.Common.EntityValidationConstants.RolesConstants;
-    using GymApp.Services.Data;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
 
     [Authorize(Roles = NameOfRoleAdmin)]
     [AutoValidateAntiforgeryToken]
@@ -69,7 +67,49 @@
                 return RedirectToAction("AddAccessory", "Admin");
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> EditAccessory(int id)
+        {
+            try
+            {
+                Accessory accessory = await adminService.GetAccessoryByIdAsync(id);
 
+                EditAccessoryViewModel model = adminService.CreateEditAccessoryViewModel(accessory);
+
+                return View(model);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAccessory(EditAccessoryViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                Accessory accessory = await adminService.GetAccessoryByIdAsync(model.Id);
+
+                await adminService.EditingInformationAboutAccessoryAsync(accessory, model);
+
+                TempData["Success"] = SuccessfullyEditAccessory;
+
+                return RedirectToAction("Accessories", "Accessory");
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("EditAccessory", "Admin");
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> DeleteAccessory(int id)
         {
@@ -163,7 +203,7 @@
 
                 await adminService.EditingInformationAboutSupplementAsync(supplement, model);
 
-                TempData["Success"] = SuccessfullyEditSypplement;
+                TempData["Success"] = SuccessfullyEditSupplement;
 
                 return RedirectToAction("Supplements", "Supplement");
             }
@@ -521,15 +561,37 @@
         {
             try
             {
-                List<ApplicationUser> users = await adminService.UsersListAsync();
-                return View(users);
-
+                    List<ApplicationUser> users = await adminService.UsersListAsync();
+                    return View(users);
             }
             catch (Exception ex)
             {
                 TempData["Error"] = ex.Message;
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("UserList", "Admin");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> UserList(string searchInput)
+        {
+            try
+            {
+                if (searchInput == null)
+                {
+                    List<ApplicationUser> users = await adminService.UsersListAsync();
+                    return View(users);
+                }
+                else
+                {
+                    List<ApplicationUser> users = await adminService.UserInListByUsernameAsync(searchInput);
+                    return View(users);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+
+                return RedirectToAction("UserList", "Admin");
             }
         }
         [HttpPost]

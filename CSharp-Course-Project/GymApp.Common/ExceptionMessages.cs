@@ -84,6 +84,7 @@
 
         //User
         public const string ThereIsNoUserWithThisId = "There is no user with this ID!";
+        public const string ThereIsNoUserWithThisUsername = "There is no such user with this username!";
 
 
 

@@ -71,6 +71,36 @@ namespace GymApp.Services.Data
             }
             return model;
         }
+        public EditAccessoryViewModel CreateEditAccessoryViewModel(Accessory accessory)
+        {
+            EditAccessoryViewModel model = new EditAccessoryViewModel()
+            {
+                Id = accessory.Id,
+                Name = accessory.Name,
+                Description = accessory.Description,
+                ImageUrl = accessory.ImageUrl,
+                Benefits = accessory.Benefits,
+                Manufacturer = accessory.Manufacturer,
+                Price = accessory.Price
+            };
+
+            if (model == null)
+            {
+                throw new ArgumentException();
+            }
+
+            return model;
+        }
+        public async Task EditingInformationAboutAccessoryAsync(Accessory accessory, EditAccessoryViewModel model)
+        {
+            accessory.Name = model.Name;
+            accessory.Description = model.Description;
+            accessory.Price = model.Price;
+            accessory.Manufacturer = model.Manufacturer;
+            accessory.Benefits = model.Benefits;
+            accessory.ImageUrl = model.ImageUrl;
+            await dbContext.SaveChangesAsync();
+        }
 
         //SUPPLEMENT
         public async Task DeleteSupplementAsync(Supplement supplement)
@@ -149,7 +179,7 @@ namespace GymApp.Services.Data
             supplement.Manufacturer = model.Manufacturer;
             supplement.Benefits = model.Benefits;
             supplement.Ingredients = model.Ingredients;
-
+            supplement.ImageUrl = model.ImageUrl;
             await dbContext.SaveChangesAsync();
         }
         //WEAR
@@ -397,7 +427,17 @@ namespace GymApp.Services.Data
         //PANEL
         public async Task<List<ApplicationUser>> UsersListAsync()
         {
-            List<ApplicationUser> users = await _userManager.Users.ToListAsync();
+                List<ApplicationUser> users = await _userManager.Users.ToListAsync();
+            return users;
+        }
+        public async Task<List<ApplicationUser>> UserInListByUsernameAsync(string searchInput)
+        {
+
+            List<ApplicationUser> users = await _userManager.Users.Where(u => u.UserName == searchInput).ToListAsync();
+            if (users.Count == 0)
+            {
+                throw new ArgumentException(ThereIsNoUserWithThisUsername);
+            }
             return users;
         }
 

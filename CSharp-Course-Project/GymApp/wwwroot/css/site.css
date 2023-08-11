@@ -326,3 +326,10 @@ body {
         font-size: 20px;
         vertical-align: middle;
     }
+.badge-success {
+    background-color: #28a745;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+}

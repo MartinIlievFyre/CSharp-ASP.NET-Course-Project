@@ -4,17 +4,35 @@
     ViewData["Title"] = "User list";
 }
 
-<h1 class="text-center display-4 font-weight-bold" style="margin-top: 50px; margin-bottom: 20px;">User List</h1>
+<h1 class="text-center display-4 font-weight-bold" style="margin-top: 50px; margin-bottom: 30px;">User List</h1>
+
+
+
+
+
+
+
+<div class="d-flex justify-content-start align-items-center mb-3">
+    <form class="input-group-sm d-flex me-2" asp-controller="Admin" asp-action="UserList" method="post">
+        <input type="text" id="searchInput" name="searchInput" class="form-control py-3" style="width: 410px;" placeholder="Search by username">
+        <button class="btn btn-success btn-lg py-3 px-4 rounded-pill" type="submit" style="margin-left: 10px; border-color: black; font-size: 19px;">Search</button>
+    </form>
+    <form class="input-group-sm d-flex" asp-controller="Admin" asp-action="UserList">
+        <button class="btn btn-success btn-lg py-3 px-4 rounded-pill" type="submit" style="border-color: black; font-size: 19px;">All Users</button>
+    </form>
+</div>
+
+
 
 <div class="table-responsive">
     <table class="table table-striped table-bordered">
         <thead class="thead-dark">
             <tr>
-                <th scope="col" style="font-size: 20px;">Id</th>
-                <th scope="col" style="font-size: 20px;">Username</th>
-                <th scope="col" style="font-size: 20px;">Email</th>
-                <th scope="col" style="font-size: 20px;">Phone number</th>
-                <th scope="col" style="font-size: 20px;">Actions</th>
+                <th class ="text-center" scope="col" style="font-size: 20px;">Id</th>
+                <th class ="text-center" scope="col" style="font-size: 20px;">Username</th>
+                <th class="text-center" scope="col" style="font-size: 20px;">Email</th>
+                <th class="text-center" scope="col" style="font-size: 20px;">Phone number</th>
+                <th class="text-center" scope="col" style="font-size: 20px;">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -28,14 +46,14 @@
                         }
                         else
                         {
-                            <span class="badge badge-danger">Deleted</span>
+                            <span class="badge badge-danger">Latent</span>
                         }
                         @user.Id
                     </td>
                     <td>@user.UserName</td>
                     <td>@user.Email</td>
                     <td>@user.PhoneNumber</td>
-                    <td>
+                    <td class="text-center">
                         @if (user.IsDeleted == false)
                         {
                             <form asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@user.Id" onsubmit="return confirm('Are you sure you want to delete this user?');">
@@ -48,13 +66,3 @@
         </tbody>
     </table>
 </div>
-
-<style>
-    .badge-success {
-        background-color: #28a745;
-    }
-
-    .badge-danger {
-        background-color: #dc3545;
-    }
-</style>
