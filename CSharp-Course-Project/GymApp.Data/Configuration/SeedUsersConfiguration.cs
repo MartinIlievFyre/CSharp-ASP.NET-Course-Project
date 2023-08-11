@@ -30,7 +30,7 @@ namespace GymApp.Data.Configuration
                     UserName = "Monika-02",
                     NormalizedUserName = "MONIKA-02",
                     Email = "monika02@abv.com",
-                    NormalizedEmail = "MONIKAO2@ABV.COM",
+                    NormalizedEmail = "MONIKA02@ABV.COM",
                     PasswordHash = _passwordHasher.HashPassword(null, "test02"),
                     SecurityStamp = "SecurityStamp02"
                 },

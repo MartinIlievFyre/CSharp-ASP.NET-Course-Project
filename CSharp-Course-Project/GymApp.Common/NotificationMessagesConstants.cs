@@ -60,6 +60,11 @@
 
         //User
         public const string ThisUserIsAlreadyDeleted = "This user id already deleted!";
+        public const string SuccessfullyDeletedUser = "Successfully deleted use!r";
+        public const string SuccessfullyPromotedUserToAdmin = "Successfully promoted user to ADMIN!";
+        public const string SuccessfullyDemotedUser = "Successfully demoted user!";
+        public const string ThisUserHasAlreadyRoleUser = "This user has already role USER!";
+        public const string ThisUserHasAlreadyRoleAdmin = "This user has already role ADMIN!";
 
     }
 }

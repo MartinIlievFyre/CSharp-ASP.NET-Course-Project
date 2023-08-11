@@ -74,6 +74,7 @@ namespace GymApp.Areas.Identity.Pages.Account
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 var result = await _signInManager.PasswordSignInAsync(user, Input.Password, false, false);
+
                 if (result.Succeeded)
                 {
                     return LocalRedirect(returnUrl);

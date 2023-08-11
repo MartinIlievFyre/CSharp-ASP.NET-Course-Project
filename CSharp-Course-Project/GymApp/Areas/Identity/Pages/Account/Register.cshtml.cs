@@ -13,12 +13,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using static GymApp.Common.EntityValidationConstants.Register;
+using static GymApp.Common.EntityValidationConstants.RolesConstants;
+
 namespace GymApp.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
@@ -29,10 +32,11 @@ namespace GymApp.Areas.Identity.Pages.Account
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,RoleManager<IdentityRole<Guid>> _roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
+            this._roleManager = _roleManager;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
@@ -96,6 +100,11 @@ namespace GymApp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    var deffaultRole = _roleManager.Roles.FirstOrDefault(r => r.Name == NameOfRoleUser);
+                    if (deffaultRole != null)
+                    {
+                        await _userManager.AddToRoleAsync(user, deffaultRole.Name);
+                    }
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

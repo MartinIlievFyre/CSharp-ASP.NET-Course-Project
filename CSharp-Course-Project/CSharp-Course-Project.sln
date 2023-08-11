@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymApp.Data.Models", "GymAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymApp.Data", "GymApp.Data\GymApp.Data.csproj", "{0D79711B-1197-4283-8875-51EB88DDB55E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymApp.ViewModels", "GymApp.ViewModels\GymApp.ViewModels.csproj", "{B54DC950-22AC-468B-A4B6-F149525618B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymApp.ViewModels", "GymApp.ViewModels\GymApp.ViewModels.csproj", "{B54DC950-22AC-468B-A4B6-F149525618B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymApp.Infrastructure", "GymApp.Infrastructure\GymApp.Infrastructure.csproj", "{35AEF762-5430-4635-8291-82D02BED50EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymApp.Infrastructure", "GymApp.Infrastructure\GymApp.Infrastructure.csproj", "{35AEF762-5430-4635-8291-82D02BED50EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C3A36BBA-A8D5-4F7D-A228-BA9A92FFF62F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Controllers", "UnitTests.Controllers\UnitTests.Controllers.csproj", "{60888302-E01D-4F53-85CD-F25A13EECE1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,9 +55,16 @@ Global
 		{35AEF762-5430-4635-8291-82D02BED50EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35AEF762-5430-4635-8291-82D02BED50EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35AEF762-5430-4635-8291-82D02BED50EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60888302-E01D-4F53-85CD-F25A13EECE1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60888302-E01D-4F53-85CD-F25A13EECE1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60888302-E01D-4F53-85CD-F25A13EECE1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60888302-E01D-4F53-85CD-F25A13EECE1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{60888302-E01D-4F53-85CD-F25A13EECE1C} = {C3A36BBA-A8D5-4F7D-A228-BA9A92FFF62F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CBFB009-1FFC-48C7-B688-E6150539E67E}

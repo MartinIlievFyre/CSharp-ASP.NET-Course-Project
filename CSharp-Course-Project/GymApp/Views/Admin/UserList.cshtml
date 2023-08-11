@@ -1,7 +1,10 @@
 ﻿@using GymApp.Data.Models;
+@using static GymApp.Common.EntityValidationConstants.RolesConstants;
 @model List<ApplicationUser>
 @{
     ViewData["Title"] = "User list";
+    string roleAdmin = NameOfRoleAdmin;
+    string roleUser = NameOfRoleUser;
 }
 
 <h1 class="text-center display-4 font-weight-bold" style="margin-top: 50px; margin-bottom: 30px;">User List</h1>
@@ -28,11 +31,14 @@
     <table class="table table-striped table-bordered">
         <thead class="thead-dark">
             <tr>
-                <th class ="text-center" scope="col" style="font-size: 20px;">Id</th>
-                <th class ="text-center" scope="col" style="font-size: 20px;">Username</th>
+                <th class="text-center" scope="col" style="font-size: 20px;">Id</th>
+                <th class="text-center" scope="col" style="font-size: 20px;">Role</th>
+                <th class="text-center" scope="col" style="font-size: 20px;">Username</th>
                 <th class="text-center" scope="col" style="font-size: 20px;">Email</th>
                 <th class="text-center" scope="col" style="font-size: 20px;">Phone number</th>
-                <th class="text-center" scope="col" style="font-size: 20px;">Actions</th>
+                <th class="text-center" scope="col" style="font-size: 20px;">Promote</th>
+                <th class="text-center" scope="col" style="font-size: 20px;">Demote</th>
+                <th class="text-center" scope="col" style="font-size: 20px;">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -50,17 +56,37 @@
                         }
                         @user.Id
                     </td>
+                    <td>
+                        @if (user.IsModerator == true)
+                        {
+                            <p>@roleAdmin</p>
+                        }
+                        else
+                        {
+                            <p>@roleUser </p>
+                        }
+                    </td>
                     <td>@user.UserName</td>
                     <td>@user.Email</td>
                     <td>@user.PhoneNumber</td>
-                    <td class="text-center">
-                        @if (user.IsDeleted == false)
-                        {
+                    @if (user.IsDeleted == false)
+                    {
+                        <td class="text-center">
+                            <form asp-controller="Admin" asp-action="PromoteUserToAdmin" asp-route-id="@user.Id" onsubmit="return confirm('Are you sure you want to promote this user to ADMIN?');">
+                                <button type="submit" class="btn btn-success btn-sm">Promote</button>
+                            </form>
+                        </td>
+                        <td class="text-center">
+                            <form asp-controller="Admin" asp-action="DemoteUser" asp-route-id="@user.Id" onsubmit="return confirm('Are you sure you want to demote this user?');">
+                                <button type="submit" class="btn btn-warning btn-sm">Demote</button>
+                            </form>
+                        </td>
+                        <td class="text-center">
                             <form asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@user.Id" onsubmit="return confirm('Are you sure you want to delete this user?');">
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
-                        }
-                    </td>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

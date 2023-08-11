@@ -59,5 +59,7 @@ namespace GymApp.Services.Data.Interfaces
         Task<List<ApplicationUser>> UserInListByUsernameAsync(string searchInput);
         Task<ApplicationUser> GetApplicationUserByIdAsync(string userId);
         Task SoftDeletingUser(ApplicationUser user);
+        Task PromoteUserToAdmin(string username);
+        Task DemoteAdminAsync(string username);
     }
 }

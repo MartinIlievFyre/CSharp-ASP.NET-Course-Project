@@ -108,6 +108,11 @@
         //Cart
         public const string TotalSumCanNotBeSmallerThenZero = "Final sum can not be smaller than zero!";
 
+        //Role
+        public const string RoleNotFound = "Role not found!";
+        public const string UserRoleNotFound = "User role not found!";
+        public const string ThisUserHasAlreadyRoleAdmin = "This user has already role ADMIN!";
+
 
 
 

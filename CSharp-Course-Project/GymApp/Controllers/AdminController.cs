@@ -21,13 +21,11 @@
     {
         private readonly ICategoryService categoryService;
         private readonly IAdminService adminService;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AdminController(ICategoryService categoryService, IAdminService adminService, UserManager<ApplicationUser> userManager)
+        public AdminController(ICategoryService categoryService, IAdminService adminService)
         {
             this.adminService = adminService;
             this.categoryService = categoryService;
-            _userManager = userManager;
         }
         //ADD AND DELETE - ACCESSORY
         [HttpGet]
@@ -603,12 +601,60 @@
                 if (user != null && user.IsDeleted == false)
                 {
                     await adminService.SoftDeletingUser(user);
-                    TempData["Success"] = "Successfully deleted user";
+                    TempData["Success"] = SuccessfullyDeletedUser;
                     return RedirectToAction("UserList");
                 }
                 else
                 {
                     TempData["Error"] = ThisUserIsAlreadyDeleted;
+                    return RedirectToAction("UserList", "Admin");
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("UserList", "Admin");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> PromoteUserToAdmin(Guid id)
+        {
+            try
+            {
+                ApplicationUser user = await adminService.GetApplicationUserByIdAsync(id.ToString());
+                if (user != null && user.IsModerator == false)
+                {
+                    await adminService.PromoteUserToAdmin(user.UserName);
+                    TempData["Success"] = SuccessfullyPromotedUserToAdmin;
+                    return RedirectToAction("UserList");
+                }
+                else
+                {
+                    TempData["Error"] = ThisUserHasAlreadyRoleAdmin;
+                    return RedirectToAction("UserList", "Admin");
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("UserList", "Admin");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> DemoteUser(Guid id)
+        {
+            try
+            {
+                ApplicationUser user = await adminService.GetApplicationUserByIdAsync(id.ToString());
+                if (user != null && user.IsModerator == true)
+                {
+                    await adminService.DemoteAdminAsync(user.UserName);
+                    TempData["Success"] = SuccessfullyDemotedUser;
+                    return RedirectToAction("UserList");
+                }
+                else
+                {
+                    TempData["Error"] = ThisUserHasAlreadyRoleUser;
                     return RedirectToAction("UserList", "Admin");
                 }
             }

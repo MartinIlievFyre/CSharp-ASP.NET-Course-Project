@@ -12,17 +12,22 @@ using Microsoft.EntityFrameworkCore;
 using static GymApp.Common.ExceptionMessages;
 
 using static GymApp.Common.GeneralApplicationConstants;
+using static GymApp.Common.EntityValidationConstants.RolesConstants;
+using System.Xml.Linq;
+
 namespace GymApp.Services.Data
 {
     public class AdminService : IAdminService
     {
         private readonly GymAppDbContext dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
-        public AdminService(GymAppDbContext dbContext, UserManager<ApplicationUser> _userManager)
+        public AdminService(GymAppDbContext dbContext, UserManager<ApplicationUser> _userManager, RoleManager<IdentityRole<Guid>> roleManager)
         {
             this._userManager = _userManager;
             this.dbContext = dbContext;
+            _roleManager = roleManager;
         }
         //ACCESSORY
         public async Task DeleteAccessoryAsync(Accessory accessory)
@@ -455,8 +460,8 @@ namespace GymApp.Services.Data
             user.Name = "-_-";
             user.IsModerator = false;
             user.ProfilePicture = null;
-            user.UserName = "-_-";
-            user.NormalizedUserName = "-_-";
+            user.UserName = "~(-_-)~ " + user.UserName + " ~(-_-)~";
+            user.NormalizedUserName = user.UserName.ToUpper();
             user.EmailConfirmed = false;
             user.Email = "-_-";
             user.NormalizedEmail = "-_-";
@@ -466,6 +471,74 @@ namespace GymApp.Services.Data
             user.ConcurrencyStamp = null;
             user.PhoneNumber = null;
             user.PhoneNumberConfirmed= false;
+            await dbContext.SaveChangesAsync();
+        }
+        public async Task PromoteUserToAdmin(string username)
+        {
+            var user = await dbContext.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            if (user == null)
+            {
+                throw new ArgumentException(ThereIsNoUserWithThisUsername);
+            }
+            var role = await _roleManager.FindByNameAsync(NameOfRoleAdmin);
+            if (role == null)
+            {
+                throw new ArgumentException(RoleNotFound);
+            }
+            var existingUserRole = await dbContext.UserRoles.FirstOrDefaultAsync(x => x.UserId == user.Id && x.RoleId == role.Id);
+            if (existingUserRole != null)
+            {
+                throw new ArgumentException(ThisUserHasAlreadyRoleAdmin);
+            }
+            await dbContext.UserRoles.AddAsync(new IdentityUserRole<Guid>
+            {
+                RoleId = role.Id,
+                UserId = user.Id
+            });
+            user.IsModerator = true;
+            await dbContext.SaveChangesAsync();
+        }
+        public async Task DemoteAdminAsync(string username)
+        {
+            var user = await dbContext.Users.FirstOrDefaultAsync(x => x.UserName == username);
+
+            if (user == null)
+            {
+                throw new ArgumentException(ThereIsNoUserWithThisUsername);
+            }
+
+            var role = await _roleManager.FindByNameAsync(NameOfRoleAdmin);
+
+            if (role == null)
+            {
+                throw new ArgumentException(RoleNotFound);
+            }
+
+            var userRole = await dbContext.UserRoles.FirstOrDefaultAsync(x => x.UserId == user.Id && x.RoleId == role.Id);
+           
+            if (userRole == null)
+            {
+                throw new ArgumentException(UserRoleNotFound);
+            }
+
+            dbContext.UserRoles.Remove(userRole);
+
+            var roleUser = await _roleManager.FindByNameAsync(NameOfRoleUser);
+            if (role == null)
+            {
+                throw new ArgumentException(RoleNotFound);
+            }
+            var existingUserRole = await dbContext.UserRoles.FirstOrDefaultAsync(x => x.UserId == user.Id && x.RoleId == roleUser.Id);
+            if (existingUserRole == null)
+            {
+                await dbContext.UserRoles.AddAsync(new IdentityUserRole<Guid>
+                {
+                    RoleId = role.Id,
+                    UserId = user.Id
+                });
+            }
+
+            user.IsModerator = false;
             await dbContext.SaveChangesAsync();
         }
     }
