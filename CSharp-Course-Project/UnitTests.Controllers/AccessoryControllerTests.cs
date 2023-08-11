@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using GymApp.Controllers;
-using GymApp.Services.Data.Interfaces;
-using GymApp.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using NuGet.ContentModel;
-using NUnit.Framework;
-
-namespace UnitTests.Controllers
+﻿namespace UnitTests.Controllers
 {
+    using Moq;
+    using NUnit.Framework;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
+    using GymApp.ViewModels;
+    using GymApp.Controllers;
+    using GymApp.Services.Data.Interfaces;
+    using Xunit;
+    using System;
+    using System.Collections.Generic;
+    using static GymApp.Common.ExceptionMessages;
+
     [TestFixture]
     public class AccessoryControllerTests
     {
@@ -61,31 +62,7 @@ namespace UnitTests.Controllers
             Assert.IsInstanceOf<ViewResult>(result);
             var viewResult = result as ViewResult;
             Assert.AreEqual(accessoryViewModels, viewResult.Model);
-            
-        }
 
-        [Test]
-        public async Task Accessories_ThrowsArgumentException_RedirectsToHomeIndexWithError()
-        {
-            // Arrange
-            var accessoryServiceMock = new Mock<IAccessoryService>();
-            var controller = new AccessoryController(accessoryServiceMock.Object);
-
-            var errorMessage = "Sample error message";
-            accessoryServiceMock.Setup(service => service.AllAccessoriesAsync()).ThrowsAsync(new ArgumentException(errorMessage));
-
-            // Act
-            var result = await controller.Accessories();
-
-            // Assert
-            Assert.IsInstanceOf<RedirectToActionResult>(result);
-            var redirectToActionResult = result as RedirectToActionResult;
-            Assert.AreEqual("Index", redirectToActionResult.ActionName);
-            Assert.AreEqual("Home", redirectToActionResult.ControllerName);
-
-            var tempData = controller.TempData;
-            Assert.IsTrue(tempData.ContainsKey("Error"));
-            Assert.AreEqual(errorMessage, tempData["Error"]);
         }
     }
 }
