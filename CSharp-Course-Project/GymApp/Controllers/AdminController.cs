@@ -100,7 +100,7 @@
 
                 TempData["Success"] = SuccessfullyEditAccessory;
 
-                return RedirectToAction("Accessories", "Accessory");
+                return RedirectToAction("AccessoryDetails", "Accessory", new { id = model.Id });
             }
             catch (ArgumentException ex)
             {
@@ -203,7 +203,7 @@
 
                 TempData["Success"] = SuccessfullyEditSupplement;
 
-                return RedirectToAction("Supplements", "Supplement");
+                return RedirectToAction("SupplementDetails", "Supplement", new { id = model.Id });
             }
             catch (ArgumentException ex)
             {
@@ -418,7 +418,7 @@
 
                 TempData["Success"] = SuccessfullyEditExercise;
 
-                return RedirectToAction("ExerciseDetails", new { id = model.Id });
+                return RedirectToAction("ExerciseDetails","Gym", new { id = model.Id });
             }
             catch (ArgumentException ex)
             {

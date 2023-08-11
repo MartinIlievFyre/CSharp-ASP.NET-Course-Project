@@ -77,7 +77,8 @@
                             Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
                             await cartService.IncreaseProductQuantityWithOne(product, quantity);
                         }
-                        break;
+                        TempData["Success"] = SuccessfullyAddedProductToCart;
+                        return RedirectToAction("Supplements", "Supplement");
                     case TypeProductAccessory:
                         accessory = await accessoryService.GetAccessoryByNameAsync(name);
                         if (!await cartService.IsInCartHasProductWithNameAsync(name))
@@ -89,7 +90,8 @@
                             Product? product = await productService.GetProductFromShoppingCartByNameAsync(name);
                             await cartService.IncreaseProductQuantityWithOne(product, quantity);
                         }
-                        break;
+                        TempData["Success"] = SuccessfullyAddedProductToCart;
+                        return RedirectToAction("Accessories", "Accessory");
                     case TypeProductWear:
                         wear = await wearService.GetWearByNameAsync(name);
                         if (!await cartService.IsInCartHasProductByNameAndSizeAsync(name, size))
@@ -101,13 +103,12 @@
                             Product? product = await productService.GetProductFromShoppingCartByNameAndSizeAsync(name, size);
                             await cartService.IncreaseProductQuantityWithOne(product, quantity);
                         }
-                        break;
+                        TempData["Success"] = SuccessfullyAddedProductToCart;
+
+                        return RedirectToAction("GetClothing", "Clothing", new { id = wear.WearCategoryId });
                     default:
                         throw new ArgumentException(InvalidProductType);
                 }
-
-                TempData["Success"] = SuccessfullyAddedProductToCart;
-                return RedirectToAction("MyCartItems", "Cart");
             }
             catch (ArgumentException ex)
             {
