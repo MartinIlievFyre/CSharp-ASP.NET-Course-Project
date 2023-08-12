@@ -14,6 +14,7 @@
 
     using static GymApp.Common.NotificationMessagesConstants;
     using static GymApp.Common.EntityValidationConstants.RolesConstants;
+    using GymApp.Infrastructure.Extensions;
 
     [Authorize(Roles = NameOfRoleAdmin)]
     [AutoValidateAntiforgeryToken]
@@ -600,7 +601,8 @@
                 ApplicationUser user = await adminService.GetApplicationUserByIdAsync(id.ToString());
                 if (user != null && user.IsDeleted == false)
                 {
-                    await adminService.SoftDeletingUser(user);
+                    string? adminId = User.GetId();
+                    await adminService.SoftDeletingUser(user, adminId);
                     TempData["Success"] = SuccessfullyDeletedUser;
                     return RedirectToAction("UserList");
                 }
@@ -646,9 +648,11 @@
             try
             {
                 ApplicationUser user = await adminService.GetApplicationUserByIdAsync(id.ToString());
+                string? adminId = User.GetId();
+
                 if (user != null && user.IsModerator == true)
                 {
-                    await adminService.DemoteAdminAsync(user.UserName);
+                    await adminService.DemoteAdminAsync(user.UserName, adminId);
                     TempData["Success"] = SuccessfullyDemotedUser;
                     return RedirectToAction("UserList");
                 }

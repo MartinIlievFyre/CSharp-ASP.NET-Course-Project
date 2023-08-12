@@ -56,8 +56,7 @@
         {
             try
             {
-                if (weight.HasValue && weight > 0)
-                {
+                weight = (weight.HasValue && weight > 0) ? weight : 100;
                     string? userId = User.GetId();
                     Guid userGuidId;
                     Guid.TryParse(userId, out userGuidId);
@@ -81,34 +80,6 @@
                             await foodService.AddingMacrosToAnExistingFoodAsync(food, foodWithDefaultValues, weightMultiplier, weightGrams);
                         }
                     }
-                }
-                else if (!weight.HasValue)
-                {
-                    string? userId = User.GetId();
-                    Guid userGuidId;
-                    Guid.TryParse(userId, out userGuidId);
-
-                    var foodWithDefaultValues = await foodService.AllFoodsWithDefaultValuesByIdAsync(id);
-                    var food = await foodService.AllUserFoodsByIdAsync(id);
-
-                    if (food != null)
-                    {
-                        var userFood = await foodService.GetApplicationUserFoodAsync(id, userId);
-
-                        int weightGrams = 100;
-                        double weightMultiplier = weightGrams / 100.0;
-
-                        if (foodWithDefaultValues != null && food != null && userFood == null)
-                        {
-
-                            await foodService.AddingNewFoodToListAsync(food, foodWithDefaultValues, weightMultiplier, weightGrams, id, userGuidId);
-                        }
-                        else if (foodWithDefaultValues != null && food != null && userFood != null)
-                        {
-                            await foodService.AddingMacrosToAnExistingFoodAsync(food, foodWithDefaultValues, weightMultiplier, weightGrams);
-                        }
-                    }
-                }
 
                 TempData["Success"] = SuccessfullyAddedFood;
 

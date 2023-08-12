@@ -85,6 +85,8 @@
         //User
         public const string ThereIsNoUserWithThisId = "There is no user with this ID!";
         public const string ThereIsNoUserWithThisUsername = "There is no such user with this username!";
+        public const string CannotDemoteYourself = "Can not demote yourself!";
+        public const string CannotDeleteYourself = "Can not delete yourself!";
 
 
 

@@ -13,8 +13,7 @@ using static GymApp.Common.ExceptionMessages;
 
 using static GymApp.Common.GeneralApplicationConstants;
 using static GymApp.Common.EntityValidationConstants.RolesConstants;
-using System.Xml.Linq;
-
+using GymApp.Infrastructure.Extensions;
 namespace GymApp.Services.Data
 {
     public class AdminService : IAdminService
@@ -455,8 +454,12 @@ namespace GymApp.Services.Data
             }
             return user;
         }
-        public async Task SoftDeletingUser(ApplicationUser user)
+        public async Task SoftDeletingUser(ApplicationUser user, string? adminId)
         {
+            if (user.Id.ToString() == adminId)
+            {
+                throw new ArgumentException(CannotDeleteYourself);
+            }
             user.Name = "-_-";
             user.IsModerator = false;
             user.ProfilePicture = null;
@@ -498,15 +501,17 @@ namespace GymApp.Services.Data
             user.IsModerator = true;
             await dbContext.SaveChangesAsync();
         }
-        public async Task DemoteAdminAsync(string username)
+        public async Task DemoteAdminAsync(string username, string? adminId)
         {
             var user = await dbContext.Users.FirstOrDefaultAsync(x => x.UserName == username);
-
             if (user == null)
             {
                 throw new ArgumentException(ThereIsNoUserWithThisUsername);
             }
-
+            if (user.Id.ToString() == adminId)
+            {
+                throw new ArgumentException(CannotDemoteYourself);
+            }
             var role = await _roleManager.FindByNameAsync(NameOfRoleAdmin);
 
             if (role == null)
