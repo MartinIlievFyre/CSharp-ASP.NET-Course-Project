@@ -460,6 +460,7 @@ namespace GymApp.Services.Data
             {
                 throw new ArgumentException(CannotDeleteYourself);
             }
+
             user.Name = "-_-";
             user.IsModerator = false;
             user.ProfilePicture = null;
